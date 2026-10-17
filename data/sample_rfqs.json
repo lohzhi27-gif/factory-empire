@@ -1,0 +1,65 @@
+{
+  "schema_version": "0.1",
+  "status": "owner-provided examples; not integrated into playable v0.1",
+  "currency": "MYR",
+  "selling_price_basis": "UNKNOWN — must confirm per piece versus total order before using in financial calculations",
+  "cycle_time_basis": "PROVISIONAL per piece — must confirm",
+  "sample_rfqs": [
+    {
+      "id": "rfq_001",
+      "part_name": "Arm support",
+      "material": "Aluminum",
+      "quantity_pcs": 5,
+      "process": "CNC Milling",
+      "finish": "Clear Chromate",
+      "customer_due": "2 weeks",
+      "selling_price_input_rm": 80,
+      "difficulty": "Low",
+      "machine_cycle_time_hours_input": 1
+    },
+    {
+      "id": "rfq_002",
+      "part_name": "Mounting bracket",
+      "material": "Steel",
+      "quantity_pcs": 15,
+      "process": "CNC Milling",
+      "finish": "Zinc Plating",
+      "customer_due": "2 weeks",
+      "selling_price_input_rm": 400,
+      "difficulty": "Medium",
+      "machine_cycle_time_hours_input": 4
+    },
+    {
+      "id": "rfq_003",
+      "part_name": "Machine slider mount",
+      "material": "Aluminum",
+      "quantity_pcs": 1,
+      "process": "CNC Milling",
+      "finish": "Black Anodize",
+      "customer_due": "2 weeks",
+      "selling_price_input_rm": 120,
+      "difficulty": "Medium",
+      "machine_cycle_time_hours_input": 1
+    },
+    {
+      "id": "rfq_004",
+      "part_name": "Shipping brackets",
+      "material": "Stainless Steel",
+      "quantity_pcs": 35,
+      "process": "CNC Milling",
+      "finish": "None",
+      "customer_due": "3 weeks",
+      "selling_price_input_rm": 50,
+      "difficulty": "Low",
+      "machine_cycle_time_hours_input": 1
+    }
+  ],
+  "routing_notes": [
+    "Material purchase 2–5 days (assumed working days) + programming 2 days, as previously supplied.",
+    "Surface finishing nominal 5 working days or rush 3 working days at +50% process price for treatments in surface_treatments.json.",
+    "Black Anodize is not yet in the approved surface treatment lead-time list; request an input or default policy.",
+    "Due dates may be unachievable after material procurement, programming, machining and subcontract finishing; game should display feasibility warning rather than silently approving.",
+    "Jobs do not automatically repeat, especially for the Bflex profile.",
+    "Keep user-entered prices as inputs, not computed revenue, until unit-versus-order price is confirmed."
+  ]
+}
