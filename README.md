@@ -2,6 +2,15 @@
 
 An original, mobile-friendly factory management simulation game built independently.
 
+## Official game direction (approved 2026-10-18)
+
+**Hybrid = isometric factory management + third-person entrepreneur walkabout.** The same saved factory, jobs and cash flow are shared by both modes. We will build production gameplay first, then a small 3D walkable workshop, and only later external business locations.
+
+- [Game vision and design rules](docs/GAME_VISION.md)
+- [After-work development roadmap and milestone acceptance tests](docs/DEVELOPMENT_ROADMAP.md)
+
+**Important:** This vision is planned; v0.1 is still a 2D browser prototype. The next coding milestone is v0.2: original realistic-looking starter VMC, single-machine start and touch-based factory floor placement.
+
 ## Play
 
 When GitHub Pages is enabled from `main` → `/(root)`, open:
