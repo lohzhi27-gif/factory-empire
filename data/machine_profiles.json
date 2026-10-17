@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1",
+  "status": "owner-provided design inputs; not integrated into playable v0.1",
+  "currency": "MYR",
+  "starter_game_state": {
+    "initial_machine_id": "starter_vmc_760",
+    "initial_machine_count": 1,
+    "player_cash_start_unconfirmed": true
+  },
+  "machine_profiles": [
+    {
+      "id": "starter_vmc_760",
+      "type": "3-axis VMC",
+      "nickname": "Starter VMC-760",
+      "purchase_price_game_rm": 180000,
+      "reliability": "Medium",
+      "speed": "Medium",
+      "accuracy": "Medium",
+      "best_for": "Cheap startup, aluminum product",
+      "weakness": "Slow for high precision, steel and stainless steel",
+      "design_reference": "generic unbranded budget enclosed VMC; no Taikan logo"
+    },
+    {
+      "id": "as_760_ultra",
+      "type": "3-axis VMC",
+      "nickname": "AS-760 Ultra",
+      "purchase_price_game_rm": 300000,
+      "reliability": "High",
+      "speed": "Medium",
+      "accuracy": "Medium",
+      "best_for": "Mid Tier Investment",
+      "weakness": "Lower ROI rate"
+    },
+    {
+      "id": "fan_500",
+      "type": "3-axis tap and drill",
+      "nickname": "FAN-500",
+      "purchase_price_game_rm": 140000,
+      "reliability": "Medium",
+      "speed": "Fast",
+      "accuracy": "Low",
+      "best_for": "High batch orders",
+      "weakness": "Cannot process steel and stainless steel product"
+    },
+    {
+      "id": "ess_precision",
+      "type": "3-axis VMC",
+      "nickname": "ESS Precision",
+      "purchase_price_game_rm": 450000,
+      "reliability": "Medium",
+      "speed": "High",
+      "accuracy": "High",
+      "best_for": "High spec",
+      "weakness": null
+    }
+  ],
+  "monetization_concept": {
+    "initial_free_cnc_count": 1,
+    "first_additional_starter_cnc_offer_rm": 15,
+    "payment_integration_status": "not implemented",
+    "note": "Real-money RM15 purchase is distinct from RM180000 in-game machine price; decide entitlement/economy balancing before implementation."
+  }
+}
