@@ -1,0 +1,137 @@
+{
+  "schema_version": "0.1",
+  "status": "owner-provided design inputs; not integrated into playable v0.1",
+  "currency": "MYR",
+  "customer_profiles": [
+    {
+      "id": "bflex",
+      "industry": "Automation Industry",
+      "name": "Bflex Automation Inc",
+      "order_quantities": [
+        1,
+        10,
+        30
+      ],
+      "typical_parts": [
+        "Machine brackets",
+        "Machine housing",
+        "Thread brackets"
+      ],
+      "materials": [
+        "Aluminum",
+        "Steel",
+        "Stainless Steel"
+      ],
+      "requirements": "None",
+      "selling_price_level": "High",
+      "repeat_frequency": "Extremely Low",
+      "customer_requested_lead_time": "1.5 to 3 weeks",
+      "payment_term": "One month"
+    },
+    {
+      "id": "wh_automation",
+      "industry": "Automation Industry",
+      "name": "WH Automation Inc",
+      "order_quantities": [
+        1,
+        10,
+        30
+      ],
+      "typical_parts": [
+        "Machine brackets",
+        "Machine housing",
+        "Thread brackets"
+      ],
+      "materials": [
+        "Aluminum",
+        "Steel",
+        "Stainless Steel"
+      ],
+      "requirements": "None",
+      "selling_price_level": "Medium",
+      "repeat_frequency": "Medium",
+      "customer_requested_lead_time": "2 weeks",
+      "payment_term": "One month"
+    },
+    {
+      "id": "garment_printing",
+      "industry": "Small OEM Industry",
+      "name": "Garment Printing Inc",
+      "order_quantities": [
+        1,
+        10,
+        30
+      ],
+      "typical_parts": [
+        "Machine brackets",
+        "Machine housing",
+        "Thread brackets"
+      ],
+      "materials": [
+        "Aluminum",
+        "Steel",
+        "Stainless Steel"
+      ],
+      "requirements": "None",
+      "selling_price_level": "Medium",
+      "repeat_frequency": "Medium",
+      "customer_requested_lead_time": "2 weeks",
+      "payment_term": "One month"
+    },
+    {
+      "id": "cm1",
+      "industry": "Contract Manufacturing",
+      "name": "CM1 (temporary)",
+      "order_quantity_range": {
+        "min": 50,
+        "max": 2000
+      },
+      "typical_parts": [
+        "Base plate",
+        "Machine holder",
+        "Seimic bracket",
+        "U Channel"
+      ],
+      "materials": [
+        "Aluminum",
+        "Steel",
+        "Stainless Steel"
+      ],
+      "requirements": "Add later",
+      "selling_price_level": "Medium",
+      "repeat_frequency": "High",
+      "customer_requested_lead_time": "4 to 6 weeks",
+      "payment_term": "Three months"
+    },
+    {
+      "id": "cm2",
+      "industry": "Contract Manufacturing",
+      "name": "CM2 (temporary)",
+      "order_quantity_range": {
+        "min": 50,
+        "max": 2000
+      },
+      "typical_parts": [
+        "Base plate",
+        "Machine holder",
+        "Seimic bracket",
+        "U Channel"
+      ],
+      "materials": [
+        "Aluminum",
+        "Steel",
+        "Stainless Steel"
+      ],
+      "requirements": "Add later",
+      "selling_price_level": "Medium",
+      "repeat_frequency": "High",
+      "customer_requested_lead_time": "4 to 6 weeks",
+      "payment_term": "Three months"
+    }
+  ],
+  "notes": [
+    "The first three profiles list discrete quantities (1,10,30); CM profiles list endpoint range (50 to 2000), matching input.",
+    "Weeks/months are intentionally unconverted, pending calendar assumptions.",
+    "These names are user-provided scenario labels and have not been checked as trademark/real business names. Consider fictionalized names before publication."
+  ]
+}
