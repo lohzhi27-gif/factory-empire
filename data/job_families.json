@@ -1,0 +1,194 @@
+{
+  "schema_version": "0.1",
+  "status": "owner-provided planning data; not wired into gameplay yet",
+  "notes": [
+    "Each listed material, secondary process and finish is an option, not a mandatory step.",
+    "Validate material/finish compatibility before generating or accepting an RFQ.",
+    "Tool steels: vacuum hardening is heat treatment, not a surface finish.",
+    "Do not introduce customer drawings or confidential production data into this public repository."
+  ],
+  "job_families": [
+    {
+      "id": "aluminum_milled",
+      "name": "Aluminum milled part",
+      "materials": [
+        "Aluminum"
+      ],
+      "primary_process": "CNC Milling",
+      "optional_secondary_processes": [
+        "Tapping",
+        "Wirecut",
+        "EDM"
+      ],
+      "requested_finishing_options": [
+        "Clear anodize",
+        "Red anodize",
+        "Clear chromate",
+        "Nickel plating"
+      ],
+      "packing_options": [
+        "Bubble wrap",
+        "Boxes"
+      ]
+    },
+    {
+      "id": "steel_machined",
+      "name": "Steel machined part",
+      "materials": [
+        "Steel",
+        "Stainless Steel"
+      ],
+      "primary_process": "CNC Milling",
+      "optional_secondary_processes": [
+        "Tapping",
+        "Wirecut",
+        "EDM"
+      ],
+      "requested_finishing_options": [
+        "Clear anodize",
+        "Red anodize",
+        "Clear chromate",
+        "Nickel plating"
+      ],
+      "packing_options": [
+        "Bubble wrap",
+        "Boxes"
+      ],
+      "validation_note": "As entered, anodize and clear chromate choices require validation against the actual material. Standard aluminum anodizing is not applicable to bare steel or stainless; clear chromate on steel requires a specified compatible coating system."
+    },
+    {
+      "id": "threaded_bracket",
+      "name": "Threaded bracket",
+      "materials": [
+        "Steel",
+        "Stainless Steel",
+        "Aluminum"
+      ],
+      "primary_process": "CNC Milling",
+      "optional_secondary_processes": [
+        "Tapping"
+      ],
+      "requested_finishing_options": [
+        "Clear anodize",
+        "Red anodize",
+        "Clear chromate",
+        "Nickel plating"
+      ],
+      "packing_options": [
+        "Bubble wrap",
+        "Boxes"
+      ],
+      "validation_note": "Select compatible finishing options based on the actual material."
+    },
+    {
+      "id": "cosmetic_anodized",
+      "name": "Cosmetic anodized part",
+      "materials": [
+        "Aluminum"
+      ],
+      "primary_process": "CNC Milling",
+      "optional_secondary_processes": [
+        "Tapping"
+      ],
+      "requested_finishing_options": [
+        "Clear anodize",
+        "Red anodize",
+        "Clear chromate",
+        "Nickel plating"
+      ],
+      "packing_options": [
+        "Bubble wrap",
+        "Boxes"
+      ]
+    },
+    {
+      "id": "tight_tolerance",
+      "name": "Tight tolerance part",
+      "materials": [
+        "Tool Steels"
+      ],
+      "primary_process": "CNC Milling",
+      "optional_secondary_processes": [
+        "Wirecut",
+        "EDM"
+      ],
+      "requested_finishing_options": [
+        "Nickel plating",
+        "Flash Chrome",
+        "Vacuum hardening"
+      ],
+      "packing_options": [
+        "Bubble wrap",
+        "Boxes"
+      ],
+      "validation_note": "Vacuum hardening belongs to heat-treatment routing, potentially before final finishing; the sequence depends on drawing and tolerances."
+    }
+  ],
+  "process_defaults": {
+    "material_procurement_lead_time_days": {
+      "min": 2,
+      "max": 5
+    },
+    "program_development_days": 2,
+    "downstream_steps": [
+      "Core machining",
+      "Optional secondary processes",
+      "Optional heat treatment",
+      "Required surface finishing",
+      "Inspection",
+      "Packing",
+      "Delivery"
+    ],
+    "unfinished_lead_time_inputs": [
+      "CNC cycle and setup",
+      "Secondary processes",
+      "Surface finishing",
+      "Inspection",
+      "Packing",
+      "Transport"
+    ]
+  },
+  "surface_finish_material_rules": {
+    "clear_anodize": {
+      "compatible_without_special_process": [
+        "Aluminum"
+      ],
+      "requires_review": [
+        "Steel",
+        "Stainless Steel",
+        "Tool Steels"
+      ]
+    },
+    "red_anodize": {
+      "compatible_without_special_process": [
+        "Aluminum"
+      ],
+      "requires_review": [
+        "Steel",
+        "Stainless Steel",
+        "Tool Steels"
+      ]
+    },
+    "clear_chromate": {
+      "compatible_without_special_process": [
+        "Aluminum"
+      ],
+      "requires_review": [
+        "Steel",
+        "Stainless Steel",
+        "Tool Steels"
+      ],
+      "note": "For steel, a zinc-plating / chromate system may be specified; not bare-steel chromate conversion."
+    },
+    "nickel_plating": {
+      "requires_specification_review": true
+    },
+    "flash_chrome": {
+      "requires_specification_review": true
+    },
+    "vacuum_hardening": {
+      "is_heat_treatment": true,
+      "not_surface_finish": true
+    }
+  }
+}
