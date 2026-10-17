@@ -2,7 +2,7 @@
   "schema_version": "0.1",
   "status": "owner-provided examples; not integrated into playable v0.1",
   "currency": "MYR",
-  "selling_price_basis": "UNKNOWN — must confirm per piece versus total order before using in financial calculations",
+  "selling_price_basis": "PER PIECE — owner confirmed 2026-10-17",
   "cycle_time_basis": "PROVISIONAL per piece — must confirm",
   "sample_rfqs": [
     {
@@ -15,7 +15,10 @@
       "customer_due": "2 weeks",
       "selling_price_input_rm": 80,
       "difficulty": "Low",
-      "machine_cycle_time_hours_input": 1
+      "machine_cycle_time_hours_input": 1,
+      "selling_price_basis": "per_piece",
+      "selling_price_per_piece_rm": 80,
+      "total_order_sales_rm": 400
     },
     {
       "id": "rfq_002",
@@ -27,7 +30,10 @@
       "customer_due": "2 weeks",
       "selling_price_input_rm": 400,
       "difficulty": "Medium",
-      "machine_cycle_time_hours_input": 4
+      "machine_cycle_time_hours_input": 4,
+      "selling_price_basis": "per_piece",
+      "selling_price_per_piece_rm": 400,
+      "total_order_sales_rm": 6000
     },
     {
       "id": "rfq_003",
@@ -39,7 +45,10 @@
       "customer_due": "2 weeks",
       "selling_price_input_rm": 120,
       "difficulty": "Medium",
-      "machine_cycle_time_hours_input": 1
+      "machine_cycle_time_hours_input": 1,
+      "selling_price_basis": "per_piece",
+      "selling_price_per_piece_rm": 120,
+      "total_order_sales_rm": 120
     },
     {
       "id": "rfq_004",
@@ -51,7 +60,10 @@
       "customer_due": "3 weeks",
       "selling_price_input_rm": 50,
       "difficulty": "Low",
-      "machine_cycle_time_hours_input": 1
+      "machine_cycle_time_hours_input": 1,
+      "selling_price_basis": "per_piece",
+      "selling_price_per_piece_rm": 50,
+      "total_order_sales_rm": 1750
     }
   ],
   "routing_notes": [
@@ -59,7 +71,6 @@
     "Surface finishing nominal 5 working days or rush 3 working days at +50% process price for treatments in surface_treatments.json.",
     "Black Anodize is not yet in the approved surface treatment lead-time list; request an input or default policy.",
     "Due dates may be unachievable after material procurement, programming, machining and subcontract finishing; game should display feasibility warning rather than silently approving.",
-    "Jobs do not automatically repeat, especially for the Bflex profile.",
-    "Keep user-entered prices as inputs, not computed revenue, until unit-versus-order price is confirmed."
+    "Jobs do not automatically repeat, especially for the Bflex profile."
   ]
 }
