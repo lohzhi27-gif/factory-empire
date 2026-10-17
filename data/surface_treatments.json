@@ -4,7 +4,7 @@
   "updated": "2026-10-17",
   "status": "approved master data; waiting for integration into gameplay",
   "lead_time_basis": "working_days",
-  "week_assumption": "1 week interpreted as 5 working days; confirm whether rush '3 days' also means working days",
+  "week_assumption": "1 week provisionally modeled as 5 working days; owner has specifically confirmed that rush 3 days are working days.",
   "rush_price_rule": {
     "scope": "subcontract process cost only",
     "multiplier": 1.5,
@@ -21,11 +21,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "red_anodize",
@@ -34,11 +35,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "clear_chromate",
@@ -47,11 +49,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "nickel_plating",
@@ -60,11 +63,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "zinc_plating",
@@ -73,11 +77,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "tin_plating",
@@ -86,11 +91,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "flash_chrome",
@@ -99,11 +105,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "vacuum_hardening",
@@ -112,11 +119,12 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Heat treatment stage; sequencing may depend on tolerance and final machining."
+      "notes": "Heat treatment stage; sequencing may depend on tolerance and final machining.",
+      "rush_lead_time_confirmed": true
     },
     {
       "id": "powder_coat",
@@ -125,11 +133,19 @@
       "execution": "subcontract",
       "normal_lead_time_original": "1 week",
       "normal_lead_time_working_days": 5,
-      "rush_lead_time_original": "3 days",
+      "rush_lead_time_original": "3 working days",
       "rush_lead_time_working_days": 3,
       "rush_processing_cost_multiplier": 1.5,
       "normal_price_rm": null,
-      "notes": "Lead time excludes transport unless separately specified."
+      "notes": "Lead time excludes transport unless separately specified.",
+      "rush_lead_time_confirmed": true
     }
-  ]
+  ],
+  "rush_days_confirmation": "Owner confirmed all rush times are 3 working days (2026-10-17).",
+  "calendar_rules": {
+    "rush_lead_time_working_days": 3,
+    "skip_weekends": true,
+    "skip_public_holidays": true,
+    "notes": "Weekend/public holiday calendar should ultimately use factory/subcontractor region-specific working schedules; for now game uses Monday–Friday working days."
+  }
 }
