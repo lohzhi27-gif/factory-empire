@@ -14,7 +14,7 @@ An original, mobile-friendly factory management simulation game built independen
 
 **Confirmed v0.4 rule:** urgent/hot customer jobs allow **4 calendar days** (weekends included) while procurement, programming, and outsourced wirecut still take working days. This is a specification change only; the playable game is unchanged.
 
-**Additional confirmed v0.4 rules:** Weekend overtime is optional and costs **2× ordinary wages per worker**, with worker refusal after four consecutive weeks of weekend overtime (precise refusal boundary pending). Each customer begins at **40% individual relationship**: on-time shipments improve the account, late shipments trigger penalties and worsen its future price/volume offers. A new customer-logo relationship network is planned, not implemented.
+**Additional confirmed v0.4 rules:** Weekend overtime is optional and costs **2× ordinary wages per worker**, with **resignation after three consecutive worked overtime weekends**, not merely refusal. Each new employee starts with **40% skill**, learning through jobs toward **80% mastery in about two months**. Defective parts carry material/rework costs; customer-escaped defects can bring claim costs and relationship loss (amounts to balance). Each customer begins at **40% individual relationship**: on-time shipments improve the account, late shipments trigger penalties and worsen its future price/volume offers. A new customer-logo relationship network is planned, not implemented.
 
 ## Play
 
