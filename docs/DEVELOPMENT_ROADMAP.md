@@ -15,7 +15,7 @@ Test whether mobile players enjoy making manufacturing business decisions: biddi
 
 | Version | Focus | Proof of value |
 |---|---|---|
-| **v0.4 — Jobbing & profitability** | Tapping award restrictions, polishing staffing, two-person double shifts, monthly RM800 rent rising 10% every 24 months, per-CNC electricity (RM900/1 shift; RM1500/2 shifts), outsource wirecut (2 working days), rare 4-calendar-day hot jobs, pricing/margin feedback | Player must make meaningful trade-offs; show why a rushed order can be profitable *or* damaging |
+| **v0.4 — Jobbing & profitability** | Tapping award restrictions, polishing staffing, two-person double shifts, opt-in Sat/Sun 2× overtime wages and consecutive-weekend fatigue, monthly RM800 rent rising 10% every 24 months, per-CNC electricity (RM900/1 shift; RM1500/2 shifts), outsource wirecut (2 working days), 4-calendar-day hot jobs, customer relationship network beginning at 40%, on-time rewards and late penalties, price/volume consequences | Player must make meaningful trade-offs across staff wellbeing, account relationships, on-time delivery and profitability |
 | **v0.5 — Process depth** | Surface-treatment subcontract lead times + costs; QA, deburr, polishing execution, packing, delivery, proper route and capacity checks | An order follows realistic, visible multi-stage routing and reveals true manufacturing contribution |
 | **v0.6 — Progression & sheet metal** | Define and implement later unlock milestones; gate *new* laser/sheet-metal capability and jobs, add larger customers/expansion and clear progression | Player unlocks additional processes through business growth without losing earlier paid/earned machines |
 | **v0.7 — Playtest beta** | Mobile UX, onboarding, tutorial, balancing, save migration, performance, optional analytics with privacy controls, testers | 50–100 targeted external testers; measure tutorial completion and day-1/day-7 return rates (targets, not predictions) |
@@ -25,10 +25,10 @@ Timelines are estimates to be scoped during development; no hard delivery promis
 
 ## v0.4 implementation order
 1. **Capability-aware RFQs**: tap-required job is not awarded without own tapping machine. For polish-required jobs, require staffed polishing capability; surface missing prerequisites in quotation UI. Keep machine purchase price and wages configurable until confirmed.
-2. **Correct operating economics**: one worker per active CNC per shift, actual second worker for double shift; remove inaccurate legacy daily power costs when monthly power bills go live; create monthly rental invoices and 10% rent escalation each two years.
+2. **Correct operating economics and employee wellbeing**: one worker per active CNC per shift, actual second worker for double shift; Sat/Sun overtime only by consent, paid at 2× wages and restricted after four consecutive weekends until rest (exact refusal weekend pending); replace legacy daily power costs with monthly power bills; monthly rental invoices and 10% rent escalation each two years.
 3. **Outsource wirecut**: optional 2-working-day subcontract step, visible in the production queue and Gantt, no early shipment before it returns.
 4. **Hot-job RFQs**: optional occasional urgent orders with a **strict four-calendar-day** customer deadline (Saturday/Sunday included), premium economics, capacity and stockpile considerations. Material, programming and wirecut lead times remain working-day based; check feasibility realistically.
-5. **Mobile market-playtest polish**: clear feedback loops on margin, profitability, material risk and customer confidence.
+5. **Customer relationships**: independent 40%-starting relationship per customer; logo-icon customer network view; on-time deliveries improve terms, late deliveries cause relationship decline and agreed invoice/penalty cost; future offer prices and quantities depend on account health. Add mobile market-playtest feedback on customer confidence and worker fatigue.
 
 Full requirements, owner-confirmed inputs, assumptions and conflicts: [V0.4 specification](V04_JOBBING_SPEC.md).
 
@@ -57,3 +57,5 @@ Full requirements, owner-confirmed inputs, assumptions and conflicts: [V0.4 spec
 4. Wirecut subcontract price basis.
 5. Final sheet-metal unlock milestone.
 6. Month/day calendar convention for rent/electricity (provisional 30-day billing month, 24-month escalation).
+7. Weekend overtime consecutive-week definition and refusal boundary (fourth vs fifth weekend), and whether a single Sat/Sun shift counts.
+8. Customer on-time/late score changes and red/green price/volume thresholds; amount/formula for late-delivery penalty.
