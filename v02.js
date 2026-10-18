@@ -22,10 +22,10 @@
   movePanel.hidden=true;
   movePanel.innerHTML='<div class="move-editor-title"><strong>POSITION MACHINE</strong><span>Drag the machine or use the arrows. Nothing moves permanently until you save.</span></div>'
    +'<div class="move-editor-actions"><div class="nudge-grid" role="group" aria-label="Move selected machine one tile">'
-   +'<button type="button" data-shift="0,-1" aria-label="Up right: one floor tile">↗</button>'
    +'<button type="button" data-shift="-1,0" aria-label="Up left: one floor tile">↖</button>'
-   +'<button type="button" data-shift="1,0" aria-label="Down right: one floor tile">↘</button>'
-   +'<button type="button" data-shift="0,1" aria-label="Down left: one floor tile">↙</button></div>'
+   +'<button type="button" data-shift="0,-1" aria-label="Up right: one floor tile">↗</button>'
+   +'<button type="button" data-shift="0,1" aria-label="Down left: one floor tile">↙</button>'
+   +'<button type="button" data-shift="1,0" aria-label="Down right: one floor tile">↘</button></div>'
    +'<div class="move-editor-right"><span id="movePosition">Position</span><div class="move-editor-confirm">'
    +'<button type="button" class="btn primary" id="saveMove">✓ Save position</button>'
    +'<button type="button" class="btn ghost" id="undoMove">Cancel</button></div></div></div>';
