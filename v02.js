@@ -1,18 +1,25 @@
 (function v02factory(){
   'use strict';
   const floor={w:8,h:6,ox:430,oy:92,sx:47,sy:22,z:13,footprint:2};
-  const pricing={CNC:180000,LASER:42000};
+  const pricing={CNC:180000,LASER:150000};
   let chosenId=null, moveMode=false, purchaseMode=null, selectedTile=null;
   const canvas=document.getElementById('factoryCanvas');
   if(!canvas || typeof state==='undefined')return;
   const factory=canvas.parentElement;
   const toolbar=document.createElement('div');
   toolbar.className='floor-tools';
-  toolbar.innerHTML='<div class="floor-actions"><strong>🏭 WORKSHOP LAYOUT</strong><button class="btn minor" id="moveVmc" type="button">↔ Move selected</button><button class="btn minor ghost" id="cancelLayout" type="button">Cancel</button></div><div class="floor-hint" id="floorHint" aria-live="polite">Tap the CNC to select it, then tap Move selected.</div>';
+  toolbar.innerHTML='<div class="floor-actions"><strong>🏭 WORKSHOP LAYOUT</strong><button class="btn minor ghost" id="inspectVmc" type="button">🔎 Inspect machine</button><button class="btn minor" id="moveVmc" type="button">↔ Move selected</button><button class="btn minor ghost" id="cancelLayout" type="button">Cancel</button></div><div class="floor-hint" id="floorHint" aria-live="polite">Tap the CNC to select it, then tap Move selected.</div>';
   factory.after(toolbar);
   const info=toolbar.querySelector('#floorHint');
   const moveBtn=toolbar.querySelector('#moveVmc');
   const cancelBtn=toolbar.querySelector('#cancelLayout');
+  const inspectBtn=toolbar.querySelector('#inspectVmc');
+  const inspector=document.createElement('dialog');
+  inspector.className='machine-inspector';
+  inspector.innerHTML='<div class="machine-inspector-head"><strong>STARTER VMC-760 · UNBRANDED</strong><button class="btn minor ghost" id="closeVmcPreview" type="button">✕ Close</button></div><img src="assets/starter-vmc.svg?v=21" alt="Original illustration of a fully enclosed vertical CNC milling center with front sliding doors, control panel and tower light"><p>Generic 3-axis enclosed VMC · 1 machine included at start · in-game additional machine RM180,000.</p>';
+  document.body.appendChild(inspector);
+  inspectBtn.addEventListener('click',()=>{if(typeof inspector.showModal==='function')inspector.showModal();else inspector.setAttribute('open','');});
+  inspector.querySelector('#closeVmcPreview').addEventListener('click',()=>{if(typeof inspector.close==='function')inspector.close();else inspector.removeAttribute('open');});
   const originalSeed=seed;
   seed=function(){const fresh=originalSeed();fresh.machines[0].tileX=2;fresh.machines[0].tileY=1;fresh.machines[0].model='Starter VMC-760';fresh.layoutVersion=2;chosenId=1;moveMode=false;purchaseMode=null;selectedTile=null;return fresh;};
   function occupied(x,y,ignore){
@@ -60,52 +67,33 @@
     const yf=y+2.012;
     poly(ctx,[coord(x+x1,yf,z1),coord(x+x2,yf,z1),coord(x+x2,yf,z2),coord(x+x1,yf,z2)],color,stroke||'#6c7b84');
   }
+  
+  // Hand-illustrated fictional VMC asset; no original manufacturer branding.
+  // Keep the fallback body while the sprite is loading or when images are blocked.
+  const vmcSprite=new Image();
+  let vmcSpriteReady=false;
+  vmcSprite.onload=()=>{vmcSpriteReady=true;drawFactory();};
+  vmcSprite.onerror=()=>{vmcSpriteReady=false;};
+  vmcSprite.src='assets/starter-vmc.svg?v=21';
   function drawVmc(ctx,m){
-    const x=m.tileX+.13,y=m.tileY+.05;
+    const x=m.tileX,y=m.tileY,center=coord(x+1,y+1,floor.z);
+    if(vmcSpriteReady){
+      // Floor-anchored at the centre of this machine's 2x2 footprint.
+      ctx.drawImage(vmcSprite,center[0]-100,center[1]-149,200,180);
+    }else{
+      body(ctx,x+.14,y+.18,1.8,1.7,14,27,'#3a4550','#293743','#53616a');
+      body(ctx,x+.14,y+.18,1.8,1.7,27,83,'#c0ccd0','#758995','#e4e9e9');
+      const q=coord(x+.85,y+1.92,60);
+      ctx.fillStyle='#1a2d37';ctx.fillRect(q[0]-21,q[1]-32,45,48);
+    }
     const active=state.jobs.some(j=>P[j.product]&&P[j.product].machine==='CNC'&&j.done<j.qty);
-    // Original procedural illustration: enclosure, sliding glass doors, control pendant, lights and footing.
-    poly(ctx,[coord(x+.05,y+2.05,14),coord(x+2.2,y+2.05,14),coord(x+2.32,y+2.32,12),coord(x+.15,y+2.32,12)],'#04121b99');
-    body(ctx,x,y,2.03,1.85,14,25,'#424b55','#323c46','#52606a');
-    body(ctx,x+.02,y+.05,2,1.8,25,84,'#c8d1d3','#89969b','#e0e5e4');
-    body(ctx,x+.14,y+.05,1.65,1.7,84,94,'#b1bcbf','#87979f','#e0e6e6');
-    const frontY=y+1.85;
-    function face(p1,p2,z1,z2,color,stroke){
-      poly(ctx,[coord(p1,frontY+.022,z1),coord(p2,frontY+.022,z1),coord(p2,frontY+.022,z2),coord(p1,frontY+.022,z2)],color,stroke);
+    if(active){
+      const light=coord(x+1.9,y+1.8,97);
+      ctx.fillStyle='#72f5aa';ctx.beginPath();ctx.arc(light[0],light[1],4,0,Math.PI*2);ctx.fill();
     }
-    face(.13,1.49,33,77,'#303e46','#a3acb2');
-    face(.2,.76,38,72,'#1c2c36','#647b88');
-    face(.86,1.42,38,72,'#1a2a33','#647b88');
-    for(const a of [.23,.88])for(let t=0;t<3;t++){
-      const px=a+.06+t*.14;
-      ctx.strokeStyle='#516a77';ctx.lineWidth=.9;
-      let pa=coord(px,frontY+.026,39),pb=coord(px,frontY+.026,70);
-      ctx.beginPath();ctx.moveTo(...pa);ctx.lineTo(...pb);ctx.stroke();
-    }
-    face(.75,.80,38,73,'#b1c3cc');
-    face(.73,.775,52,62,'#f1c77a');
-    // control pendant with tiny screen and keypad
-    face(1.53,1.92,27,81,'#b5c1c5','#e1eaee');
-    face(1.59,1.87,55,75,'#222f35','#eff5f5');
-    face(1.63,1.83,62,71,'#4b94a4');
-    for(let z=35;z<53;z+=4)for(let a=1.63;a<1.88;a+=.065){
-      const p=coord(x+a,frontY+.03,z);
-      ctx.fillStyle=z===39?'#d3be6f':'#51646f';ctx.fillRect(p[0]-1,p[1]-1,2,2);
-    }
-    // ventilation panel on side x+
-    const xSide=x+2.04;
-    for(let i=0;i<6;i++){
-      const a=coord(xSide,y+.28+i*.20,58);
-      const b=coord(xSide,y+.28+i*.20,74);
-      ctx.strokeStyle='#465862';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();
-    }
-    // spindle tower, original silhouette without any real-world branding
-    body(ctx,x+.81,y+.35,.48,.56,93,124,'#9eabb3','#526773','#d5dfe1');
-    const signal=coord(x+1.77,y+1.67,95);
-    ['#66d9aa','#e4c563','#ef7679'].forEach((c,i)=>{ctx.fillStyle=i===0&&active?'#65f7a7':c;ctx.beginPath();ctx.arc(signal[0],signal[1]+i*7,3.2,0,7);ctx.fill();});
-    // rail feet
-    for(const f of [[.24,1.55],[1.78,1.55]]){const p=coord(x+f[0],y+f[1],11);ctx.fillStyle='#18222b';ctx.fillRect(p[0]-4,p[1],8,4);}
-    const label=coord(x+.98,y+1.3,137);
-    ctx.textAlign='center';ctx.fillStyle='#d7e7ec';ctx.font='bold 12px system-ui';ctx.fillText('VMC-760  #'+m.id,label[0],label[1]);
+    const label=coord(x+1,y+1.10,150);
+    ctx.textAlign='center';ctx.fillStyle='#e8f3f5';ctx.font='bold 12px system-ui';
+    ctx.fillText('STARTER VMC-760 #'+m.id,label[0],label[1]);
     if(m.condition<35){ctx.fillStyle='#ff827e';ctx.fillText('⚠ REPAIR',label[0],label[1]-15);}
   }
   function drawLaser(ctx,m){
@@ -162,6 +150,7 @@
   function syncTools(){
     const m=state.machines.find(v=>v.id===chosenId);
     moveBtn.disabled=!m;
+    inspectBtn.disabled=!m || m.type!=='CNC';
     moveBtn.classList.toggle('selected',moveMode);
     cancelBtn.disabled=!(purchaseMode||moveMode);
     if(purchaseMode)info.textContent='PURCHASE MODE: Tap a free 2 × 2 floor area to place your '+(purchaseMode==='CNC'?'VMC':'laser cutter')+'. No cash is deducted until placed.';
