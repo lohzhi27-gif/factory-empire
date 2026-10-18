@@ -19,12 +19,15 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
 
-## Current build — v0.2.1 visual and pricing update (2026-10-18)
+## Current build — v0.2.3 fiber laser preview (2026-10-18)
 
 - See a more detailed, original unbranded starter VMC sprite; tap the CNC and choose **Inspect machine** to view the full illustration
 - Touch the CNC on the floor, select it, and relocate it to a free 2 × 2 tile area
 - Select **Equipment → Place VMC**, then tap a free 2 × 2 area to purchase another VMC for **RM180,000 of in-game cash**; no actual money changes hands
-- The laser cutter is now **RM150,000 in-game cash** (owner-approved, v0.2.1). Purchase price, display and accounting were updated.
+- The open-bed **Fiber Laser 3015** costs **RM150,000 in-game cash**. It is an original, unbranded illustration inspired by the owner's reference photo (long slatted cutting bed, moving gantry, separate controller).
+- Fiber laser occupies **3 × 2 floor tiles**, compared to the starter VMC's **2 × 2**.
+- Laser durability is **365 operating game days before major service**. The status panel shows remaining days; maintenance (currently RM850 in-game) resets its service counter. Idle days do not consume durability and normal laser random-breakdowns are disabled before service is due.
+- Existing saves migrate to this new laser durability system, preserving machine ownership and player finances.
 - Factory floor saves tile locations across browser reloads, including existing v0.1 saves
 - Review and accept customer RFQs
 - Operate a CNC and purchase additional CNC / laser equipment
@@ -35,13 +38,15 @@ The website uses the repository's `index.html`. It currently runs in Safari and 
 
 ### v0.2 preview playtest (iPhone or iPad)
 
-1. Open the Pages URL in Safari; look for the heading **Factory Floor Preview v0.2.1**.
+1. Open the Pages URL in Safari; look for the heading **Factory Floor Preview v0.2.3**.
 2. Select the CNC and tap **Inspect machine** to view the unbranded VMC sprite.
 3. Tap the starter VMC, then choose **Move selected**.
 4. Tap a free 2 × 2-tile area. The machine should move and **cash should not change**.
 5. Refresh the page and confirm that the VMC stays in its new position.
 6. Accept an RFQ and advance a day; existing gameplay must still work.
-7. Check Equipment: **laser cutter RM150,000** (not RM42,000). Send a screenshot and report confusing or broken controls.
+7. Check Equipment: **Fiber Laser 3015 RM150,000**. A laser needs **3 × 2 floor tiles**.
+8. If you already own a laser, select it and tap **Inspect machine** to view its new illustration, then check **Service in 365 operating days** on Equipment.
+9. Send a screenshot and report anything that looks wrong. New players start with RM92,000 cash, so they cannot buy a laser until they earn more in-game money.
 
 Purchasing another VMC costs **RM180,000 in-game**. Most new games do not have that much cash, so testing *moving the free starter* is the immediate priority. The **RM15 real-money introductory second-machine offer** is only a design proposal, not implemented or billed.
 
