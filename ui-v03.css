@@ -168,3 +168,34 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .floor-expanded .workshop-column #factoryCanvas{min-width:780px}
  .floor-expanded .scene-badge{position:sticky;left:12px}
 }
+
+
+/* v0.3.1 -- dedicated no-surprises touch relocation editor. */
+.move-editor[hidden]{display:none!important}
+.move-editor{background:linear-gradient(145deg,#112e46,#091e32);border:1px solid #36738d;border-radius:12px;padding:12px;box-shadow:inset 0 1px #ffffff12;margin:4px 0 1px}
+.move-editor-title{display:flex;gap:5px 13px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
+.move-editor-title strong{font-size:12px;color:#75e9ef;letter-spacing:1px}
+.move-editor-title span{font-size:12px;color:#c5dbe9}
+.move-editor-actions{display:flex;gap:17px;align-items:center;justify-content:flex-start;flex-wrap:wrap}
+.nudge-grid{display:grid;grid-template-columns:repeat(2,53px);grid-template-rows:repeat(2,45px);gap:6px;transform:rotate(0);flex:0 0 auto}
+.nudge-grid button{border:1px solid #4688a0;background:linear-gradient(145deg,#234d64,#122d45);border-radius:8px;color:#e6f6ff;font-size:23px;font-weight:900;touch-action:manipulation;line-height:1;box-shadow:inset 0 1px #ffffff1c}
+.nudge-grid button:active{background:#2f8497;transform:scale(.96)}
+.move-editor-right{display:flex;flex-direction:column;gap:9px;flex:1;min-width:205px}
+#movePosition{font-size:12px;color:#75dfb0;font-weight:800}
+#movePosition.invalid{color:#ff9696}
+.move-editor-confirm{display:flex;gap:8px;flex-wrap:wrap}
+.move-editor-confirm .btn{min-height:43px;padding:10px 15px}
+.move-editor-confirm #saveMove{font-size:13px;background:linear-gradient(135deg,#48e9ae,#18b7aa);border-color:#7df1ca;color:#052c29;min-width:138px}
+.move-editor-confirm #saveMove:disabled{opacity:.35}
+.floor-tools:has(.move-editor:not([hidden])){border-color:#429bad}
+.floor-tools:has(.move-editor:not([hidden])) .floor-hint{background:#1c3b49;border-color:#366c7e}
+@media(max-width:600px){
+ .move-editor{padding:10px}
+ .move-editor-title{display:block}
+ .move-editor-title strong{display:block;margin-bottom:4px}
+ .move-editor-actions{gap:12px}
+ .nudge-grid{grid-template-columns:repeat(2,minmax(48px,1fr));grid-template-rows:repeat(2,48px);width:132px}
+ .move-editor-right{min-width:160px}
+ .move-editor-confirm .btn{flex:1;min-width:0}
+ .move-editor-confirm #saveMove{min-width:135px}
+}
