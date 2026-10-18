@@ -287,3 +287,19 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .gantt-header h3{font-size:14px}
  .gantt-legend{gap:6px 10px}
 }
+
+
+/* Wide, readable workshop planning mode */
+.gantt-expanded{overflow:hidden}
+.gantt-expanded .operations-panel{position:fixed!important;inset:12px!important;z-index:55;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 100px #000c!important}
+.gantt-expanded .operations-panel .rightscroll{max-height:none!important;overflow:visible}
+.gantt-expanded .gantt-pane{--gantt-label:220px;--gantt-cell:43px;max-width:100%}
+.gantt-expanded .gantt-scroller{max-height:65vh;overflow:auto}
+.gantt-expanded .gantt-days{position:sticky;top:0;z-index:5}
+.gantt-expanded .gantt-days .gantt-sticky{z-index:6}
+.gantt-controls{flex-wrap:wrap}
+@media(max-width:740px){
+ .gantt-expanded .operations-panel{inset:3px!important}
+ .gantt-expanded .gantt-pane{--gantt-label:155px;--gantt-cell:38px}
+ .gantt-controls .btn{min-height:36px}
+}
