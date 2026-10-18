@@ -9,7 +9,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Game vision and design rules](docs/GAME_VISION.md)
 - [After-work development roadmap and milestone acceptance tests](docs/DEVELOPMENT_ROADMAP.md)
 
-**Important:** This vision is planned; v0.1 is still a 2D browser prototype. The next coding milestone is v0.2: original realistic-looking starter VMC, single-machine start and touch-based factory floor placement.
+**Important:** The hybrid 3D vision is planned. A v0.2 **isometric 2D preview** with original VMC rendering and touch-based placement is now committed; full 3D walking mode is not yet implemented.
 
 ## Play
 
