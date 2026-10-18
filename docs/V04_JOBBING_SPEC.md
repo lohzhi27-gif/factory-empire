@@ -53,11 +53,11 @@
 - With that same CNC running two shifts: RM800 + RM1,500 = RM2,300/month before wages, materials and other expenses.
 
 ### 2. Occasional hot jobs (urgent RFQs)
-- Special, occasional **hot jobs with a requested four-day lead time** offer attractive revenue.
+- Special, occasional **hot jobs with a strict four-calendar-day customer lead time** offer attractive revenue. **All seven days of the week count toward the customer deadline, including Saturday and Sunday.**
 - Players may decide to keep a **buffer percentage of raw material** in stock and deliberately leave **some machine capacity uncommitted** to capture these.
 - Rewards come from business judgment: an expensive rush quotation is useful only when the player has adequate material and capacity.
 - Check the same prerequisites and genuine routing time (tapping, staff, programming, subcontract wirecut, etc.). Warn or decline if impossible; never magically compress a real multi-day process.
-- The phrase "four days" requires a calendar-vs-working-day decision from owner. Until confirmed, do not silently label it working days.
+- **Owner-confirmed deadline rule:** four **calendar** days (not working days). For initial implementation, propose calculating dueGameDay = orderAwardGameDay + 4 elapsed game days (e.g., awarded on Day 1 → due Day 5), subject to confirming whether the start is RFQ issue or award/PO acceptance. Weekend days consume the customer's lead-time window.
 - Proposed (not confirmed) knobs for initial balance testing: 10–20% stock buffer of common materials, 10–15% available machine capacity reserved for urgent work, hot-job price premium negotiated according to urgency/profitability.
 - Suggested gameplay trigger: low-frequency, optional event, with visibly higher margin, a clear due-date countdown and potential reputation damage for missing delivery. No forced microtransaction.
 
@@ -65,7 +65,7 @@
 1. **Capability and award checks:** tapping RFQ blocked without tapping station; polishing staff gating; visually clear missing-resource notices and required process routing.
 2. **Real staffing and cash-out:** 2 shifts need 2 people per simultaneously staffed machine, monthly rental escalator and per-CNC electricity invoices; remove legacy utility double charges.
 3. **Wirecut subcontract:** pay process fee, wait 2 working days, show it in Gantt, and prevent premature delivery.
-4. **Hot-job events:** occasional, 4-day requested deadline, optional material-stock buffer and free-capacity strategy; feasibility first, lucrative but risky margin.
+4. **Hot-job events:** occasional, strict **4-calendar-day** customer deadline, optional material-stock buffer and free-capacity strategy; feasibility first, lucrative but risky margin.
 5. **Balancing and mobile playtesting:** make the player value their first tapping machine and polishing employee; keep sheet metal locked until appropriate progression.
 
 ## Later unlocks
@@ -74,7 +74,7 @@
 - These version boundaries are planning proposals, not tested release commitments.
 
 ## Required follow-up decisions
-- Four-day hot job: **working days or calendar days?**
+- **Confirmed:** hot jobs use **4 calendar days** for the customer deadline (not a remaining open question). **To confirm for implementation:** whether the 4-day clock starts when the RFQ is offered or when the customer PO is awarded/accepted.
 - Tapping station game purchase price, operation speed/capacity and whether it requires its own operator.
 - Polishing worker daily wage, output rate and number of staff.
 - Wirecut subcontract price (per job, per piece, per cutting time).
@@ -91,5 +91,5 @@ The v0.3.4 code currently charges daily overhead/utilities, permits two shifts w
 - No 2-shift production uplift without a second operator on that machine.
 - Rent/power expenses appear monthly at the defined rate and are not double-charged.
 - Wirecut appears as a timed outsourced process in the Gantt before shipment.
-- Hot jobs check material and free machine hours before award.
+- Hot jobs check material and free machine hours before award; use a 4-calendar-day countdown, while procurement, programming, and wirecut still advance in working days. A weekend can make an otherwise attractive urgent order infeasible.
 - Old local saves, machines, customer orders and cash balances survive upgrading.
