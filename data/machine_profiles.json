@@ -56,15 +56,23 @@
     {
       "id": "entry_laser_cutter",
       "type": "CNC Laser Cutting",
-      "nickname": "Sheet Metal Laser Cutter",
+      "nickname": "Fiber Laser 3015",
       "purchase_price_game_rm": 150000,
       "reliability": "Medium",
       "speed": "Medium",
       "accuracy": "Medium",
       "best_for": "Cutting sheet metal blanks and panels",
       "weakness": "Requires sheet material; does not replace CNC milling",
-      "design_reference": "Fictional unbranded equipment for the game",
-      "pricing_confirmed_by_owner": true
+      "design_reference": "Original unbranded open-bed 3015-style fiber laser with slatted cutting bed, overhead gantry, cable chain and separate control panel; inspired by owner-uploaded equipment photo.",
+      "pricing_confirmed_by_owner": true,
+      "game_floor_footprint_tiles": {
+        "width": 3,
+        "height": 2
+      },
+      "durability_operating_days": 365,
+      "durability_rule": "Condition decreases from 100% toward 15% over 365 active production days. Preventive maintenance resets the 365-day counter. No randomized early machine stoppages for laser during this cycle.",
+      "maintenance_cost_game_rm": 850,
+      "asset_path": "assets/laser-cutter.svg"
     }
   ],
   "monetization_concept": {
