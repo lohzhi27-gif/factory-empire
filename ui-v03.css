@@ -303,3 +303,64 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .gantt-expanded .gantt-pane{--gantt-label:155px;--gantt-cell:38px}
  .gantt-controls .btn{min-height:36px}
 }
+
+
+/* v0.3.4 — two main workspace views (production and Gantt) */
+.workspace-switcher{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+ margin:0 0 14px;padding:9px 12px;border:1px solid #315775;border-radius:12px;
+ background:linear-gradient(120deg,#0d2840,#081e33);box-shadow:0 8px 23px #0004;
+ scroll-margin-top:10px}
+.workspace-choice{display:flex;gap:9px;flex-wrap:wrap;align-items:stretch}
+.workspace-option{display:flex;align-items:center;gap:12px;min-height:56px;min-width:212px;text-align:left;
+ padding:9px 15px;border-radius:9px;border:1px solid #3a5c73;
+ color:#bfd8e8;background:linear-gradient(135deg,#173249,#0e2235);cursor:pointer}
+.workspace-option .workspace-number{display:grid;place-items:center;flex:0 0 32px;height:32px;
+ font-weight:900;color:#a9c7d9;background:#082033;border:1px solid #3d657a;border-radius:8px}
+.workspace-option strong{display:block;font-size:13px;font-weight:900;letter-spacing:.1px;color:#f2f9fc}
+.workspace-option small{display:block;font-size:10px;line-height:1.4;color:#94b5c8}
+.workspace-option.selected{color:#dcfcff;border-color:#35c7e2;
+ background:linear-gradient(145deg,#14516a,#103249);box-shadow:0 0 0 1px #36c9e34c,inset 0 0 22px #1fb2d227}
+.workspace-option.selected .workspace-number{color:#062434;background:#54d7ea;border-color:#76ebf4}
+.workspace-option:focus-visible{outline:2px solid #ffd276;outline-offset:3px}
+.workspace-message{font-size:11px;color:#9ebfd1;padding-right:7px}
+.gamegrid[hidden],.main-gantt-panel[hidden]{display:none!important}
+.main-gantt-panel{width:100%;min-width:0;margin:0 0 14px;overflow:hidden;border-top:2px solid #eeb45b}
+.main-gantt-heading{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.main-gantt-content{display:block!important;min-height:330px}
+.main-gantt-content .gantt-pane{--gantt-label:236px;--gantt-cell:49px;padding:22px 19px}
+.main-gantt-content .gantt-scroller{border-color:#4b7690}
+.main-gantt-content .gantt-header h3{font-size:18px}
+.main-gantt-content .gantt-row{min-height:92px}
+.main-gantt-content .gantt-row.gantt-days{min-height:54px}
+.main-gantt-content .gantt-row.gantt-po-row{min-height:82px}
+.main-gantt-content .gantt-job strong,.main-gantt-content .gantt-sticky>strong{font-size:13px}
+.main-gantt-content .gantt-job small,.main-gantt-content .gantt-sticky>small{font-size:11px}
+.main-gantt-content .gantt-material-pill{font-size:11px}
+.main-gantt-content .gantt-note{max-width:1100px}
+.main-gantt-view .main-nav [data-nav="gantt"]{color:#77edfa;background:#17516b66;border-color:#3cc7dc}
+/* Expand Gantt fullscreen targets the actual chart's new main-page home. */
+.gantt-expanded .operations-panel{position:relative!important;inset:auto!important;z-index:auto!important;
+ overflow:visible!important;box-shadow:0 7px 24px #01081280!important}
+.gantt-expanded #mainGanttPanel{position:fixed!important;inset:6px!important;z-index:55!important;
+ width:auto!important;margin:0!important;overflow:auto;box-shadow:0 25px 95px #000b}
+.gantt-expanded #mainGanttPanel .gantt-scroller{max-height:60vh;overflow:auto}
+.gantt-expanded #mainGanttPanel .gantt-days{position:sticky;top:0;z-index:5}
+@media(max-width:740px){
+ .workspace-switcher{padding:8px;gap:6px}
+ .workspace-choice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:7px}
+ .workspace-option{min-width:0;min-height:66px;padding:8px;gap:7px}
+ .workspace-option .workspace-number{flex-basis:25px;height:27px;font-size:12px}
+ .workspace-option strong{font-size:11px;line-height:1.2}
+ .workspace-option small{font-size:9px;line-height:1.25;margin-top:2px}
+ .workspace-message{font-size:10px;padding:0 2px}
+ .main-gantt-panel .main-gantt-heading{padding:10px;gap:7px}
+ .main-gantt-heading h2{font-size:12px}
+ .main-gantt-content .gantt-pane{--gantt-label:155px;--gantt-cell:39px;padding:10px 8px}
+ .main-gantt-content .gantt-header h3{font-size:15px}
+ .main-gantt-content .gantt-row{min-height:89px}
+ .main-gantt-content .gantt-row.gantt-days{min-height:50px}
+ .main-gantt-content .gantt-job strong,.main-gantt-content .gantt-sticky>strong{font-size:10px}
+ .main-gantt-content .gantt-job small,.main-gantt-content .gantt-sticky>small{font-size:9px}
+ .main-gantt-content .gantt-material-pill{font-size:9px}
+ .gantt-expanded #mainGanttPanel{inset:3px!important}
+}
