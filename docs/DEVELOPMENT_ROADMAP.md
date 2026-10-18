@@ -15,7 +15,7 @@ Test whether mobile players enjoy making manufacturing business decisions: biddi
 
 | Version | Focus | Proof of value |
 |---|---|---|
-| **v0.4 — Jobbing & profitability** | Tapping award restrictions, polishing staffing, two-person double shifts, monthly RM800 rent rising 10% every 24 months, per-CNC electricity (RM900/1 shift; RM1500/2 shifts), outsource wirecut (2 working days), rare 4-day hot jobs, pricing/margin feedback | Player must make meaningful trade-offs; show why a rushed order can be profitable *or* damaging |
+| **v0.4 — Jobbing & profitability** | Tapping award restrictions, polishing staffing, two-person double shifts, monthly RM800 rent rising 10% every 24 months, per-CNC electricity (RM900/1 shift; RM1500/2 shifts), outsource wirecut (2 working days), rare 4-calendar-day hot jobs, pricing/margin feedback | Player must make meaningful trade-offs; show why a rushed order can be profitable *or* damaging |
 | **v0.5 — Process depth** | Surface-treatment subcontract lead times + costs; QA, deburr, polishing execution, packing, delivery, proper route and capacity checks | An order follows realistic, visible multi-stage routing and reveals true manufacturing contribution |
 | **v0.6 — Progression & sheet metal** | Define and implement later unlock milestones; gate *new* laser/sheet-metal capability and jobs, add larger customers/expansion and clear progression | Player unlocks additional processes through business growth without losing earlier paid/earned machines |
 | **v0.7 — Playtest beta** | Mobile UX, onboarding, tutorial, balancing, save migration, performance, optional analytics with privacy controls, testers | 50–100 targeted external testers; measure tutorial completion and day-1/day-7 return rates (targets, not predictions) |
@@ -27,7 +27,7 @@ Timelines are estimates to be scoped during development; no hard delivery promis
 1. **Capability-aware RFQs**: tap-required job is not awarded without own tapping machine. For polish-required jobs, require staffed polishing capability; surface missing prerequisites in quotation UI. Keep machine purchase price and wages configurable until confirmed.
 2. **Correct operating economics**: one worker per active CNC per shift, actual second worker for double shift; remove inaccurate legacy daily power costs when monthly power bills go live; create monthly rental invoices and 10% rent escalation each two years.
 3. **Outsource wirecut**: optional 2-working-day subcontract step, visible in the production queue and Gantt, no early shipment before it returns.
-4. **Hot-job RFQs**: optional occasional 4-day urgent orders, premium economics, capacity and stockpile considerations, realistic feasibility checks.
+4. **Hot-job RFQs**: optional occasional urgent orders with a **strict four-calendar-day** customer deadline (Saturday/Sunday included), premium economics, capacity and stockpile considerations. Material, programming and wirecut lead times remain working-day based; check feasibility realistically.
 5. **Mobile market-playtest polish**: clear feedback loops on margin, profitability, material risk and customer confidence.
 
 Full requirements, owner-confirmed inputs, assumptions and conflicts: [V0.4 specification](V04_JOBBING_SPEC.md).
@@ -38,7 +38,7 @@ Full requirements, owner-confirmed inputs, assumptions and conflicts: [V0.4 spec
 - Allow laptop/browser testing; mobile is the planned audience.
 - Existing v0.3.4 Gantt remains the foundation for jobbing planning, not a new unrelated tool.
 - Maintain common simulation state and original local-storage save continuity with deliberate migration tests.
-- Subcontract calendars should skip weekends and later local holidays. Four-day hot-job deadline type is owner-pending.
+- Subcontract calendars should skip weekends and later local holidays; **hot-job customer deadlines always count four calendar days**, including weekends. Confirm the precise countdown start event before coding.
 - Do not copy manufacturer branding. Machine art remains original/unbranded.
 - No real payments enabled in prototype.
 - Do not publish customer proprietary drawings or private pricing in public GitHub.
@@ -51,7 +51,7 @@ Full requirements, owner-confirmed inputs, assumptions and conflicts: [V0.4 spec
 - Assistant: design spec, small source-code changes while collaborating in active sessions, tests, release notes, compatibility and follow-up decisions.
 
 ## Open design decisions
-1. Hot-job four-day deadline — working or calendar days?
+1. Hot-job countdown start event — RFQ offer day or order award/PO acceptance day? **Calendar-day counting is confirmed.**
 2. Exact tapping machine pricing/throughput.
 3. Polishing employee wage and capacity.
 4. Wirecut subcontract price basis.
