@@ -14,6 +14,8 @@ An original, mobile-friendly factory management simulation game built independen
 
 **Confirmed v0.4 rule:** urgent/hot customer jobs allow **4 calendar days** (weekends included) while procurement, programming, and outsourced wirecut still take working days. This is a specification change only; the playable game is unchanged.
 
+**Additional confirmed v0.4 rules:** Weekend overtime is optional and costs **2× ordinary wages per worker**, with worker refusal after four consecutive weeks of weekend overtime (precise refusal boundary pending). Each customer begins at **40% individual relationship**: on-time shipments improve the account, late shipments trigger penalties and worsen its future price/volume offers. A new customer-logo relationship network is planned, not implemented.
+
 ## Play
 
 When GitHub Pages is enabled from `main` → `/(root)`, open:
