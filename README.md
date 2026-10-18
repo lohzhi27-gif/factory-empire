@@ -19,6 +19,33 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
 
+## v0.3.2 — Production routing foundation (2026-10-18)
+
+The first phase of v0.3 is live. This release retains v0.3.1's polished UI and drag/save machine moving, preserves old `factory_empire_proto_v1` saves, and introduces a **real waiting sequence** for newly accepted RFQs:
+
+**Materials available** → **CNC programming (2 working days)** → **Machining** → **Existing simplified shipment/invoice logic**.
+
+- Material purchases no longer appear immediately in inventory. Enter a **quantity in kg** (1–1,000 kg, default 10) and place a material PO with a randomly assigned **2–5 working day** supplier lead time.
+- Material orders are paid when placed and stored in a queue showing the arrival game day. Materials enter inventory on delivery.
+- New production orders check stock for their initial required volume. If not enough, they enter **Awaiting material** and only queue for programming after a sufficient quantity is in stock.
+- After material is ready, programming occupies **two full workdays**. Milling/laser production begins on the following working day. The order card displays the active stage and remaining programming days.
+- **Day 1 is simulated Monday.** Saturday and Sunday do not progress procurement, programming or machining. Recurring overhead is still charged each calendar day; wages and production utilities are charged on workdays only. **Public holidays are not yet implemented**; actual customer calendar and holiday region will be refined later.
+- Previously accepted orders keep their existing machining state, so updates do not rewind already produced parts.
+- Critical customer deadline warnings are estimates and exclude actual finishing/inspection/delivery routing.
+- Surface treatment subcontracting (normal five workdays, rush three workdays +50% process cost), support equipment and packing remain **v0.5 planned work**, not implemented by this update.
+- The 4 owner-provided sample RFQs and additional material grades are in project data, **not yet activated as gameplay RFQs**. Current playable RFQ templates remain the earlier proof-of-concept jobs. This is the first v0.3 increment, not the completed production release.
+
+### Test this on iPhone/iPad
+
+1. Open https://lohzhi27-gif.github.io/factory-empire/ and confirm header **PRODUCTION PREVIEW v0.3.2**.
+2. Open **Customers**, accept an available CNC RFQ, and open **Production**. It should show **Programming — 2 working days** if the initial material is on hand.
+3. Press **+1 Day** once; it should show **1 working day remaining** and **0 pieces completed**.
+4. Advance another day: program finishes and CNC can start the *following working day*, not immediately.
+5. Under **Materials & Inventory**, enter **10 kg**, tap **Order material**, and check the new PO queue and arrival game day. Stock must not increase immediately.
+6. Advance to the delivery day and verify stock increases and the material PO disappears from the pending queue. Weekend days do not count toward supplier lead time.
+7. Refresh Safari and confirm machines, cash, orders, procurement and production phases remain saved.
+8. **Avoid Restart** if you want to preserve old progress.
+
 ## v0.3.1 — Easier machine moving (2026-10-18)
 
 This updates the working factory floor only; production, balances, equipment price and the local save key are unchanged.
