@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="theme-color" content="#0b111a" />
-<title>Factory Empire — Factory Floor Preview v0.2.1</title>
+<title>Factory Empire — Factory Floor Preview v0.2.3</title>
 <style>
 :root{--bg:#0b111a;--card:#121c29;--card2:#172435;--line:#263447;--text:#e8eff7;--muted:#91a5b9;--blue:#4ec8df;--amber:#f2b96a;--good:#68d5ae;--red:#f28a89;--shadow:0 10px 30px #02070d55}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button{font:inherit;cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}
@@ -79,15 +79,38 @@ function addRfq(paid){if(paid&&state.cash<300){toast('Insufficient cash for sale
 function buyMaterial(type){const isAl=type==='aluminum',price=isAl?2500:1200;if(state.cash<price){toast('Not enough working capital');return}state.cash-=price;state.totalMaterials+=price;state[type]+=100;log('Purchased 100 kg '+(isAl?'aluminum':'steel')+' for '+F(price));update()}
 function buyMachine(type){const price=type==='CNC'?180000:150000;if(state.machines.length>=slots.length){toast('Your first factory floor is full. Expansion coming later.');return}if(state.cash<price){toast('Insufficient cash for new equipment');return}state.cash-=price;state.totalCapex+=price;const id=state.nextId++;state.machines.push({id,type,condition:100});log('Installed new '+(type==='CNC'?'CNC milling machine':'laser cutter')+' for '+F(price));toast('Machine installed — remember to assign workers');currentTab='machines';update()}
 function hire(){if(state.workers>=state.machines.length){toast('No unstaffed machines. Purchase equipment first.');return}if(state.cash<800){toast('Insufficient cash for recruitment');return}state.cash-=800;state.totalExpenses+=800;state.workers++;log('Recruited operator — RM800 joining/training cost');update()}
-function maintain(id){const m=state.machines.find(x=>x.id===id);if(!m)return;if(state.cash<850){toast('Insufficient money for maintenance');return}if(m.condition>=99){toast('Machine already in excellent condition');return}state.cash-=850;state.totalExpenses+=850;m.condition=100;log('Preventive maintenance completed on machine #'+id+' (RM850)');update()}
+function maintain(id){const m=state.machines.find(x=>x.id===id);if(!m)return;if(state.cash<850){toast('Insufficient money for maintenance');return}if(m.condition>=99){toast('Machine already in excellent condition');return}state.cash-=850;state.totalExpenses+=850;m.condition=100;
+ if(m.type==='LASER'){
+   m.laserOperatingDays=0;
+   m.laserServiceWarningIssued=false;
+   m.laserStoppedNotice=false;
+ }
+ log((m.type==='LASER'?'Major service':'Preventive maintenance')+' completed on machine #'+id+' (RM850)');update()}
 function nextDay(){state.day++;let output=0;const wage=state.workers*160*(state.shifts===2?1.65:1),utilities=state.machines.length*38*state.shifts;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
  // The most urgent compatible job is assigned before each machine's daily schedule.
  const machineOrder=state.machines.map(m=>({m,deadline:Math.min(...state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty).map(j=>j.dueDay).concat([9999]))})).sort((a,b)=>a.deadline-b.deadline);
  const activeMachines=machineOrder.slice(0,state.workers).map(x=>x.m);
- for(const m of activeMachines){if(m.condition<=15){if(Math.random()<.14)log('Machine #'+m.id+' is down. Maintenance urgently required.');continue}if(Math.random()<.006+(100-m.condition)*.0003){m.condition=Math.max(0,m.condition-24);log('Unplanned machine stoppage on #'+m.id);continue}
+ for(const m of activeMachines){if(m.condition<=15){
+   if(m.type==='LASER'){
+      if(!m.laserStoppedNotice){log('Fiber laser #'+m.id+' needs major service after 365 operating days.');m.laserStoppedNotice=true;}
+   }else if(Math.random()<.14)log('Machine #'+m.id+' is down. Maintenance urgently required.');
+   continue;
+ }
+ if(m.type!=='LASER'&&Math.random()<.006+(100-m.condition)*.0003){m.condition=Math.max(0,m.condition-24);log('Unplanned machine stoppage on #'+m.id);continue}
  let minutes=420*state.shifts;const jobs=state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty).sort((a,b)=>a.dueDay-b.dueDay);let runs=0;
  for(const job of jobs){const p=P[job.product];while(minutes>=p.cycle&&job.done<job.qty&&runs<120){if(state[p.mat]+1e-8<p.material)break;minutes-=p.cycle;state[p.mat]-=p.material;state[p.mat]=Math.max(0,Math.round(state[p.mat]*1000)/1000);const fail=Math.random()<(.015+(100-m.condition)*.0009);if(fail){job.scrap++;state.totalScrap++}else{job.done++;state.totalProduced++;output++}runs++}if(minutes<p.cycle)break}
- if(runs>0)m.condition=Math.max(0,+(m.condition-(1.0+runs*.055)).toFixed(1));
+ if(runs>0){
+    if(m.type==='LASER'){
+      m.laserOperatingDays=(m.laserOperatingDays||0)+1;
+      m.condition=Math.max(15,+(100-85*m.laserOperatingDays/365).toFixed(1));
+      if(m.laserOperatingDays>=365&&!m.laserServiceWarningIssued){
+        m.laserServiceWarningIssued=true;
+        log('Major service due: Fiber Laser #'+m.id+' reached 365 operating days.');
+      }
+    }else{
+      m.condition=Math.max(0,+(m.condition-(1.0+runs*.055)).toFixed(1));
+    }
+ }
  }
  state.lastOutput=output;
  for(const job of [...state.jobs]){if(job.done>=job.qty){const late=Math.max(0,state.day-job.dueDay),penalty=Math.min(.2,late*.025),invoice=Math.round(job.qty*job.price*(1-penalty));state.receivables.push({id:job.id,customer:job.customer,total:invoice,payDay:state.day+7,job:job.product});state.totalBilled+=invoice;state.completed++;if(late===0)state.onTime++;state.reputation=Math.max(0,Math.min(100,state.reputation+(late===0?2:-3)));log('SHIPPED '+P[job.product].short+' × '+job.qty+' · Invoiced '+F(invoice)+(late?' · LATE '+late+'d':' · ON TIME'));state.jobs=state.jobs.filter(x=>x.id!==job.id)}else if(state.day>job.dueDay&&!job.lateFlag){job.lateFlag=true;state.reputation=Math.max(0,state.reputation-4);log('MISSED DELIVERY: '+P[job.product].short+' · customer unhappy')}}
@@ -154,6 +177,6 @@ document.getElementById('pauseBtn').onclick=()=>{const b=document.getElementById
 document.getElementById('helpBtn').onclick=()=>alert('WELCOME TO FACTORY EMPIRE!\n\n1. Select New RFQs and accept the Aluminum Bracket purchase order.\n2. Open Production to monitor completed pieces and delivery dates.\n3. Buy raw materials from Purchasing & Inventory.\n4. Tap +1 Day or Auto days to run production.\n5. Add CNC mills or a laser cutter through Equipment, then hire one operator for each active machine.\n6. Ship orders on time to protect your reputation.\n7. Customers pay invoices seven days after shipment.\n\nGoal: Build a profitable manufacturer and complete 5 orders on time.\n\nEverything is simulated; no real money or purchases.');
 render();
 </script>
-<script src="v02.js?v=21"></script>
+<script src="v02.js?v=23"></script>
 </body>
 </html>
