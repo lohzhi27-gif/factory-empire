@@ -199,3 +199,24 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .move-editor-confirm .btn{flex:1;min-width:0}
  .move-editor-confirm #saveMove{min-width:135px}
 }
+
+
+/* Factory Empire v0.3.2 — material order queue and job routing */
+.procure-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #29475b;flex-wrap:wrap}
+.procure-name{flex:1;min-width:130px}
+.procure-name strong{display:block;color:#eaf6fc;font-size:13px}
+.procure-name span{display:block;font-size:11px;color:#9ebfd1;line-height:1.5}
+.procure-controls{display:flex;gap:7px;align-items:center}
+.procure-controls label{font-size:11px;color:#aecbda}
+.procure-controls input{width:66px;min-height:37px;background:#0a2032;color:#edf8ff;border:1px solid #49728a;border-radius:7px;font-size:14px;font-weight:750;text-align:center;padding:6px 4px}
+.procure-controls input:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.procure-controls .btn{min-height:37px;white-space:normal}
+.procure-queue{margin-top:11px;padding-top:8px}
+.procure-title{font-weight:850;color:#60e0e8;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
+.procure-queue .mini{margin:4px 0 8px;font-size:11px}
+.procure-po{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;padding:8px;background:#153147;border:1px solid #335b73;border-radius:7px;margin:6px 0}
+.procure-po strong{color:#ffca6f;white-space:nowrap}
+.routing-status{color:#78e3ce;background:#112f3e;border:1px solid #316679;padding:8px 10px;margin:9px 0;font-size:12px;font-weight:700;border-radius:7px}
+.rfq-lead-check{padding:7px 9px;border-radius:7px;border:1px solid #326b73;background:#123342;font-size:11px;color:#9bdbd9;margin:8px 0}
+.rfq-lead-check.at-risk{background:#393020;border-color:#99703c;color:#f9d19a}
+@media(max-width:740px){.procure-controls{width:100%}.procure-controls .btn{flex:1}.procure-controls input{width:92px;max-width:27vw}}
