@@ -4,6 +4,7 @@
   const pricing={CNC:180000,LASER:150000};
   const footprint=type=>type==='LASER'?{w:3,h:2}:{w:2,h:2};
   let chosenId=null, moveMode=false, purchaseMode=null, selectedTile=null;
+  let moveDraft=null, ignoreClickOnce=false, pointerDrag=null;
   const canvas=document.getElementById('factoryCanvas');
   if(!canvas || typeof state==='undefined')return;
   const factory=canvas.parentElement;
@@ -16,6 +17,22 @@
   const cancelBtn=toolbar.querySelector('#cancelLayout');
   const inspectBtn=toolbar.querySelector('#inspectVmc');
   const previewLaserBtn=toolbar.querySelector('#previewLaser');
+  const movePanel=document.createElement('div');
+  movePanel.className='move-editor';
+  movePanel.hidden=true;
+  movePanel.innerHTML='<div class="move-editor-title"><strong>POSITION MACHINE</strong><span>Drag the machine or use the arrows. Nothing moves permanently until you save.</span></div>'
+   +'<div class="move-editor-actions"><div class="nudge-grid" role="group" aria-label="Move selected machine one tile">'
+   +'<button type="button" data-shift="0,-1" aria-label="Up right: one floor tile">↗</button>'
+   +'<button type="button" data-shift="-1,0" aria-label="Up left: one floor tile">↖</button>'
+   +'<button type="button" data-shift="1,0" aria-label="Down right: one floor tile">↘</button>'
+   +'<button type="button" data-shift="0,1" aria-label="Down left: one floor tile">↙</button></div>'
+   +'<div class="move-editor-right"><span id="movePosition">Position</span><div class="move-editor-confirm">'
+   +'<button type="button" class="btn primary" id="saveMove">✓ Save position</button>'
+   +'<button type="button" class="btn ghost" id="undoMove">Cancel</button></div></div></div>';
+  toolbar.appendChild(movePanel);
+  const saveMoveBtn=movePanel.querySelector('#saveMove');
+  const undoMoveBtn=movePanel.querySelector('#undoMove');
+  const movePosition=movePanel.querySelector('#movePosition');
   const inspector=document.createElement('dialog');
   inspector.className='machine-inspector';
   inspector.innerHTML='<div class="machine-inspector-head"><strong>STARTER VMC-760 · UNBRANDED</strong><button class="btn minor ghost" id="closeVmcPreview" type="button">✕ Close</button></div><img src="assets/starter-vmc.svg?v=21" alt="Original illustration of a fully enclosed vertical CNC milling center with front sliding doors, control panel and tower light"><p>Generic 3-axis enclosed VMC · 1 machine included at start · in-game additional machine RM180,000.</p>';
@@ -37,7 +54,7 @@
   previewLaserBtn.addEventListener('click',()=>showMachinePreview('LASER',null));
   inspector.querySelector('#closeVmcPreview').addEventListener('click',()=>{if(typeof inspector.close==='function')inspector.close();else inspector.removeAttribute('open');});
   const originalSeed=seed;
-  seed=function(){const fresh=originalSeed();fresh.machines[0].tileX=2;fresh.machines[0].tileY=1;fresh.machines[0].model='Starter VMC-760';fresh.layoutVersion=2;chosenId=1;moveMode=false;purchaseMode=null;selectedTile=null;return fresh;};
+  seed=function(){const fresh=originalSeed();fresh.machines[0].tileX=2;fresh.machines[0].tileY=1;fresh.machines[0].model='Starter VMC-760';fresh.layoutVersion=2;chosenId=1;moveMode=false;moveDraft=null;purchaseMode=null;selectedTile=null;return fresh;};
   function occupied(x,y,ignore,type){
     const target=footprint(type||state.machines.find(m=>m.id===ignore)?.type||'CNC');
     return state.machines.some(m=>{
@@ -248,10 +265,15 @@
     // Day display moves to responsive HTML overlay in v0.3.
     const machines=state.machines.filter(m=>Number.isInteger(m.tileX)).slice().sort((a,b)=>(a.tileX+a.tileY)-(b.tileX+b.tileY));
     for(const m of machines){
-      if(m.type==='CNC')drawVmc(ctx,m);else drawLaser(ctx,m);
+      const preview=moveMode && m.id===chosenId && moveDraft ? {...m,tileX:moveDraft.x,tileY:moveDraft.y}:m;
+      const previewOK=!moveMode||m.id!==chosenId||!moveDraft||valid(moveDraft.x,moveDraft.y,chosenId);
+      if(moveMode && m.id===chosenId && moveDraft)ctx.globalAlpha=previewOK?.91:.53;
+      if(m.type==='CNC')drawVmc(ctx,preview);else drawLaser(ctx,preview);
+      ctx.globalAlpha=1;
       if(m.id===chosenId){
-        const x=m.tileX,y=m.tileY,s=footprint(m.type);
-        poly(ctx,[coord(x,y,15),coord(x+s.w,y,15),coord(x+s.w,y+s.h,15),coord(x,y+s.h,15)],null,'#67f3ce',3);
+        const x=preview.tileX,y=preview.tileY,s=footprint(m.type);
+        const chosenColor=moveMode?(previewOK?'#55ffbc':'#ff756d'):'#67f3ce';
+        poly(ctx,[coord(x,y,15),coord(x+s.w,y,15),coord(x+s.w,y+s.h,15),coord(x,y+s.h,15)],moveMode?(previewOK?'#2ce7ab2a':'#ff6c6c2a'):null,chosenColor,3.4);
       }
     }
     // simple worker silhouette near first operating CNC, keeps machines unobscured
@@ -261,7 +283,7 @@
       ctx.fillStyle='#d39d57';ctx.fillRect(p[0]-6,p[1]-18,12,18);
       ctx.fillStyle='#202d38';ctx.fillRect(p[0]-4,p[1],3,12);ctx.fillRect(p[0]+2,p[1],3,12);
     }
-    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText('ORIGINAL INDUSTRIAL WORKSHOP • v0.3',18,h-20);
+    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText('ORIGINAL INDUSTRIAL WORKSHOP • v0.3.1',18,h-20);
     ctx.textAlign='right';ctx.fillText('MACHINES '+state.machines.length+' • TAP TO SELECT',w-18,h-20);
   }
   function syncTools(){
@@ -270,8 +292,16 @@
     inspectBtn.disabled=!m;
     moveBtn.classList.toggle('selected',moveMode);
     cancelBtn.disabled=!(purchaseMode||moveMode);
+    movePanel.hidden=!moveMode;
+    canvas.style.touchAction=moveMode?'none':'manipulation';
+    if(moveMode&&moveDraft&&m){
+      const ok=valid(moveDraft.x,moveDraft.y,chosenId);
+      saveMoveBtn.disabled=!ok;
+      movePosition.textContent='Tile '+(moveDraft.x+1)+','+(moveDraft.y+1)+(ok?' · Available':' · Blocked / outside floor');
+      movePosition.classList.toggle('invalid',!ok);
+    }
     if(purchaseMode)info.textContent='PURCHASE MODE: Tap a free '+(purchaseMode==='LASER'?'3 × 2':'2 × 2')+' tile area to place your '+(purchaseMode==='CNC'?'VMC':'laser cutter')+'. In-game cash is charged only on placement.';
-    else if(moveMode)info.textContent='MOVE MODE: Tap a free '+(m?.type==='LASER'?'3 × 2':'2 × 2')+' tile area to relocate '+(m?.model||'machine #'+chosenId)+'. Tap Cancel to stop.';
+    else if(moveMode)info.textContent='MOVE MODE: Drag the machine, tap a free tile, or use the arrows. Choose Save position when satisfied.';
     else if(m)info.textContent='Selected: '+(m.model||m.type+' #'+m.id)+' · Condition '+Math.round(m.condition)+'%'+(m.type==='LASER'?' · Service in '+Math.max(0,365-(m.laserOperatingDays||0))+' operating days':'')+'. Tap Move selected to rearrange.';
     else info.textContent='Tap a machine to inspect it. Choose Equipment to buy another machine.';
   }
@@ -296,39 +326,149 @@
     if(purchaseMode===type){purchaseMode=null;selectedTile=null;render();return;}
     if(state.cash<pricing[type]){toast('Need '+F(pricing[type])+' available cash to buy '+(type==='CNC'?'VMC':'laser'));return;}
     if(state.machines.length>=10){toast('The workshop is full');return;}
-    purchaseMode=type;moveMode=false;chosenId=null;selectedTile=null;currentTab='machines';render();
+    purchaseMode=type;moveMode=false;moveDraft=null;chosenId=null;selectedTile=null;currentTab='machines';render();
     toast('Tap an empty space on the factory floor to place your equipment');
     canvas.scrollIntoView({behavior:'smooth',block:'center'});
   };
-  function tap(e){
+
+  function pointerPoint(e){
     const rect=canvas.getBoundingClientRect();
-    const px=(e.clientX-rect.left)*canvas.width/rect.width;
-    const py=(e.clientY-rect.top)*canvas.height/rect.height;
-    const dx=(px-floor.ox)/floor.sx,dy=(py-floor.oy+floor.z)/floor.sy;
-    const x=Math.floor((dx+dy)/2),y=Math.floor((dy-dx)/2);
-    if(x<0||x>=8||y<0||y>=6){toast('Tap inside the factory floor');return;}
-    if(purchaseMode||moveMode){
-      if(!valid(x,y,moveMode?chosenId:null,purchaseMode)){selectedTile=[x,y];draw();toast('That area is blocked or too close to the workshop edge');return;}
-      if(moveMode){
-        const m=state.machines.find(v=>v.id===chosenId);if(!m){moveMode=false;render();return;}
-        m.tileX=x;m.tileY=y;moveMode=false;selectedTile=null;log('Relocated '+(m.model||'machine')+' to floor '+(x+1)+','+(y+1));toast('Machine moved — layout saved');update();return;
+    return {x:(e.clientX-rect.left)*canvas.width/rect.width,y:(e.clientY-rect.top)*canvas.height/rect.height};
+  }
+  function floorTile(point){
+    const dx=(point.x-floor.ox)/floor.sx,dy=(point.y-floor.oy+floor.z)/floor.sy;
+    return {x:Math.floor((dx+dy)/2),y:Math.floor((dy-dx)/2)};
+  }
+  function spriteHit(point){
+    // Allow selecting the machine by tapping its actual drawing, not only the tile underneath.
+    return state.machines.slice().reverse().find(m=>{
+      if(!Number.isInteger(m.tileX))return false;
+      const size=footprint(m.type);
+      const tile=moveMode&&m.id===chosenId&&moveDraft?moveDraft:{x:m.tileX,y:m.tileY};
+      const p=coord(tile.x+size.w/2,tile.y+size.h/2,floor.z);
+      const w=m.type==='LASER'?338:244,h=m.type==='LASER'?178:220;
+      const top=p[1]-(m.type==='LASER'?141:184);
+      // Slightly shrink the bounding box to avoid capturing the entire surrounding floor.
+      return point.x>=p[0]-w*.37&&point.x<=p[0]+w*.37
+        &&point.y>=top+h*.12&&point.y<=top+h*.94;
+    });
+  }
+  function beginMove(){
+    const m=state.machines.find(v=>v.id===chosenId);
+    if(!m){toast('Select a machine first');return;}
+    purchaseMode=null;moveMode=true;moveDraft={x:m.tileX,y:m.tileY};selectedTile=null;
+    render();
+  }
+  function finishMove(commit){
+    const m=state.machines.find(v=>v.id===chosenId);
+    if(commit&&m&&moveDraft){
+      if(!valid(moveDraft.x,moveDraft.y,chosenId)){toast('Placement blocked. Pick another spot.');return;}
+      const moved=moveDraft.x!==m.tileX||moveDraft.y!==m.tileY;
+      if(moved){
+        m.tileX=moveDraft.x;m.tileY=moveDraft.y;
+        log('Repositioned '+(m.model||m.type)+' to tile '+(m.tileX+1)+','+(m.tileY+1));
       }
-      const type=purchaseMode,price=pricing[type];if(state.cash<price){purchaseMode=null;toast('Insufficient cash');render();return;}
+      moveMode=false;moveDraft=null;selectedTile=null;
+      if(moved){update();toast('Machine position saved');}else{render();toast('Position unchanged');}
+      return;
+    }
+    moveMode=false;moveDraft=null;pointerDrag=null;selectedTile=null;
+    render();
+    if(!commit)toast('Move cancelled — original position kept');
+  }
+  function setDraft(x,y){
+    moveDraft={x,y};
+    draw();
+    syncTools();
+  }
+  function tap(e){
+    if(ignoreClickOnce){ignoreClickOnce=false;return;}
+    const point=pointerPoint(e);
+    if(purchaseMode){
+      const tile=floorTile(point),x=tile.x,y=tile.y;
+      if(!valid(x,y,null,purchaseMode)){
+        selectedTile=[x,y];draw();toast('Not enough clear floor space');return;
+      }
+      const type=purchaseMode,price=pricing[type];
+      if(state.cash<price){purchaseMode=null;toast('Insufficient cash');render();return;}
       state.cash-=price;state.totalCapex+=price;
       const m={id:state.nextId++,type,condition:100,tileX:x,tileY:y,model:type==='CNC'?'Starter VMC-760':'Fiber Laser 3015'};
       if(type==='LASER'){m.laserOperatingDays=0;m.laserServiceWarningIssued=false;}
       state.machines.push(m);chosenId=m.id;purchaseMode=null;selectedTile=null;
-      log('Purchased and installed '+m.model+' for '+F(price));toast('Machine installed! Hire an operator to increase capacity');update();return;
+      log('Purchased and installed '+m.model+' for '+F(price));
+      toast('Machine installed — hire an operator to run it');update();return;
     }
-    const hit=state.machines.slice().reverse().find(m=>{const s=footprint(m.type);return x>=m.tileX&&x<m.tileX+s.w&&y>=m.tileY&&y<m.tileY+s.h;});
-    chosenId=hit?hit.id:null;selectedTile=hit?null:[Math.min(x,6),Math.min(y,4)];
+    if(moveMode){
+      const tile=floorTile(point);
+      const hit=spriteHit(point);
+      if(hit&&hit.id===chosenId){return;} // avoid jumping when tapping the actual machine
+      setDraft(tile.x,tile.y);
+      return;
+    }
+    const hit=spriteHit(point);
+    const tile=floorTile(point);
+    const floorHit=state.machines.slice().reverse().find(m=>{
+      const z=footprint(m.type);
+      return tile.x>=m.tileX&&tile.x<m.tileX+z.w&&tile.y>=m.tileY&&tile.y<m.tileY+z.h;
+    });
+    const picked=hit||floorHit;
+    chosenId=picked?picked.id:null;
+    selectedTile=null;
     render();
   }
   canvas.addEventListener('click',tap);
-  moveBtn.addEventListener('click',()=>{if(!state.machines.some(m=>m.id===chosenId))return;moveMode=true;purchaseMode=null;selectedTile=null;render();toast('Tap a free area for your selected machine');});
-  cancelBtn.addEventListener('click',()=>{moveMode=false;purchaseMode=null;selectedTile=null;render();});
+  canvas.addEventListener('pointerdown',e=>{
+    if(!moveMode||!moveDraft||!('pointerId' in e))return;
+    const m=spriteHit(pointerPoint(e));
+    if(!m||m.id!==chosenId)return;
+    pointerDrag={id:e.pointerId,start:pointerPoint(e),tile:{...moveDraft},moved:false};
+    canvas.setPointerCapture?.(e.pointerId);
+  });
+  canvas.addEventListener('pointermove',e=>{
+    if(!pointerDrag||e.pointerId!==pointerDrag.id)return;
+    const pt=pointerPoint(e);
+    const px=pt.x-pointerDrag.start.x,py=pt.y-pointerDrag.start.y;
+    if(Math.hypot(px,py)<6&&!pointerDrag.moved)return;
+    pointerDrag.moved=true;
+    const fx=px/floor.sx,fy=py/floor.sy;
+    const stepX=Math.round((fx+fy)/2),stepY=Math.round((fy-fx)/2);
+    if(e.cancelable)e.preventDefault();
+    setDraft(pointerDrag.tile.x+stepX,pointerDrag.tile.y+stepY);
+  });
+  function releaseDrag(e){
+    if(!pointerDrag||e.pointerId!==pointerDrag.id)return;
+    if(pointerDrag.moved){
+      ignoreClickOnce=true;
+      // Swallow the synthesized click on mobile after a completed drag.
+    }
+    pointerDrag=null;
+    try{canvas.releasePointerCapture?.(e.pointerId);}catch(_){}
+  }
+  canvas.addEventListener('pointerup',releaseDrag);
+  canvas.addEventListener('pointercancel',e=>{
+    if(pointerDrag&&e.pointerId===pointerDrag.id){
+      setDraft(pointerDrag.tile.x,pointerDrag.tile.y);
+      releaseDrag(e);
+    }
+  });
+  movePanel.querySelectorAll('[data-shift]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(!moveMode||!moveDraft)return;
+      const [dx,dy]=btn.dataset.shift.split(',').map(Number);
+      const x=moveDraft.x+dx,y=moveDraft.y+dy;
+      if(!valid(x,y,chosenId)){toast('That tile is blocked or outside the workshop');return;}
+      setDraft(x,y);
+    });
+  });
+  moveBtn.addEventListener('click',beginMove);
+  saveMoveBtn.addEventListener('click',()=>finishMove(true));
+  undoMoveBtn.addEventListener('click',()=>finishMove(false));
+  cancelBtn.addEventListener('click',()=>{
+    if(moveMode)finishMove(false);
+    else{purchaseMode=null;selectedTile=null;render();}
+  });
   const help=document.getElementById('helpBtn');
-  help.onclick=()=>alert('FACTORY EMPIRE v0.2.3\n\nTap a machine in the factory to inspect it.\nTap MOVE SELECTED, then tap an empty area (VMC 2 × 2; Laser 3 × 2).\nTo buy equipment, open Equipment and tap Place VMC / Place laser, then tap an empty area. In-game money is charged ONLY when placed.\n\nThe starter workshop includes ONE free VMC, and moving it is free.\nThe fiber laser costs RM150,000 in-game and receives major service after 365 operating days.\n\nAdvance days to run production; accept RFQs from New RFQs.\n\nThis is an early 2D browser game; no real money, advertising, or payments are implemented.');
+  help.onclick=()=>alert('FACTORY EMPIRE v0.3.1\n\nTap a machine in the factory to inspect it.\nTap MOVE SELECTED, then drag the machine or use the arrow buttons. Tap Save position to commit, Cancel to undo.\nTo buy equipment, open Equipment and tap Place VMC / Place laser, then tap an empty area. In-game money is charged ONLY when placed.\n\nThe starter workshop includes ONE free VMC, and moving it is free.\nThe fiber laser costs RM150,000 in-game and receives major service after 365 operating days.\n\nAdvance days to run production; accept RFQs from New RFQs.\n\nThis is an early 2D browser game; no real money, advertising, or payments are implemented.');
   ensureLayout();
   render();
 })();
