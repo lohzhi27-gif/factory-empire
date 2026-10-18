@@ -36,6 +36,7 @@ var advanceProductionRouting;
   function routeText(j){
     if(!j.routing)return 'Machining — legacy order';
     const r=j.routing;
+    if(r.phase==='machining' && r.machineReadyDay>state.day)return 'Programming complete · machine starts Day '+r.machineReadyDay;
     if(r.phase==='awaiting_material'){
       const mat=P[j.product]?.mat;
       const remaining=Math.max(0,Math.ceil((j.qty*P[j.product].material-state[mat])*10)/10);
