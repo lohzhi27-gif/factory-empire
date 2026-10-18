@@ -9,8 +9,11 @@ An original, mobile-friendly factory management simulation game built independen
 - [Updated official game vision](docs/GAME_VISION.md)
 - [Revised development roadmap](docs/DEVELOPMENT_ROADMAP.md)
 - [v0.4 capability, cost, staffing and hot-job design specification](docs/V04_JOBBING_SPEC.md)
+- [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 
 **Release status:** v0.3.4 remains the working playable browser version. v0.4 features are documented proposals/owner rules and **are not implemented** yet.
+
+**Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
 **New v0.4 capacity rule:** One operator can tend **2–3 CNCs** in one shift, but all new part changes need setup: **easy 0.35h (21 min), medium 1.5h (90 min), difficult 3h (180 min)**. Setup time uses that worker's finite attendance hours and cannot overlap on two machines. Two shifts covering one 2–3-CNC cell need **two separate workers total**, not two workers *per machine*. A high-paying hot job may displace existing machine setups; **switching A → B → A requires the full Part A setup again**, and the sole minion being busy with any setup reduces output on other CNCs by delaying their load/unload/attendance tasks. Autonomous cutting already underway can finish, but machine cycles cannot restart without operator attention. In-app purchases remain optional future ideas; paid rescue is not required to enjoy the prototype.
 
