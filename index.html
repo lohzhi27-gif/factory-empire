@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="theme-color" content="#071322" />
-<title>Factory Empire — Industrial Tycoon v0.3.1</title>
+<title>Factory Empire — Industrial Tycoon v0.3.2</title>
 <style>
 :root{--bg:#0b111a;--card:#121c29;--card2:#172435;--line:#263447;--text:#e8eff7;--muted:#91a5b9;--blue:#4ec8df;--amber:#f2b96a;--good:#68d5ae;--red:#f28a89;--shadow:0 10px 30px #02070d55}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button{font:inherit;cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}
@@ -25,7 +25,7 @@
 .machine-inspector img{width:100%;max-height:360px;object-fit:contain;display:block;margin:8px auto}
 .machine-inspector p{font-size:12px;color:#adc5d0;margin:0 0 3px}
 </style>
-<link rel="stylesheet" href="ui-v03.css?v=31" />
+<link rel="stylesheet" href="ui-v03.css?v=32" />
 </head>
 <body>
 <main class="shell">
@@ -87,10 +87,12 @@ function maintain(id){const m=state.machines.find(x=>x.id===id);if(!m)return;if(
    m.laserStoppedNotice=false;
  }
  log((m.type==='LASER'?'Major service':'Preventive maintenance')+' completed on machine #'+id+' (RM850)');update()}
-function nextDay(){state.day++;let output=0;const wage=state.workers*160*(state.shifts===2?1.65:1),utilities=state.machines.length*38*state.shifts;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
+function nextDay(){state.day++;if(typeof advanceProductionRouting==='function')advanceProductionRouting();let output=0;
+const workday=((state.day-1)%7+7)%7<5;
+const wage=workday?state.workers*160*(state.shifts===2?1.65:1):0,utilities=workday?state.machines.length*38*state.shifts:0;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
  // The most urgent compatible job is assigned before each machine's daily schedule.
- const machineOrder=state.machines.map(m=>({m,deadline:Math.min(...state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty).map(j=>j.dueDay).concat([9999]))})).sort((a,b)=>a.deadline-b.deadline);
- const activeMachines=machineOrder.slice(0,state.workers).map(x=>x.m);
+ const machineOrder=state.machines.map(m=>({m,deadline:Math.min(...state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))).map(j=>j.dueDay).concat([9999]))})).sort((a,b)=>a.deadline-b.deadline);
+ const activeMachines=workday?machineOrder.slice(0,state.workers).map(x=>x.m):[];
  for(const m of activeMachines){if(m.condition<=15){
    if(m.type==='LASER'){
       if(!m.laserStoppedNotice){log('Fiber laser #'+m.id+' needs major service after 365 operating days.');m.laserStoppedNotice=true;}
@@ -178,6 +180,7 @@ document.getElementById('pauseBtn').onclick=()=>{const b=document.getElementById
 document.getElementById('helpBtn').onclick=()=>alert('WELCOME TO FACTORY EMPIRE!\n\n1. Select New RFQs and accept the Aluminum Bracket purchase order.\n2. Open Production to monitor completed pieces and delivery dates.\n3. Buy raw materials from Purchasing & Inventory.\n4. Tap +1 Day or Auto days to run production.\n5. Add CNC mills or a laser cutter through Equipment, then hire one operator for each active machine.\n6. Ship orders on time to protect your reputation.\n7. Customers pay invoices seven days after shipment.\n\nGoal: Build a profitable manufacturer and complete 5 orders on time.\n\nEverything is simulated; no real money or purchases.');
 render();
 </script>
+<script src="production-v032.js?v=32"></script>
 <script src="v02.js?v=31"></script>
 <script src="ui-v03.js?v=31"></script>
 </body>
