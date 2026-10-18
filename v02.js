@@ -109,7 +109,7 @@
     const x=m.tileX,y=m.tileY,center=coord(x+1,y+1,floor.z);
     if(vmcSpriteReady){
       // Floor-anchored at the centre of this machine's 2x2 footprint.
-      ctx.drawImage(vmcSprite,center[0]-100,center[1]-149,200,180);
+      ctx.drawImage(vmcSprite,center[0]-122,center[1]-184,244,220);
     }else{
       body(ctx,x+.14,y+.18,1.8,1.7,14,27,'#3a4550','#293743','#53616a');
       body(ctx,x+.14,y+.18,1.8,1.7,27,83,'#c0ccd0','#758995','#e4e9e9');
@@ -135,7 +135,7 @@
   function drawLaser(ctx,m){
     const x=m.tileX,y=m.tileY,base=coord(x+1.5,y+1,floor.z);
     if(laserSpriteReady){
-      ctx.drawImage(laserSprite,base[0]-153,base[1]-127,306,161);
+      ctx.drawImage(laserSprite,base[0]-169,base[1]-141,338,178);
     }else{
       body(ctx,x+.04,y+.12,2.85,1.8,13,29,'#535d62','#3b4852','#121b25');
       body(ctx,x+.24,y+.34,2.4,1.23,29,39,'#1b2932','#18232d','#13202c');
@@ -147,22 +147,96 @@
     ctx.fillText('FIBER LASER 3015 #'+m.id,label[0],label[1]);
     if(m.laserOperatingDays>=365){ctx.fillStyle='#ffa47b';ctx.fillText('SERVICE DUE',label[0],label[1]-17);}
   }
+
+  function workshopBackdrop(ctx,w,h){
+    const wall=ctx.createLinearGradient(0,0,0,280);
+    wall.addColorStop(0,'#142739');wall.addColorStop(.72,'#2b4152');wall.addColorStop(1,'#192d3c');
+    ctx.fillStyle=wall;ctx.fillRect(0,0,w,280);
+    // Original warehouse backdrop - structural columns, roll-up loading door and workshop lights.
+    for(let k=0;k<8;k++){
+      const x=k*127-18;
+      ctx.fillStyle='#132334';ctx.fillRect(x,0,18,234);
+      ctx.fillStyle='#54718788';ctx.fillRect(x+18,0,5,195);
+      ctx.fillStyle='#112334';ctx.fillRect(x-8,198,31,32);
+      ctx.fillStyle='#d5a24d';ctx.fillRect(x-7,201,29,5);
+      for(let n=0;n<4;n++){
+        ctx.strokeStyle='#122634';ctx.lineWidth=3;
+        ctx.beginPath();ctx.moveTo(x-4+n*6,228);ctx.lineTo(x+9+n*6,199);ctx.stroke();
+      }
+    }
+    const shutter=ctx.createLinearGradient(654,0,834,0);
+    shutter.addColorStop(0,'#253746');shutter.addColorStop(.52,'#3b5361');shutter.addColorStop(1,'#1d3343');
+    ctx.fillStyle=shutter;ctx.fillRect(656,48,173,150);
+    for(let y=54;y<198;y+=10){
+      ctx.strokeStyle=y%20?'#6e8a9699':'#182e3b';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(656,y);ctx.lineTo(830,y);ctx.stroke();
+    }
+    ctx.fillStyle='#122c3f';ctx.fillRect(645,45,9,155);ctx.fillRect(828,45,9,155);
+    // storage shelves
+    ctx.fillStyle='#101d2b';ctx.fillRect(47,105,135,115);
+    for(let y=114;y<215;y+=44){
+      ctx.fillStyle='#304b5b';ctx.fillRect(43,y,139,6);
+      for(let i=0;i<4;i++){
+        const x=52+i*31;
+        ctx.fillStyle=(i+y)%2?'#76818a':'#9b835c';
+        ctx.fillRect(x,y-23,24,21);
+        ctx.fillStyle='#a2b2b633';ctx.fillRect(x+2,y-21,19,2);
+      }
+    }
+    ctx.fillStyle='#071727';ctx.fillRect(37,97,7,126);ctx.fillRect(176,97,7,126);
+    // overhead luminaires add legibility without heavy per-frame shadows
+    const lights=[115,304,511,751];
+    for(const x of lights){
+      const gl=ctx.createRadialGradient(x,66,3,x,94,95);
+      gl.addColorStop(0,'#ffe0a933');gl.addColorStop(1,'#ffe0a900');
+      ctx.fillStyle=gl;ctx.fillRect(x-100,42,200,200);
+      ctx.fillStyle='#ffe5ae';ctx.fillRect(x-28,51,57,6);
+      ctx.fillStyle='#f1b66133';ctx.fillRect(x-40,47,82,13);
+    }
+    const apron=ctx.createLinearGradient(0,176,0,h);
+    apron.addColorStop(0,'#314a5b');apron.addColorStop(1,'#122638');
+    ctx.fillStyle=apron;ctx.fillRect(0,202,w,h-202);
+    ctx.fillStyle='#e5b66c30';ctx.fillRect(0,205,w,2);
+  }
+  function workshopProps(ctx){
+    // Safety zone on the floor perimeter; visual only, does not block machine placement.
+    poly(ctx,[coord(.24,.24,14),coord(7.76,.24,14),coord(7.76,5.76,14),coord(.24,5.76,14)],null,'#bc8d45',3);
+    poly(ctx,[coord(.33,.33,14),coord(7.67,.33,14),coord(7.67,5.67,14),coord(.33,5.67,14)],null,'#bd893944',1.5);
+    // Tool chest beyond near-left tile corner.
+    ctx.fillStyle='#03111d55';ctx.fillRect(32,342,170,12);
+    const cab=ctx.createLinearGradient(23,244,23,336);cab.addColorStop(0,'#366481');cab.addColorStop(1,'#153c5c');
+    ctx.fillStyle=cab;ctx.fillRect(32,260,152,77);
+    ctx.fillStyle='#7591a3';ctx.fillRect(28,257,159,7);
+    for(let i=0;i<3;i++){
+      const y=270+i*20;
+      ctx.fillStyle='#102d45';ctx.fillRect(43,y,130,16);
+      ctx.fillStyle='#abc0c9';ctx.fillRect(93,y+4,27,3);
+    }
+    ctx.fillStyle='#233846';
+    for(const x of [47,171]){ctx.fillRect(x,336,6,8);ctx.beginPath();ctx.arc(x+3,347,5,0,Math.PI*2);ctx.fill();}
+    // Metal workbench and sample pieces at front right, original generic props.
+    ctx.fillStyle='#111d28a6';ctx.fillRect(743,328,107,14);
+    ctx.fillStyle='#506c7f';ctx.fillRect(754,285,83,49);
+    ctx.fillStyle='#90a3ac';ctx.fillRect(745,281,102,9);
+    ctx.fillStyle='#263b4b';ctx.fillRect(754,328,7,24);ctx.fillRect(832,328,7,24);
+    for(let i=0;i<4;i++){
+      const x=752+i*20;
+      ctx.fillStyle=i%2?'#738f9d':'#a7b6b7';ctx.fillRect(x,268,17,13);
+      ctx.fillStyle='#30434e';ctx.fillRect(x+3,266,12,3);
+    }
+  }
   function draw(){
     const ctx=canvas.getContext('2d');if(!ctx)return;
     const w=canvas.width,h=canvas.height;
     ctx.clearRect(0,0,w,h);
-    const bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,'#2c4555');bg.addColorStop(.75,'#101c2a');bg.addColorStop(1,'#0a1521');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
-    // workshop walls, overhead lights
-    for(let i=0;i<8;i++){
-      ctx.fillStyle='#47677725';ctx.fillRect(30+i*112,15,55,58);
-      ctx.fillStyle='#75a6aa33';ctx.fillRect(28+i*112,15,70,6);
-    }
+    workshopBackdrop(ctx,w,h);
     poly(ctx,[coord(0,0,4),coord(8,0,4),coord(8,6,4),coord(0,6,4)],'#1b2b39');
     side(ctx,0,6,8,0,0,13,'#1d2d3d');
     side(ctx,8,0,0,6,0,13,'#111c29');
     for(let y=0;y<6;y++)for(let x=0;x<8;x++){
       poly(ctx,[coord(x,y,13),coord(x+1,y,13),coord(x+1,y+1,13),coord(x,y+1,13)],(x+y)%2?'#364c59':'#324653','#425867');
     }
+    workshopProps(ctx);
     // tile selection / move target
     if(selectedTile){
       const [x,y]=selectedTile;
@@ -171,9 +245,7 @@
       const accent=okay?'#55d9bb':'#f08b83';
       poly(ctx,[coord(x,y,14),coord(x+size.w,y,14),coord(x+size.w,y+size.h,14),coord(x,y+size.h,14)],okay?'#58daba26':'#f08b8333',accent,2.8);
     }
-    ctx.fillStyle='#1b2531';ctx.fillRect(25,24,180,52);
-    ctx.textAlign='left';ctx.fillStyle='#b6d7e5';ctx.font='bold 11px system-ui';ctx.fillText('YOUR FIRST WORKSHOP',37,43);
-    ctx.font='bold 19px system-ui';ctx.fillStyle='#fff';ctx.fillText('DAY '+state.day,37,67);
+    // Day display moves to responsive HTML overlay in v0.3.
     const machines=state.machines.filter(m=>Number.isInteger(m.tileX)).slice().sort((a,b)=>(a.tileX+a.tileY)-(b.tileX+b.tileY));
     for(const m of machines){
       if(m.type==='CNC')drawVmc(ctx,m);else drawLaser(ctx,m);
@@ -189,7 +261,7 @@
       ctx.fillStyle='#d39d57';ctx.fillRect(p[0]-6,p[1]-18,12,18);
       ctx.fillStyle='#202d38';ctx.fillRect(p[0]-4,p[1],3,12);ctx.fillRect(p[0]+2,p[1],3,12);
     }
-    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText('ORIGINAL INDUSTRIAL WORKSHOP • v0.2.3',18,h-20);
+    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText('ORIGINAL INDUSTRIAL WORKSHOP • v0.3',18,h-20);
     ctx.textAlign='right';ctx.fillText('MACHINES '+state.machines.length+' • TAP TO SELECT',w-18,h-20);
   }
   function syncTools(){
