@@ -12,6 +12,8 @@ An original, mobile-friendly factory management simulation game built independen
 
 **Release status:** v0.3.4 remains the working playable browser version. v0.4 features are documented proposals/owner rules and **are not implemented** yet.
 
+**Confirmed v0.4 rule:** urgent/hot customer jobs allow **4 calendar days** (weekends included) while procurement, programming, and outsourced wirecut still take working days. This is a specification change only; the playable game is unchanged.
+
 ## Play
 
 When GitHub Pages is enabled from `main` → `/(root)`, open:
