@@ -2,6 +2,7 @@
   'use strict';
   const floor={w:8,h:6,ox:430,oy:92,sx:47,sy:22,z:13,footprint:2};
   const pricing={CNC:180000,LASER:150000};
+  const footprint=type=>type==='LASER'?{w:3,h:2}:{w:2,h:2};
   let chosenId=null, moveMode=false, purchaseMode=null, selectedTile=null;
   const canvas=document.getElementById('factoryCanvas');
   if(!canvas || typeof state==='undefined')return;
@@ -18,36 +19,57 @@
   inspector.className='machine-inspector';
   inspector.innerHTML='<div class="machine-inspector-head"><strong>STARTER VMC-760 · UNBRANDED</strong><button class="btn minor ghost" id="closeVmcPreview" type="button">✕ Close</button></div><img src="assets/starter-vmc.svg?v=21" alt="Original illustration of a fully enclosed vertical CNC milling center with front sliding doors, control panel and tower light"><p>Generic 3-axis enclosed VMC · 1 machine included at start · in-game additional machine RM180,000.</p>';
   document.body.appendChild(inspector);
-  inspectBtn.addEventListener('click',()=>{if(typeof inspector.showModal==='function')inspector.showModal();else inspector.setAttribute('open','');});
+  inspectBtn.addEventListener('click',()=>{
+    const m=state.machines.find(x=>x.id===chosenId);if(!m)return;
+    const laser=m.type==='LASER';
+    inspector.querySelector('.machine-inspector-head strong').textContent=laser?'FIBER LASER 3015 · UNBRANDED':'STARTER VMC-760 · UNBRANDED';
+    inspector.querySelector('img').src=laser?'assets/laser-cutter.svg?v=23':'assets/starter-vmc.svg?v=21';
+    inspector.querySelector('img').alt=laser?'Original open-bed fiber laser with long slat table, overhead bridge, cutting head and console':'Original enclosed vertical CNC milling machine';
+    inspector.querySelector('p').textContent=laser
+      ?'Open-bed fiber laser cutter · RM150,000 game cash · '+Math.max(0,365-(m.laserOperatingDays||0))+' operating days until major service.'
+      :'Generic 3-axis enclosed VMC · first machine included free · additional machine RM180,000 game cash.';
+    if(typeof inspector.showModal==='function')inspector.showModal();else inspector.setAttribute('open','');
+  });
   inspector.querySelector('#closeVmcPreview').addEventListener('click',()=>{if(typeof inspector.close==='function')inspector.close();else inspector.removeAttribute('open');});
   const originalSeed=seed;
   seed=function(){const fresh=originalSeed();fresh.machines[0].tileX=2;fresh.machines[0].tileY=1;fresh.machines[0].model='Starter VMC-760';fresh.layoutVersion=2;chosenId=1;moveMode=false;purchaseMode=null;selectedTile=null;return fresh;};
-  function occupied(x,y,ignore){
-    return state.machines.some(m=>m.id!==ignore && Number.isInteger(m.tileX) && Number.isInteger(m.tileY) && x<m.tileX+2 && x+2>m.tileX && y<m.tileY+2 && y+2>m.tileY);
+  function occupied(x,y,ignore,type){
+    const target=footprint(type||state.machines.find(m=>m.id===ignore)?.type||'CNC');
+    return state.machines.some(m=>{
+      if(m.id===ignore||!Number.isInteger(m.tileX)||!Number.isInteger(m.tileY))return false;
+      const size=footprint(m.type);
+      return x<m.tileX+size.w&&x+target.w>m.tileX&&y<m.tileY+size.h&&y+target.h>m.tileY;
+    });
   }
-  function valid(x,y,ignore){return Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&y>=0&&x+2<=floor.w&&y+2<=floor.h&&!occupied(x,y,ignore);}
+  function valid(x,y,ignore,type){
+    const size=footprint(type||purchaseMode||state.machines.find(m=>m.id===ignore)?.type||'CNC');
+    return Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&y>=0&&x+size.w<=floor.w&&y+size.h<=floor.h&&!occupied(x,y,ignore,type);
+  }
   function ensureLayout(){
     let changed=false;
-    const legacy=[[2,1],[4,1],[2,3],[5,3],[6,4],[0,3]];
     const allocated=[];
     for(let i=0;i<state.machines.length;i++){
-      const m=state.machines[i];
-      const collide=(x,y)=>allocated.some(p=>x<p[0]+2&&x+2>p[0]&&y<p[1]+2&&y+2>p[1]);
-      const okay=(x,y)=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&y>=0&&x+2<=floor.w&&y+2<=floor.h&&!collide(x,y);
-      let xy=[m.tileX,m.tileY];
-      if(!okay(...xy)){
-        xy=legacy[i]||[-1,-1];
-        if(!okay(...xy)){
-          outer:for(let y=0;y<floor.h-1;y++)for(let x=0;x<floor.w-1;x++){if(okay(x,y)){xy=[x,y];break outer;}}
-        }
-        if(okay(...xy)){m.tileX=xy[0];m.tileY=xy[1];changed=true;}
+      const m=state.machines[i],size=footprint(m.type);
+      const collide=(x,y)=>allocated.some(p=>x<p.x+p.w&&x+size.w>p.x&&y<p.y+p.h&&y+size.h>p.y);
+      const okay=(x,y)=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&y>=0&&x+size.w<=floor.w&&y+size.h<=floor.h&&!collide(x,y);
+      if(!okay(m.tileX,m.tileY)){
+        let found=null;
+        outer:for(let y=0;y<=floor.h-size.h;y++)for(let x=0;x<=floor.w-size.w;x++){if(okay(x,y)){found=[x,y];break outer;}}
+        if(found){m.tileX=found[0];m.tileY=found[1];changed=true;}
       }
-      if(okay(m.tileX,m.tileY))allocated.push([m.tileX,m.tileY]);
+      if(okay(m.tileX,m.tileY))allocated.push({x:m.tileX,y:m.tileY,...size});
       if(m.type==='CNC'&&!m.model){m.model='Starter VMC-760';changed=true;}
+      if(m.type==='LASER'){
+        if(!m.model||m.model==='Prototype Laser Cutter'){m.model='Fiber Laser 3015';changed=true;}
+        if(!Number.isFinite(m.laserOperatingDays)){
+          // New durability rules for legacy lasers: start with a fresh 365-operating-day service cycle.
+          m.laserOperatingDays=0;m.condition=100;m.laserServiceWarningIssued=false;changed=true;
+        }
+      }
     }
-    if(state.layoutVersion!==2){state.layoutVersion=2;changed=true;}
+    if(state.layoutVersion!==3){state.layoutVersion=3;changed=true;}
     if(changed)save();
-    if(chosenId===null && state.machines.length)chosenId=state.machines[0].id;
+    if(chosenId===null&&state.machines.length)chosenId=state.machines[0].id;
   }
   const coord=(x,y,z=0)=>[floor.ox+(x-y)*floor.sx,floor.oy+(x+y)*floor.sy-z];
   function poly(ctx,points,fill,stroke,strokeWidth=1){
@@ -96,12 +118,26 @@
     ctx.fillText('STARTER VMC-760 #'+m.id,label[0],label[1]);
     if(m.condition<35){ctx.fillStyle='#ff827e';ctx.fillText('⚠ REPAIR',label[0],label[1]-15);}
   }
+  // Original open-bed, gantry-type laser asset. Draw on the canvas without copying manufacturer logos.
+  const laserSprite=new Image();
+  let laserSpriteReady=false;
+  laserSprite.onload=()=>{laserSpriteReady=true;drawFactory();};
+  laserSprite.onerror=()=>{laserSpriteReady=false;};
+  laserSprite.src='assets/laser-cutter.svg?v=23';
   function drawLaser(ctx,m){
-    const x=m.tileX+.11,y=m.tileY+.1;
-    body(ctx,x,y,1.95,1.82,13,28,'#313f4b','#1e3340','#4b626e');
-    body(ctx,x+.03,y+.06,1.89,1.73,28,70,'#d3bd92','#88816d','#eee2be');
-    poly(ctx,[coord(x+.18,y+1.81,35),coord(x+1.43,y+1.81,35),coord(x+1.43,y+1.81,61),coord(x+.18,y+1.81,61)],'#263c46','#9db0a4');
-    const lbl=coord(x+1,y+1,99);ctx.fillStyle='#f0dfb8';ctx.textAlign='center';ctx.font='bold 12px system-ui';ctx.fillText('LASER #'+m.id,lbl[0],lbl[1]);
+    const x=m.tileX,y=m.tileY,base=coord(x+1.5,y+1,floor.z);
+    if(laserSpriteReady){
+      ctx.drawImage(laserSprite,base[0]-153,base[1]-127,306,161);
+    }else{
+      body(ctx,x+.04,y+.12,2.85,1.8,13,29,'#535d62','#3b4852','#121b25');
+      body(ctx,x+.24,y+.34,2.4,1.23,29,39,'#1b2932','#18232d','#13202c');
+      body(ctx,x+1.2,y+.25,.26,1.58,39,73,'#d47042','#ae502c','#f28d52');
+      const pt=coord(x+1.35,y+1,89);ctx.fillStyle='#eaf1ed';ctx.fillRect(pt[0]-13,pt[1],26,42);
+    }
+    const label=coord(x+1.5,y+1,116);
+    ctx.textAlign='center';ctx.fillStyle='#ecf7fa';ctx.font='bold 12px system-ui';
+    ctx.fillText('FIBER LASER 3015 #'+m.id,label[0],label[1]);
+    if(m.laserOperatingDays>=365){ctx.fillStyle='#ffa47b';ctx.fillText('SERVICE DUE',label[0],label[1]-17);}
   }
   function draw(){
     const ctx=canvas.getContext('2d');if(!ctx)return;
@@ -122,9 +158,10 @@
     // tile selection / move target
     if(selectedTile){
       const [x,y]=selectedTile;
-      const okay=valid(x,y,moveMode?chosenId:null);
+      const okay=valid(x,y,moveMode?chosenId:null,purchaseMode);
+      const size=footprint(purchaseMode||state.machines.find(m=>m.id===chosenId)?.type||'CNC');
       const accent=okay?'#55d9bb':'#f08b83';
-      poly(ctx,[coord(x,y,14),coord(x+2,y,14),coord(x+2,y+2,14),coord(x,y+2,14)],okay?'#58daba26':'#f08b8333',accent,2.8);
+      poly(ctx,[coord(x,y,14),coord(x+size.w,y,14),coord(x+size.w,y+size.h,14),coord(x,y+size.h,14)],okay?'#58daba26':'#f08b8333',accent,2.8);
     }
     ctx.fillStyle='#1b2531';ctx.fillRect(25,24,180,52);
     ctx.textAlign='left';ctx.fillStyle='#b6d7e5';ctx.font='bold 11px system-ui';ctx.fillText('YOUR FIRST WORKSHOP',37,43);
@@ -133,8 +170,8 @@
     for(const m of machines){
       if(m.type==='CNC')drawVmc(ctx,m);else drawLaser(ctx,m);
       if(m.id===chosenId){
-        const x=m.tileX,y=m.tileY;
-        poly(ctx,[coord(x,y,15),coord(x+2,y,15),coord(x+2,y+2,15),coord(x,y+2,15)],null,'#67f3ce',3);
+        const x=m.tileX,y=m.tileY,s=footprint(m.type);
+        poly(ctx,[coord(x,y,15),coord(x+s.w,y,15),coord(x+s.w,y+s.h,15),coord(x,y+s.h,15)],null,'#67f3ce',3);
       }
     }
     // simple worker silhouette near first operating CNC, keeps machines unobscured
@@ -144,32 +181,33 @@
       ctx.fillStyle='#d39d57';ctx.fillRect(p[0]-6,p[1]-18,12,18);
       ctx.fillStyle='#202d38';ctx.fillRect(p[0]-4,p[1],3,12);ctx.fillRect(p[0]+2,p[1],3,12);
     }
-    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText('ORIGINAL INDUSTRIAL WORKSHOP • v0.2',18,h-20);
+    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText('ORIGINAL INDUSTRIAL WORKSHOP • v0.2.3',18,h-20);
     ctx.textAlign='right';ctx.fillText('MACHINES '+state.machines.length+' • TAP TO SELECT',w-18,h-20);
   }
   function syncTools(){
     const m=state.machines.find(v=>v.id===chosenId);
     moveBtn.disabled=!m;
-    inspectBtn.disabled=!m || m.type!=='CNC';
+    inspectBtn.disabled=!m;
     moveBtn.classList.toggle('selected',moveMode);
     cancelBtn.disabled=!(purchaseMode||moveMode);
-    if(purchaseMode)info.textContent='PURCHASE MODE: Tap a free 2 × 2 floor area to place your '+(purchaseMode==='CNC'?'VMC':'laser cutter')+'. No cash is deducted until placed.';
-    else if(moveMode)info.textContent='MOVE MODE: Tap a free 2 × 2 floor area to relocate '+(m?.model||'machine #'+chosenId)+'. Tap Cancel to stop.';
-    else if(m)info.textContent='Selected: '+(m.model||m.type+' #'+m.id)+' · Condition '+Math.round(m.condition)+'%. Tap Move selected, then tap a free area.';
+    if(purchaseMode)info.textContent='PURCHASE MODE: Tap a free '+(purchaseMode==='LASER'?'3 × 2':'2 × 2')+' tile area to place your '+(purchaseMode==='CNC'?'VMC':'laser cutter')+'. In-game cash is charged only on placement.';
+    else if(moveMode)info.textContent='MOVE MODE: Tap a free '+(m?.type==='LASER'?'3 × 2':'2 × 2')+' tile area to relocate '+(m?.model||'machine #'+chosenId)+'. Tap Cancel to stop.';
+    else if(m)info.textContent='Selected: '+(m.model||m.type+' #'+m.id)+' · Condition '+Math.round(m.condition)+'%'+(m.type==='LASER'?' · Service in '+Math.max(0,365-(m.laserOperatingDays||0))+' operating days':'')+'. Tap Move selected to rearrange.';
     else info.textContent='Tap a machine to inspect it. Choose Equipment to buy another machine.';
   }
   const oldRender=render;
   render=function(){ensureLayout();oldRender();syncTools();};
   drawFactory=draw;
   renderMachines=function(){
-    document.getElementById('machineList').innerHTML=state.machines.map(m=>'<div class="machine"><div class="left"><div class="iconbox">'+(m.type==='CNC'?'🏭':'✂')+'</div><div><strong>'+(m.model||'Laser Cutter')+' #'+m.id+'</strong><div class="sub">Floor '+(m.tileX+1)+','+(m.tileY+1)+' · Condition '+Math.round(m.condition)+'%</div></div></div><div class="right"><button class="btn minor ghost" data-maintain="'+m.id+'" '+(m.condition>=99?'disabled':'')+'>Repair RM850</button></div></div>').join('');
+    document.getElementById('machineList').innerHTML=state.machines.map(m=>{
+      const laser=m.type==='LASER',days=laser?Math.max(0,365-(m.laserOperatingDays||0)):null;
+      return '<div class="machine"><div class="left"><div class="iconbox">'+(laser?'⚡':'🏭')+'</div><div><strong>'+(m.model||(laser?'Fiber Laser 3015':'Starter VMC-760'))+' #'+m.id+'</strong><div class="sub">Floor '+(m.tileX+1)+','+(m.tileY+1)+' · Condition '+Math.round(m.condition)+'%'+(laser?' · Service in '+days+' operating days':'')+'</div></div></div><div class="right"><button class="btn minor ghost" data-maintain="'+m.id+'" '+(m.condition>=99?'disabled':'')+'>Service RM850</button></div></div>';
+    }).join('');
     document.querySelectorAll('[data-buy]').forEach(b=>{
-      const type=b.dataset.buy;
-      const card=b.closest('.buycard'),price=pricing[type];
-      const costEl=card.querySelector('.cost');
+      const type=b.dataset.buy,card=b.closest('.buycard'),price=pricing[type],costEl=card.querySelector('.cost');
       if(costEl)costEl.textContent=F(price);
       const descEl=card.querySelector('.desc');
-      if(descEl)descEl.textContent=type==='CNC'?'Original unbranded Starter VMC-760 · select a floor location after purchase.':'Laser cutter (prototype) · select a floor location after purchase.';
+      if(descEl)descEl.textContent=type==='CNC'?'Original unbranded Starter VMC-760; 2 × 2 tiles.':'Open-bed 3015 fiber laser; 3 × 2 tiles; 365 operating-day major service interval.';
       b.textContent='Place '+(type==='CNC'?'VMC':'laser');
       b.disabled=state.cash<price||state.machines.length>=10;
     });
@@ -190,18 +228,19 @@
     const x=Math.floor((dx+dy)/2),y=Math.floor((dy-dx)/2);
     if(x<0||x>=8||y<0||y>=6){toast('Tap inside the factory floor');return;}
     if(purchaseMode||moveMode){
-      if(!valid(x,y,moveMode?chosenId:null)){selectedTile=[x,y];draw();toast('That area is blocked or too close to the workshop edge');return;}
+      if(!valid(x,y,moveMode?chosenId:null,purchaseMode)){selectedTile=[x,y];draw();toast('That area is blocked or too close to the workshop edge');return;}
       if(moveMode){
         const m=state.machines.find(v=>v.id===chosenId);if(!m){moveMode=false;render();return;}
         m.tileX=x;m.tileY=y;moveMode=false;selectedTile=null;log('Relocated '+(m.model||'machine')+' to floor '+(x+1)+','+(y+1));toast('Machine moved — layout saved');update();return;
       }
       const type=purchaseMode,price=pricing[type];if(state.cash<price){purchaseMode=null;toast('Insufficient cash');render();return;}
       state.cash-=price;state.totalCapex+=price;
-      const m={id:state.nextId++,type,condition:100,tileX:x,tileY:y,model:type==='CNC'?'Starter VMC-760':'Prototype Laser Cutter'};
+      const m={id:state.nextId++,type,condition:100,tileX:x,tileY:y,model:type==='CNC'?'Starter VMC-760':'Fiber Laser 3015'};
+      if(type==='LASER'){m.laserOperatingDays=0;m.laserServiceWarningIssued=false;}
       state.machines.push(m);chosenId=m.id;purchaseMode=null;selectedTile=null;
       log('Purchased and installed '+m.model+' for '+F(price));toast('Machine installed! Hire an operator to increase capacity');update();return;
     }
-    const hit=state.machines.slice().reverse().find(m=>x>=m.tileX&&x<m.tileX+2&&y>=m.tileY&&y<m.tileY+2);
+    const hit=state.machines.slice().reverse().find(m=>{const s=footprint(m.type);return x>=m.tileX&&x<m.tileX+s.w&&y>=m.tileY&&y<m.tileY+s.h;});
     chosenId=hit?hit.id:null;selectedTile=hit?null:[Math.min(x,6),Math.min(y,4)];
     render();
   }
@@ -209,7 +248,7 @@
   moveBtn.addEventListener('click',()=>{if(!state.machines.some(m=>m.id===chosenId))return;moveMode=true;purchaseMode=null;selectedTile=null;render();toast('Tap a free area for your selected machine');});
   cancelBtn.addEventListener('click',()=>{moveMode=false;purchaseMode=null;selectedTile=null;render();});
   const help=document.getElementById('helpBtn');
-  help.onclick=()=>alert('FACTORY EMPIRE v0.2\n\nTap a machine in the factory to inspect it.\nTap MOVE SELECTED, then tap a free 2 × 2 section to reposition it.\nTo buy equipment, open Equipment and tap Place VMC / Place laser, then tap an empty area. In-game money is charged ONLY when placed.\n\nThe starter workshop includes ONE free VMC, and moving it is free.\n\nAdvance days to run production; accept RFQs from New RFQs.\n\nThis is an early 2D browser game; no real money, advertising, or payments are implemented.');
+  help.onclick=()=>alert('FACTORY EMPIRE v0.2.3\n\nTap a machine in the factory to inspect it.\nTap MOVE SELECTED, then tap an empty area (VMC 2 × 2; Laser 3 × 2).\nTo buy equipment, open Equipment and tap Place VMC / Place laser, then tap an empty area. In-game money is charged ONLY when placed.\n\nThe starter workshop includes ONE free VMC, and moving it is free.\nThe fiber laser costs RM150,000 in-game and receives major service after 365 operating days.\n\nAdvance days to run production; accept RFQs from New RFQs.\n\nThis is an early 2D browser game; no real money, advertising, or payments are implemented.');
   ensureLayout();
   render();
 })();
