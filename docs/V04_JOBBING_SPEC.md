@@ -61,12 +61,59 @@
 - Proposed (not confirmed) knobs for initial balance testing: 10–20% stock buffer of common materials, 10–15% available machine capacity reserved for urgent work, hot-job price premium negotiated according to urgency/profitability.
 - Suggested gameplay trigger: low-frequency, optional event, with visibly higher margin, a clear due-date countdown and potential reputation damage for missing delivery. No forced microtransaction.
 
+### 3. Weekend overtime, fatigue and the first worker
+
+**Owner-confirmed design inputs:**
+- Saturday and Sunday are normally non-production days. The player can **offer overtime** to run machines on either/both days when a four-calendar-day hot job or late customer order warrants it.
+- **Weekend overtime wages are double the ordinary day rate** for each worker who accepts the requested Saturday or Sunday shift. This is a wage multiplier, not a 2× production speed multiplier.
+- The first (and eventually all) workers are people, not tireless automatic production units: **four consecutive weeks of weekend overtime is too much. A worker must refuse further weekend overtime until rested.**
+- Track overtime/rest **per worker**, not just at workshop level. A second operator does not bypass the first employee's fatigue.
+- Two-shift staffing rules also apply on weekends: two separate available consenting workers are needed for a machine to run two staffed weekend shifts.
+- Weekend production must be explicitly authorized, staffed, costed and shown on the Gantt. Do not quietly enable weekend work every time a deadline is near. A customer deadline still counts all calendar days regardless of whether workers accept overtime.
+- Worker unhappiness/fatigue should be visible before authorizing weekend overtime, with a warning that repeated weekends may make urgent promises impossible.
+
+**Implementation interpretation to confirm:** Treat "four weeks straight" as four consecutive *weekends with accepted overtime*, and decline the next weekend until at least one full weekend off. Confirm whether the worker instead refuses the fourth weekend, and whether a single Saturday OR Sunday counts as an overtime weekend. Do not silently fix a numeric morale penalty, recovery time, resignation probability or weekday overtime multiplier.
+
+**Proposed UI:** operator list with morale/fatigue warning ("Third consecutive weekend worked; next weekend may be refused"), weekend staffing requests, overtime payroll estimate and highlighted weekend capacity in Gantt.
+
+### 4. Individual customer relationships & account network
+
+**Owner-confirmed design inputs:**
+- **Every new customer relationship starts at exactly 40%**, tracked **per customer**, separate from the existing factory-wide reputation metric.
+- **On-time delivery increases that customer's happiness/relationship score.** Late delivery **reduces customer relationship** and triggers a **late-delivery penalty**.
+- A **mad/unhappy customer** offers **low-volume jobs at cheap selling prices** (weaker commercial terms). The player must either accept these poor offers to rebuild the relationship or deliberately seek other customers.
+- A **green/happy customer** offers **better selling prices and growing order quantities**. Good service should translate into tangible repeat-business rewards, not just cosmetic points.
+- Customer score visibly changes between a **bad/red state and happy/green state**, with appropriate neutral/intermediate signals. Show numerical percentage and explain why it changed.
+- Use a **visual customer-account relationship graph** inspired by the owner's reference image: each account is a round customer-logo icon with a colored relationship ring, and connections indicate business relationship/referrals if that system is added later.
+- Icons should be **original fictional customer logos or licensed artwork**, not copied proprietary logos. Use unique icons and accessibility labels; don't rely solely on red/green color.
+- Give the customer relationship system its own main-page view, analogous to **Production View / Gantt Chart View** (placement and final navigation design to be tested), instead of squeezing a graph into the narrow orders sidebar.
+
+**Proposed UI mock flow (not built):**
+- Factory dashboard → **Customer Network** → select an account's icon → inspect score (starting 40%), delivery history, offer quality, order-volume trend and active quote opportunities.
+- A successful on-time shipment makes the customer's relationship ring greener and improves future opportunities.
+- A missed delivery makes the ring redder; show exactly why terms worsened and display any agreed monetary delivery penalty.
+- Network should work on phones: large tap targets, simple pan/zoom or scrolling and list-mode accessibility fallback.
+
+**Economy integration and cautions:**
+- The current prototype already has a global `state.reputation` and a simplified late-invoice deduction. The per-customer relationship score is an **additional distinct data field**, not a replacement for factory reputation. Make scoring and cash penalties clear and avoid applying the same fee twice.
+- Per-customer values should be persisted under stable fictional account IDs; migrate earlier local saves to initialize existing customers to **40% without deleting orders, outstanding invoices or cash**.
+- Apply price/volume effects to **new offers**, not existing signed POs or previously committed invoice prices.
+- Don't make poor relationships permanently unwinnable; preserve a feasible recovery path through reliable small orders.
+- Make stock, capability gates and available machine hours apply even when a customer turns green and raises volume.
+
+**Balancing decisions still pending (proposals only, not confirmed rules):**
+- Relationship score increments on on-time shipment, decrements on late shipment, caps and tiers.
+- Whether the late-delivery penalty is a fixed charge, per-day percentage discount, or both; how it relates to the existing simplified late-invoice penalty and global reputation decline.
+- Price/volume multipliers associated with red/neutral/green status.
+- Whether referrers/suppliers/dealers become nodes in the graph or customer nodes only.
+- Relationship recovery mechanism other than delivery success, e.g. honest updates or choosing a low-margin recovery job.
+
 ## Proposed v0.4 implementation order (not yet committed to gameplay)
 1. **Capability and award checks:** tapping RFQ blocked without tapping station; polishing staff gating; visually clear missing-resource notices and required process routing.
-2. **Real staffing and cash-out:** 2 shifts need 2 people per simultaneously staffed machine, monthly rental escalator and per-CNC electricity invoices; remove legacy utility double charges.
+2. **Real staffing, overtime and cash-out:** 2 shifts need 2 people per simultaneously staffed machine; optional Saturday/Sunday overtime costs 2× ordinary wages per consenting worker, with fatigue and refusal after four consecutive overtime weekends (precise boundary TBD); monthly rental escalator and per-CNC electricity invoices; remove legacy utility double charges.
 3. **Wirecut subcontract:** pay process fee, wait 2 working days, show it in Gantt, and prevent premature delivery.
 4. **Hot-job events:** occasional, strict **4-calendar-day** customer deadline, optional material-stock buffer and free-capacity strategy; feasibility first, lucrative but risky margin.
-5. **Balancing and mobile playtesting:** make the player value their first tapping machine and polishing employee; keep sheet metal locked until appropriate progression.
+5. **Customer relationship network and late-delivery consequences:** per-customer relationship starting at 40%; colored fictional customer-logo graph, on-time rewards, late-delivery relationship and cash penalties, price/volume changes on future RFQs. **Then mobile playtesting** of meaningful trade-offs; keep sheet metal locked until appropriate progression.
 
 ## Later unlocks
 - v0.5: deeper process costing, polishing work-in-process, QA/surface finishing/packing.
@@ -81,9 +128,11 @@
 - Is rent RM800/month and does power scale with machines owned or machines operated?
 - Exact sheet-metal unlock conditions (e.g., CNC jobs delivered, company reputation and investment milestones). These are not to be invented during implementation.
 - Confirm a single time/calendar standard for rent escalation, holiday skips, monthly electricity and 365-operating-day machine service.
+- Confirm whether the **fourth** overtime weekend is refused or refusal starts with the **fifth**, and whether Saturday or Sunday alone counts toward consecutive weekends.
+- Decide per-customer on-time/late point changes and low/high relationship offer tiers; determine late-delivery cash-penalty calculation without duplicate penalties.
 
 ## Critical compatibility note
-The v0.3.4 code currently charges daily overhead/utilities, permits two shifts with insufficient staffing, and exposes a laser purchase. These are **known differences** between existing prototype behavior and the new owner-approved *design*; this document alone does not change gameplay. They must be deliberately replaced in a versioned update with save migration tests.
+The v0.3.4 code currently charges daily overhead/utilities, permits two shifts with insufficient staffing, has no weekend overtime or worker-fatigue consent system, uses only aggregate reputation rather than per-customer 40% scores, and exposes a laser purchase. These are **known differences** between existing prototype behavior and the new owner-approved *design*; this document alone does not change gameplay. They must be deliberately replaced in a versioned update with save migration tests.
 
 ## Definition of done for the first playable slice
 - New tap-required RFQ can't be accepted without the tap machine, with explicit explanation.
@@ -91,5 +140,7 @@ The v0.3.4 code currently charges daily overhead/utilities, permits two shifts w
 - No 2-shift production uplift without a second operator on that machine.
 - Rent/power expenses appear monthly at the defined rate and are not double-charged.
 - Wirecut appears as a timed outsourced process in the Gantt before shipment.
-- Hot jobs check material and free machine hours before award; use a 4-calendar-day countdown, while procurement, programming, and wirecut still advance in working days. A weekend can make an otherwise attractive urgent order infeasible.
+- Hot jobs check material and free machine hours before award; use a 4-calendar-day countdown, while procurement, programming, and wirecut normally advance in working days. Weekend production must explicitly request and pay consenting operators 2× wages; fatigue can prevent weekend staffing.
+- Existing and new customers initialize individual relationship scores to 40%; on-time fulfillment improves the correct account, late fulfillment hurts it and applies the agreed penalty. Subsequent RFQs vary in price and quantity accordingly.
+- Customer account network uses original logo/icon nodes and visually shows relationship state without copying a proprietary game's interface.
 - Old local saves, machines, customer orders and cash balances survive upgrading.
