@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="420" viewBox="0 0 480 420">
+<defs>
+<linearGradient id="front" x2=".92" y2="1"><stop stop-color="#edf0ef"/><stop offset=".48" stop-color="#b8c4c9"/><stop offset="1" stop-color="#7f9098"/></linearGradient>
+<linearGradient id="door" x2="1" y2="1"><stop stop-color="#394a56"/><stop offset=".55" stop-color="#17242e"/><stop offset="1" stop-color="#0c1b27"/></linearGradient>
+<linearGradient id="side" x2="1" y2="1"><stop stop-color="#a5b3bb"/><stop offset=".62" stop-color="#65727c"/><stop offset="1" stop-color="#485862"/></linearGradient>
+<linearGradient id="base" x2=".1" y2="1"><stop stop-color="#535d65"/><stop offset="1" stop-color="#222b33"/></linearGradient>
+<linearGradient id="tower" x2="1" y2=".8"><stop stop-color="#d9e0e2"/><stop offset="1" stop-color="#677981"/></linearGradient>
+<filter id="shadow"><feGaussianBlur stdDeviation="11"/></filter>
+<clipPath id="pane1"><path d="M99 182L174 178V280L99 287Z"/></clipPath>
+<clipPath id="pane2"><path d="M190 176L267 170V277L190 281Z"/></clipPath>
+</defs>
+<!-- Original fictional 3/4 view vertical machining centre, no third-party logos -->
+<ellipse cx="250" cy="359" rx="195" ry="28" fill="#02070c" opacity=".30" filter="url(#shadow)"/>
+<path d="M225 83L290 78L321 96V187L248 186L225 170Z" fill="url(#tower)" stroke="#67777f" stroke-width="2"/>
+<path d="M225 83L255 70L323 86L290 78Z" fill="#f2f4f3"/>
+<path d="M255 70L323 86V160L292 171L290 78Z" fill="#82939a"/>
+<path d="M242 92H248V144L242 145Z" fill="#e7a05a" opacity=".65"/>
+<path d="M374 101H380V138H374Z" fill="#28343e"/>
+<path d="M372 100H382V111H372Z" fill="#57d19d"/>
+<path d="M372 111H382V122H372Z" fill="#f3bb4b"/>
+<path d="M372 122H382V133H372Z" fill="#dd6460"/>
+<path d="M371 98H383L381 94H373Z" fill="#202c32"/>
+<path d="M61 156L314 140L404 105L157 126Z" fill="#e3e7e5" stroke="#adbac0" stroke-width="2"/>
+<path d="M314 140L404 105L416 302L324 321Z" fill="url(#side)" stroke="#576772" stroke-width="2"/>
+<path d="M61 156L314 140L324 321L63 335Z" fill="url(#front)" stroke="#697a85" stroke-width="2"/>
+<path d="M348 156L392 143L399 229L353 243Z" fill="#b6c0c2" stroke="#7d8b91"/>
+<path d="M356 174L387 165L391 215L359 224Z" fill="#3d4b51"/>
+<path d="M359 184L385 177" stroke="#192a30" stroke-width="4"/>
+<path d="M359.5 194L385.6 187" stroke="#192a30" stroke-width="4"/>
+<path d="M360 204L386.2 197" stroke="#192a30" stroke-width="4"/>
+<path d="M360.5 214L386.8 207" stroke="#192a30" stroke-width="4"/>
+<path d="M346 260L402 243L403 270L348 287Z" fill="#9dabb0" stroke="#64777c"/>
+<path d="M67 156L313 140V164L67 179Z" fill="#dfe4e1" stroke="#889aa3"/>
+<path d="M83 179L277 168L284 292L84 306Z" fill="#47545e" stroke="#9ba9ad" stroke-width="2"/>
+<path d="M91 185L179 180V290L92 299Z" fill="url(#door)" stroke="#1b2b33" stroke-width="3"/>
+<path d="M186 179L272 174L275 285L186 290Z" fill="url(#door)" stroke="#1b2b33" stroke-width="3"/>
+<g clip-path="url(#pane1)" opacity=".45" stroke="#8299a2" stroke-width="1.7">
+<path d="M105 164V300"/>
+<path d="M116 164V300"/>
+<path d="M127 164V300"/>
+<path d="M138 164V300"/>
+<path d="M149 164V300"/>
+<path d="M160 164V300"/>
+<path d="M171 164V300"/>
+<path d="M90 191H178"/>
+<path d="M90 206H178"/>
+<path d="M90 221H178"/>
+<path d="M90 236H178"/>
+<path d="M90 251H178"/>
+<path d="M90 266H178"/>
+<path d="M90 281H178"/>
+</g>
+<g clip-path="url(#pane2)" opacity=".45" stroke="#8299a2" stroke-width="1.7">
+<path d="M195 164V300"/>
+<path d="M206 164V300"/>
+<path d="M217 164V300"/>
+<path d="M228 164V300"/>
+<path d="M239 164V300"/>
+<path d="M250 164V300"/>
+<path d="M261 164V300"/>
+<path d="M182 188H278"/>
+<path d="M182 203H278"/>
+<path d="M182 218H278"/>
+<path d="M182 233H278"/>
+<path d="M182 248H278"/>
+<path d="M182 263H278"/>
+<path d="M182 278H278"/>
+</g>
+<path d="M91 185L179 180" stroke="#c1e8f5" stroke-width="2" opacity=".65"/><path d="M186 179L272 174" stroke="#d3e9ed" stroke-width="2" opacity=".55"/>
+<rect x="174" y="207" width="5" height="55" rx="2" fill="#c4cccf" stroke="#75868b"/>
+<rect x="186" y="205" width="5" height="55" rx="2" fill="#d6dedf" stroke="#71838c"/>
+<path d="M285 151L328 148L335 309L290 312Z" fill="#c8d0d2" stroke="#697982" stroke-width="2"/>
+<path d="M294 170L322 169L325 219L296 222Z" fill="#293740" stroke="#758c94"/>
+<path d="M299 180L319 179L319 205L300 207Z" fill="#458b9c"/>
+<path d="M302 183L316 182" stroke="#b9e2d6" stroke-width="2"/>
+<path d="M303 190L314 189M303 196L314 195" stroke="#74b9a4" stroke-width="1.3"/>
+<path d="M298 230L324 229L326 287L301 288Z" fill="#556771" stroke="#7e9098"/>
+<circle cx="303" cy="236" r="2" fill="#c4d1d3"/>
+<circle cx="312" cy="236" r="2" fill="#c4d1d3"/>
+<circle cx="321" cy="236" r="2" fill="#c4d1d3"/>
+<circle cx="303" cy="245" r="2" fill="#c4d1d3"/>
+<circle cx="312" cy="245" r="2" fill="#c4d1d3"/>
+<circle cx="321" cy="245" r="2" fill="#c4d1d3"/>
+<circle cx="303" cy="254" r="2" fill="#c4d1d3"/>
+<circle cx="312" cy="254" r="2" fill="#c4d1d3"/>
+<circle cx="321" cy="254" r="2" fill="#c4d1d3"/>
+<circle cx="303" cy="263" r="2" fill="#c4d1d3"/>
+<circle cx="312" cy="263" r="2" fill="#c4d1d3"/>
+<circle cx="321" cy="263" r="2" fill="#c4d1d3"/>
+<circle cx="309" cy="277" r="6" fill="#bf745e" stroke="#e6e6dd" stroke-width="2"/>
+<path d="M53 320L326 307L422 289L410 335L330 353L63 369Z" fill="url(#base)" stroke="#1d2d35" stroke-width="2"/>
+<path d="M53 320L326 307L330 353L63 369Z" fill="#3e4b55" stroke="#202c34" stroke-width="2"/>
+<path d="M326 307L422 289L410 335L330 353Z" fill="#2f3e49" stroke="#202b33" stroke-width="2"/>
+<path d="M63 347L322 331" stroke="#839098" stroke-width="3" opacity=".55"/>
+<path d="M411 333L443 317L454 322L424 341Z" fill="#1e2833"/><path d="M413 329L442 317L447 321L416 336Z" fill="#657782"/>
+<path d="M78 366H88L87 382H79Z M308 355H316L315 370L309 371Z M400 334H407L406 349L400 350Z" fill="#202b33"/>
+<path d="M72 383H94M301 372H323M395 350H414" stroke="#18242d" stroke-width="5" stroke-linecap="round"/>
+<path d="M74 162L128 159V174L74 176Z" fill="#3c5969"/>
+<text x="80" y="171" font-family="Arial,sans-serif" font-size="10" fill="#f0f5f4" font-weight="700">VMC-760</text>
+</svg>
