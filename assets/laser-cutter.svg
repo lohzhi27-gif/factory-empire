@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="840" height="440" role="img" aria-labelledby="title desc">
+<title id="title">Original open-bed fiber laser sheet cutter</title>
+<desc id="desc">Long black slat cutting table, gray and white chassis, orange overhead bridge and cutting head, separate console, unbranded fictional industrial equipment</desc>
+<defs>
+<linearGradient id="wall" x1="0" x2="1" y1=".2" y2=".9"><stop stop-color="#dce4e8"/><stop offset=".5" stop-color="#f6faf9"/><stop offset="1" stop-color="#96a6af"/></linearGradient>
+<linearGradient id="front" x1="0" x2=".8" y1="0" y2="1"><stop stop-color="#606a72"/><stop offset="1" stop-color="#343f49"/></linearGradient>
+<linearGradient id="orange" x1="0" x2=".8" y1="0" y2="1"><stop stop-color="#f98b3f"/><stop offset="1" stop-color="#bb422b"/></linearGradient>
+<linearGradient id="bed" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#202c34"/><stop offset="1" stop-color="#0b141c"/></linearGradient>
+<linearGradient id="monitor" x1="0" x2="1"><stop stop-color="#163847"/><stop offset="1" stop-color="#090f19"/></linearGradient>
+<filter id="drop" x="-25%" y="-80%" width="155%" height="240%"><feGaussianBlur stdDeviation="12"/></filter>
+<clipPath id="tableClip"><path d="M110 196L508 247L639 191L240 139Z"/></clipPath>
+</defs>
+<!-- Entire asset created from original vectors: no photo, trademark, or imported brand art. -->
+<ellipse cx="399" cy="348" rx="325" ry="28" fill="#04101c" opacity=".25" filter="url(#drop)"/>
+<!-- under-frame and feet -->
+<path d="M68 205L534 264L682 206L681 285L535 365L68 295Z" fill="url(#front)" stroke="#1b2b35" stroke-width="3"/>
+<path d="M68 205L534 264L535 365L68 295Z" fill="#4b575f" stroke="#344550" stroke-width="2"/>
+<path d="M534 264L682 206L681 285L535 365Z" fill="#63717b" stroke="#3e535e" stroke-width="2"/>
+<path d="M68 284L535 354L681 274" fill="none" stroke="#202c34" stroke-width="11"/>
+<path d="M85 300l20 3-3 21-17-2zM275 330l21 4-2 19-19-3zM506 361l24-6 2 18-23 6zM646 290l17-9 3 19-19 10z" fill="#243039"/>
+<!-- white enclosure skirt -->
+<path d="M68 205L534 264L534 295L68 236Z" fill="url(#wall)" stroke="#a5b0b6" stroke-width="2"/>
+<path d="M534 264L682 206L682 237L534 295Z" fill="#e6edf0" stroke="#9cabb4" stroke-width="2"/>
+<path d="M69 224L534 283" stroke="#e3774c" stroke-width="6"/>
+<path d="M534 281L681 223" stroke="#e3774c" stroke-width="4"/>
+<!-- upper table safety frame -->
+<path d="M66 197L235 125L690 190L539 267Z" fill="#d7e3e7" stroke="#607781" stroke-width="3"/>
+<path d="M96 195L233 142L652 194L518 245Z" fill="#101b25" stroke="#283f4a" stroke-width="5"/>
+<path d="M110 196L240 139L639 191L508 247Z" fill="url(#bed)" stroke="#030c12" stroke-width="3"/>
+<g clip-path="url(#tableClip)">
+<path d="M83 119L231 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M98 119L246 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M113 119L261 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M128 119L276 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M143 119L291 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M158 119L306 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M173 119L321 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M188 119L336 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M203 119L351 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M218 119L366 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M233 119L381 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M248 119L396 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M263 119L411 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M278 119L426 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M293 119L441 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M308 119L456 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M323 119L471 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M338 119L486 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M353 119L501 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M368 119L516 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M383 119L531 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M398 119L546 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M413 119L561 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M428 119L576 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M443 119L591 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M458 119L606 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M473 119L621 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M488 119L636 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M503 119L651 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M518 119L666 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M533 119L681 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M548 119L696 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M563 119L711 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M578 119L726 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M593 119L741 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M608 119L756 291" stroke="#43525a" stroke-width="3" opacity=".7"/>
+<path d="M72 155L697 237" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 167L697 249" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 179L697 261" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 191L697 273" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 203L697 285" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 215L697 297" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 227L697 309" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 239L697 321" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 251L697 333" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+<path d="M72 263L697 345" stroke="#1b303e" stroke-width="1.1" opacity=".65"/>
+</g>
+<!-- orange support beam above the bed -->
+<path d="M233 106L252 100L254 213L230 207Z" fill="#ab4930"/>
+<path d="M231 113L278 100L277 169L230 178Z" fill="#c6532f"/>
+<path d="M247 109L485 143L483 165L246 131Z" fill="#c35634" stroke="#9d4128" stroke-width="2"/>
+<path d="M246 99L484 134L485 147L248 113Z" fill="#f5a16b" stroke="#bb4d2f"/>
+<path d="M252 129L482 163L482 180L252 149Z" fill="#ed6c38"/>
+<path d="M480 139L511 145L516 206L481 201Z" fill="#c85b35" stroke="#993c29"/>
+<path d="M486 151L512 154L510 180L483 176Z" fill="#eef2ef"/>
+<!-- bridge rails -->
+<path d="M173 158L588 216" stroke="#364650" stroke-width="12" stroke-linecap="round"/>
+<path d="M173 154L588 212" stroke="#d4dad7" stroke-width="4"/>
+<!-- cutting gantry head: suspended white carriage & orange accent -->
+<path d="M341 104L394 111L398 183L343 179Z" fill="#e7ecee" stroke="#8a9da7" stroke-width="2"/>
+<path d="M341 105L363 97L416 105L394 112Z" fill="#f7f9f5"/>
+<path d="M393 112L416 105L416 173L398 183Z" fill="#c2d1d5"/>
+<path d="M360 165L380 168L379 201L360 198Z" fill="#d1e0e3"/>
+<path d="M360 196L379 198L374 220L362 219Z" fill="#333f44"/>
+<path d="M365 219L371 219L370 238L366 238Z" fill="#9fabb5"/>
+<path d="M366 239L370 239L367 248Z" fill="#f7d09a"/>
+<path d="M345 150L353 150L352 178L345 177Z" fill="#e87545"/>
+<!-- thick black segmented cable route -->
+<path d="M197 143C173 91 193 58 231 58C265 58 282 86 284 111" fill="none" stroke="#18252e" stroke-width="18" stroke-linecap="round"/>
+<path d="M197 143C173 91 193 58 231 58C265 58 282 86 284 111" fill="none" stroke="#45535d" stroke-width="12" stroke-dasharray="3 5" stroke-linecap="butt"/>
+<path d="M279 113L339 119" stroke="#263743" stroke-width="15" stroke-linecap="round"/>
+<path d="M279 113L339 119" stroke="#65757f" stroke-width="4" stroke-dasharray="5 6"/>
+<!-- deck details, labels, small warning signs (not manufacturer marks) -->
+<path d="M99 239l34 5-2 31-33-4Z" fill="#eef0ec" stroke="#9aa9b0"/>
+<path d="M111 246l7 2-4 9Z" fill="#f2bd51" stroke="#bb8430"/><path d="M104 266l21 3" stroke="#798d94" stroke-width="2"/>
+<path d="M440 294l65 8-1 32-65-8Z" fill="#e1e6e5" stroke="#8799a3"/>
+<path d="M454 305l26 4" stroke="#d36a45" stroke-width="2"/><path d="M454 313l34 4" stroke="#9baeb8" stroke-width="2"/>
+<!-- integrated head cover rail and bed lip -->
+<path d="M67 195L537 262L690 193" fill="none" stroke="#f6f7f2" stroke-width="7"/>
+<path d="M67 198L537 266L690 197" fill="none" stroke="#768994" stroke-width="2"/>
+<!-- separate console base, stand, mount, monitor -->
+<ellipse cx="730" cy="345" rx="60" ry="12" fill="#071421" opacity=".18"/>
+<path d="M730 248L737 246L742 337L735 339Z" fill="#7e8f98"/>
+<path d="M734 335l23 2-2 9-23-2-19-4-27 2v-6Z" fill="#43535f"/>
+<path d="M684 147L773 154L777 231L688 224Z" fill="#d8e2e3" stroke="#607785" stroke-width="3"/>
+<path d="M688 152L766 158L768 205L691 199Z" fill="url(#monitor)" stroke="#536a77" stroke-width="2"/>
+<path d="M699 164L749 168" stroke="#6fcbbd" stroke-width="3" opacity=".7"/>
+<path d="M699 176L725 179M699 185L739 188M699 193L714 194" stroke="#74929e" stroke-width="2"/>
+<path d="M688 212L774 218L775 230L689 225Z" fill="#f1f4ef"/>
+<circle cx="709" cy="219" r="3.2" fill="#da684c"/><circle cx="722" cy="219" r="3" fill="#6dba9b"/>
+<path d="M736 220L761 221" stroke="#6e8493" stroke-width="2"/>
+<path d="M735 234L755 245L748 248L728 239Z" fill="#9daab3"/>
+</svg>
