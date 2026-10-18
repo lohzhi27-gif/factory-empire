@@ -61,20 +61,65 @@
 - Proposed (not confirmed) knobs for initial balance testing: 10–20% stock buffer of common materials, 10–15% available machine capacity reserved for urgent work, hot-job price premium negotiated according to urgency/profitability.
 - Suggested gameplay trigger: low-frequency, optional event, with visibly higher margin, a clear due-date countdown and potential reputation damage for missing delivery. No forced microtransaction.
 
-### 3. Weekend overtime, fatigue and the first worker
+### 3. Employee wellbeing, weekend overtime and attrition
 
-**Owner-confirmed design inputs:**
-- Saturday and Sunday are normally non-production days. The player can **offer overtime** to run machines on either/both days when a four-calendar-day hot job or late customer order warrants it.
-- **Weekend overtime wages are double the ordinary day rate** for each worker who accepts the requested Saturday or Sunday shift. This is a wage multiplier, not a 2× production speed multiplier.
-- The first (and eventually all) workers are people, not tireless automatic production units: **four consecutive weeks of weekend overtime is too much. A worker must refuse further weekend overtime until rested.**
-- Track overtime/rest **per worker**, not just at workshop level. A second operator does not bypass the first employee's fatigue.
-- Two-shift staffing rules also apply on weekends: two separate available consenting workers are needed for a machine to run two staffed weekend shifts.
-- Weekend production must be explicitly authorized, staffed, costed and shown on the Gantt. Do not quietly enable weekend work every time a deadline is near. A customer deadline still counts all calendar days regardless of whether workers accept overtime.
-- Worker unhappiness/fatigue should be visible before authorizing weekend overtime, with a warning that repeated weekends may make urgent promises impossible.
+**Owner-confirmed rules (replaces the earlier four-week refusal idea):**
+- Ordinary production operates weekdays. Weekend overtime is **optional**, only when the player authorizes it and the worker agrees.
+- **Saturday overtime and Sunday overtime wages = 2× ordinary wage per employee for each day worked**, not a 2× machining speed bonus.
+- The workshop starts with **one original employee**; each employee has a visible **happiness / fatigue meter**, tracked separately from their manufacturing skill.
+- **Three consecutive weekends with overtime cause that employee to pack up and leave the factory (quit)**. This is **resignation at the third consecutive worked weekend**, **not** refusal of a fourth or fifth weekend. Show a very clear warning when scheduling the second and especially the third consecutive overtime weekend.
+- Quitting removes that specific worker from available shift staffing and future production capacity. Player must **hire a replacement and train the new minion**. Existing machine, inventory, orders, and cash persist; do not automatically grant a replacement.
+- Weekend overtime does **not** extend the customer's hot-job due date. A four-calendar-day hot job can become unachievable when the worker leaves.
+- Every active shift still needs a distinct qualified worker. A single worker cannot be counted twice across the same day or both shifts; an overworked worker quitting mid-plan should invalidate unstaffed future production estimates.
 
-**Implementation interpretation to confirm:** Treat "four weeks straight" as four consecutive *weekends with accepted overtime*, and decline the next weekend until at least one full weekend off. Confirm whether the worker instead refuses the fourth weekend, and whether a single Saturday OR Sunday counts as an overtime weekend. Do not silently fix a numeric morale penalty, recovery time, resignation probability or weekday overtime multiplier.
+**Working prototype interpretation to verify (not separately owner-confirmed):**
+- Count a weekend as worked if a given employee works on **Saturday, Sunday or both**. A completely free weekend resets the **consecutive overtime weekend streak**; it also allows morale to recover.
+- Quitting occurs immediately after that employee finishes their third successive overtime weekend (or last assigned overtime shift that weekend), so wages and any actual completed production are still accounted for correctly.
+- Show morale/fatigue as an explanatory warning meter; the **three-weekend streak is the deterministic quit trigger**. Avoid an undocumented random resignation roll.
+- Any recovery rate and the numeric effects of weekend work on happiness are **proposed balancing values**, not approved numbers.
 
-**Proposed UI:** operator list with morale/fatigue warning ("Third consecutive weekend worked; next weekend may be refused"), weekend staffing requests, overtime payroll estimate and highlighted weekend capacity in Gantt.
+**Example employee panel:**
+```text
+MINION #001 · Operator
+Skill:      40%  ▰▰▱▱▱▱▱▱
+Happiness:  70%  ▰▰▰▰▰▱▱▱  (illustrative only)
+Weekend OT: 2 / 3 consecutive weekends
+WARNING: A third consecutive overtime weekend will cause resignation.
+```
+
+### 3.1 Operator skill training and replacement
+
+**Owner-confirmed rules:**
+- Every **new hire starts at 40% operator skill**. This is an employee's individual skill, **not** the customer's separate 40%-starting relationship score.
+- A minion is considered **fully mastered at 80% skill**, reached through production experience over **approximately two in-game months** of regular work; not instantly upon hiring.
+- Jobs and real productive experience increase the assigned operator's skill, while training a replacement consumes time and introduces risk.
+- Skill must connect to realistic outcomes, particularly **defect rates, throughput and ability to run jobs safely**. High skill should be valuable enough that losing a long-trained employee matters.
+
+**Proposed skill progression for testing (assistant balancing suggestion, not yet confirmed):**
+- Start: **40.0% skill**; initial mastery cap **80.0%**.
+- Earn **+0.75 percentage points for each productive weekday/shift day** actually operating or training on a machine.
+- Earn **+1.0 percentage point when a distinct customer production job is successfully completed** by that worker (only if they meaningfully participated; no XP farming by accepting/cancelling or splitting zero-work orders).
+- Expected result: 44 productive workdays over approximately two normal working months plus about 7 completed jobs gives **40 + (44 × 0.75) + (7 × 1) = 80%**. Cap at 80% for the prototype.
+- Training progress stops while the employee is absent or resigned, and each replacement starts again from 40%; production cannot take place in an unstaffed shift.
+- Future balance testing should adjust XP by job difficulty and actual worker-hours, with a daily XP cap to prevent spamming tiny jobs.
+
+**Suggested transparency:** Show skill change after each completed job, e.g. `Operator #002 mastered +1.0% (52.8% → 53.8%)`, and project an approximate mastery date based on recent productive activity.
+
+### 3.2 Defective-part penalties & quality learning loop
+
+**Owner-confirmed addition:** Defective parts must cause a meaningful **gameplay and financial penalty**; they cannot disappear from the balance sheet without consequences.
+
+**Proposed distinction (exact amounts pending balancing):**
+1. **Internal QC failure / scrap:** an unusable part consumes the **material and machine time already used** and needs a replacement if the order quantity is still outstanding. Show scrap quantity, estimated scrap cost and rescheduling risk on the job and Gantt. The current simulation already deducts raw material and counts scrapped attempts; **do not charge that same material a second time**.
+2. **Reworkable defect:** deduct additional **machine-hours, staff time and any consumables** for rework instead of automatically scrapping the entire part.
+3. **Customer-rejected defect after shipment:** display a separate **customer claim / replacement / credit** consequence, including possible return freight and a **decrease in the affected customer's relationship score**, on top of the real remake cost. Never silently apply both a commercial debit and a full duplicate scrap charge for the same item.
+4. **Skill affects quality:** low-skilled hires should initially have a higher probability of producing defects, decreasing as they approach the 80% mastery level; the effect needs careful playtesting so beginners can recover.
+5. **Quality feedback:** make rejected-piece quantity, reasons, and quality costs visible in a job summary; customer relationship penalties should only apply if a customer actually receives defective items (not merely because an internal inspector catches scrap before shipping).
+
+**Suggested balancing (not owner-confirmed):**
+- Example *additional* customer inconvenience debit: **10% of the affected defective pieces' sales value**, on top of documented replacement/shipping expense (not 10% of the entire order). Tune or remove after testing.
+- Use two quality indicators — **internal scrap** vs **customer complaint/returns** — to avoid unfairly destroying customer relations over a defect the factory caught and resolved itself.
+- Avoid unrealistic double penalties: the existing simulation already uses material and machining time for scrap and has late-delivery invoice deductions. Quality claims and delivery penalties must appear as distinct, understandable causes.
 
 ### 4. Individual customer relationships & account network
 
@@ -110,10 +155,10 @@
 
 ## Proposed v0.4 implementation order (not yet committed to gameplay)
 1. **Capability and award checks:** tapping RFQ blocked without tapping station; polishing staff gating; visually clear missing-resource notices and required process routing.
-2. **Real staffing, overtime and cash-out:** 2 shifts need 2 people per simultaneously staffed machine; optional Saturday/Sunday overtime costs 2× ordinary wages per consenting worker, with fatigue and refusal after four consecutive overtime weekends (precise boundary TBD); monthly rental escalator and per-CNC electricity invoices; remove legacy utility double charges.
+2. **Staffing, wellbeing, training and cash-out:** 2 shifts need 2 distinct people per simultaneously staffed machine; optional Saturday/Sunday overtime costs 2× wages and three consecutive worked overtime weekends trigger that employee's resignation. Introduce skill starting 40%, reaching 80% after roughly two months of productive training; hire/train replacements; add material + processing + claims costs for defects without double charging. Implement monthly rent/power and remove legacy duplicate daily utility charges.
 3. **Wirecut subcontract:** pay process fee, wait 2 working days, show it in Gantt, and prevent premature delivery.
 4. **Hot-job events:** occasional, strict **4-calendar-day** customer deadline, optional material-stock buffer and free-capacity strategy; feasibility first, lucrative but risky margin.
-5. **Customer relationship network and late-delivery consequences:** per-customer relationship starting at 40%; colored fictional customer-logo graph, on-time rewards, late-delivery relationship and cash penalties, price/volume changes on future RFQs. **Then mobile playtesting** of meaningful trade-offs; keep sheet metal locked until appropriate progression.
+5. **Customer relationship network, quality and late-delivery consequences:** per-customer relationship starting at 40%; colored fictional customer-logo graph, on-time rewards, late-delivery relationship and cash penalties, price/volume changes on future RFQs. **Then mobile playtesting** of meaningful trade-offs; keep sheet metal locked until appropriate progression.
 
 ## Later unlocks
 - v0.5: deeper process costing, polishing work-in-process, QA/surface finishing/packing.
@@ -128,16 +173,22 @@
 - Is rent RM800/month and does power scale with machines owned or machines operated?
 - Exact sheet-metal unlock conditions (e.g., CNC jobs delivered, company reputation and investment milestones). These are not to be invented during implementation.
 - Confirm a single time/calendar standard for rent escalation, holiday skips, monthly electricity and 365-operating-day machine service.
-- Confirm whether the **fourth** overtime weekend is refused or refusal starts with the **fifth**, and whether Saturday or Sunday alone counts toward consecutive weekends.
+- **Confirmed:** employee resigns after **three consecutive weekends of overtime**. For exact streak counting, confirm whether Saturday OR Sunday counts as a worked weekend and when the resignation is processed.
 - Decide per-customer on-time/late point changes and low/high relationship offer tiers; determine late-delivery cash-penalty calculation without duplicate penalties.
+- Confirm employee-skill training balancing: proposed +0.75 percentage points per productive day and +1 point per completed job, capped at 80% (~two productive months to mastery).
+- Confirm how morale meter moves on overtime/rest days and any warning thresholds; quitting is mandatory at the third consecutive weekend, not random.
+- Set quality probability vs. skill and internal rework cost basis; approve/adjust any separate post-shipment rejection debit (10% of affected defective pieces' sales value is *suggested*, not confirmed).
 
 ## Critical compatibility note
-The v0.3.4 code currently charges daily overhead/utilities, permits two shifts with insufficient staffing, has no weekend overtime or worker-fatigue consent system, uses only aggregate reputation rather than per-customer 40% scores, and exposes a laser purchase. These are **known differences** between existing prototype behavior and the new owner-approved *design*; this document alone does not change gameplay. They must be deliberately replaced in a versioned update with save migration tests.
+The v0.3.4 code currently charges daily overhead/utilities, permits two shifts with insufficient staffing, has no weekend overtime, per-worker skill/morale, overtime-triggered resignations, replacement training, post-delivery defect claims or consent system, uses only aggregate reputation rather than per-customer 40% scores, and exposes a laser purchase. These are **known differences** between existing prototype behavior and the new owner-approved *design*; this document alone does not change gameplay. They must be deliberately replaced in a versioned update with save migration tests.
 
 ## Definition of done for the first playable slice
 - New tap-required RFQ can't be accepted without the tap machine, with explicit explanation.
 - Once purchased, that specific RFQ can be accepted if all other capability checks pass.
 - No 2-shift production uplift without a second operator on that machine.
+- Each new minion begins at 40% skill, gains auditable experience from productive work and completed orders, reaches 80% mastery in approximately two months at the target workload, and is lost on resignation.
+- 2× weekend wages are charged only for staffed Saturday/Sunday overtime; after the *third successive overtime weekend* the worker quits and future shifts go unstaffed until someone is hired.
+- Defect pieces accrue material and processing loss; post-shipment quality claims are distinctly costed and reduce the correct individual customer's relationship, without duplicated loss accounting.
 - Rent/power expenses appear monthly at the defined rate and are not double-charged.
 - Wirecut appears as a timed outsourced process in the Gantt before shipment.
 - Hot jobs check material and free machine hours before award; use a 4-calendar-day countdown, while procurement, programming, and wirecut normally advance in working days. Weekend production must explicitly request and pay consenting operators 2× wages; fatigue can prevent weekend staffing.
