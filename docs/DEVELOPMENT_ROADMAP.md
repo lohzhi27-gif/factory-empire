@@ -6,6 +6,8 @@
 ## Product objective
 Test whether mobile players enjoy making manufacturing business decisions: bidding customer RFQs, controlling margins, protecting on-time delivery, buying material with lead times, hiring enough workers, coping with subcontract processes and managing working capital.
 
+The *long-term fantasy* is to build from one humble rented-room CNC to a group of factories. The *near-term test* is whether early-stage jobbing, staffing and cash-flow decisions are enjoyable.
+
 ## Completed / approved
 - **v0.1–v0.2:** original workshop prototype and touch-controlled machinery placement.
 - **v0.3–v0.3.4:** factory dashboard, material procurement queue, two-day programming before machining, and full-width Gantt with material status and PO arrivals; current approved foundation.
@@ -16,12 +18,30 @@ Test whether mobile players enjoy making manufacturing business decisions: biddi
 | Version | Focus | Proof of value |
 |---|---|---|
 | **v0.4 — Jobbing & profitability** | Tapping award restrictions, polishing staffing, **one minion tending 2–3 CNCs per shift**, shared non-overlapping changeover setups (easy 0.35h, medium 1.5h, difficult 3h), a second person covering a second shift, opt-in Sat/Sun 2× wages and resignation after 3 consecutive overtime weekends, individual minion skills (40% hire → 80% mastery over ~2 months), replacement training and defect/scrap penalties, monthly RM800 rent rising 10% every 24 months, per-CNC electricity (RM900/1 shift; RM1500/2 shifts), outsource wirecut (2 working days), 4-calendar-day hot jobs, customer relationship network beginning at 40%, on-time rewards and late penalties, price/volume consequences | Player must make meaningful trade-offs across staff wellbeing, account relationships, on-time delivery and profitability |
-| **v0.5 — Process depth** | Surface-treatment subcontract lead times + costs; QA, deburr, polishing execution, packing, delivery, proper route and capacity checks | An order follows realistic, visible multi-stage routing and reveals true manufacturing contribution |
-| **v0.6 — Progression & sheet metal** | Define and implement later unlock milestones; gate *new* laser/sheet-metal capability and jobs, add larger customers/expansion and clear progression | Player unlocks additional processes through business growth without losing earlier paid/earned machines |
+| **v0.5 — Early factory expansion & process depth (proposed)** | Shoplot progression (4–5 CNC ceiling), production planner, process engineer, entry-level equipment financing/repayments; subcontract surface treatment, basic shop-floor checks, deburr, polishing execution, packing and delivery | Player earns a bigger premises and a credible first loan while production jobs obey real timing and cost constraints |
+| **v0.6+ — Semi-D milestone, conditional on market interest** | Expand to a semi-detached industrial lot (up to 16 CNCs); only then unlock *new* sheet-metal manufacturing, dedicated QA Inspector/QA Engineer department and managers; preserve legacy laser purchases | Expansion brings new overhead, staffing, quality gates, machine capacity and higher-value industrial RFQs |
 | **v0.7 — Playtest beta** | Mobile UX, onboarding, tutorial, balancing, save migration, performance, optional analytics with privacy controls, testers | 50–100 targeted external testers; measure tutorial completion and day-1/day-7 return rates (targets, not predictions) |
 | **v0.8+ — Monetization experiments** | Android/iOS commercialization feasibility, optional ads/IAP and RM15 introductory second-machine offer if balanced | Verify free progression remains meaningful, purchase restoration and policy compliance |
 
 Timelines are estimates to be scoped during development; no hard delivery promises.
+
+## Approved long-term company-growth campaign
+
+The owner's future factory journey contains **five in-game milestones**. These are **business stages, not release numbers**. Do not try to implement the whole campaign before validating the early jobbing gameplay.
+
+| Company milestone | Premises and CNC capacity | People / process unlocks | Financing and strategic challenge |
+|---|---|---|---|
+| **1. Humble Beginning** | Lousy starter room; **maximum 2 CNCs**, starts with 1 | Hands-on minion, basic prototype RFQs, basic tapping/polishing milestones; **no sheet metal** | Survive on cash and basic RM800/month rent; ordinary bank expansion loan unavailable to an unproven tiny business |
+| **2. Early Stage Growth** | Rent **shoplot fitting 4–5 CNCs** | **Production Planner**, **Process Engineer**, deeper Gantt/setup planning | **Bank loans unlock after demonstrated turnover, operating history, OTD and repayment capacity**; shoplot rent/moving costs and debt installments |
+| **3. Mid-Term** | **Semi-D industrial lot fitting up to 16 CNCs** | **Unlock sheet metal**, dedicated **QA Inspector / QA Engineer** department, **Managers** | Finance large-capacity expansion and growing fixed overhead responsibly |
+| **4. Fruit Ripe** | Move to a full factory; capacity TBD | **Double-column CNC**, optional **in-house painting and treatment** to shorten subcontract lead time | High investment and operating costs; optional future IAP packages only if free in-game progression remains available |
+| **5. Industrial Tycoon** | **Rent or acquire another factory**, moving toward a multi-site group | Multi-site managers, load balancing, strategic customers and acquisitions | Rent-vs-own, larger secured lending, cash flow, group-level risks |
+
+Full stage details, migration rules and proposed bank screening logic: [Long-term progression & loans](LONG_TERM_PROGRESSION.md).
+
+**Bank loans:** no instant cash for an unproven starter room. A credible shoplot player must build a trading record and meet a minimum sales/repayment threshold. Candidate balancing figures (NOT approved constants) include three in-game months of trading, RM50k sales over those months, at least 80% OTD and monthly cash coverage above 1.3× installments. Loan decisions may be conditional/rejected; repay principal/interest on schedule. The player can also save up without borrowing.
+
+**IAP vs gameplay:** the owner wants optional later real-money expansion opportunities for in-house painting/treatment. Avoid essential capability paywalls: substantial in-game cash, careful financing and subcontracting must remain viable for non-paying players.
 
 ## v0.4 implementation order
 1. **Capability-aware RFQs**: tap-required job is not awarded without own tapping machine. For polish-required jobs, require staffed polishing capability; surface missing prerequisites in quotation UI. Keep machine purchase price and wages configurable until confirmed.
@@ -53,6 +73,8 @@ Full requirements, owner-confirmed inputs, assumptions and conflicts: [V0.4 spec
 - Assistant: design spec, small source-code changes while collaborating in active sessions, tests, release notes, compatibility and follow-up decisions.
 
 ## Open design decisions
+
+The detailed growth/loan open items are tracked in [LONG_TERM_PROGRESSION.md](LONG_TERM_PROGRESSION.md).
 1. Hot-job countdown start event — RFQ offer day or order award/PO acceptance day? **Calendar-day counting is confirmed.**
 2. Exact tapping machine pricing/throughput.
 3. Polishing employee wage and capacity.
