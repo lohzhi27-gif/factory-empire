@@ -91,7 +91,7 @@ function nextDay(){state.day++;if(typeof advanceProductionRouting==='function')a
 const workday=((state.day-1)%7+7)%7<5;
 const wage=workday?state.workers*160*(state.shifts===2?1.65:1):0,utilities=workday?state.machines.length*38*state.shifts:0;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
  // The most urgent compatible job is assigned before each machine's daily schedule.
- const machineOrder=state.machines.map(m=>({m,deadline:Math.min(...state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))).map(j=>j.dueDay).concat([9999]))})).sort((a,b)=>a.deadline-b.deadline);
+ const machineOrder=state.machines.map(m=>({m,deadline:Math.min(...state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))).map(j=>j.dueDay).concat([9999]))})).sort((a,b)=>a.deadline-b.deadline);
  const activeMachines=workday?machineOrder.slice(0,state.workers).map(x=>x.m):[];
  for(const m of activeMachines){if(m.condition<=15){
    if(m.type==='LASER'){
@@ -100,7 +100,7 @@ const wage=workday?state.workers*160*(state.shifts===2?1.65:1):0,utilities=workd
    continue;
  }
  if(m.type!=='LASER'&&Math.random()<.006+(100-m.condition)*.0003){m.condition=Math.max(0,m.condition-24);log('Unplanned machine stoppage on #'+m.id);continue}
- let minutes=420*state.shifts;const jobs=state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty).sort((a,b)=>a.dueDay-b.dueDay);let runs=0;
+ let minutes=420*state.shifts;const jobs=state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))).sort((a,b)=>a.dueDay-b.dueDay);let runs=0;
  for(const job of jobs){const p=P[job.product];while(minutes>=p.cycle&&job.done<job.qty&&runs<120){if(state[p.mat]+1e-8<p.material)break;minutes-=p.cycle;state[p.mat]-=p.material;state[p.mat]=Math.max(0,Math.round(state[p.mat]*1000)/1000);const fail=Math.random()<(.015+(100-m.condition)*.0009);if(fail){job.scrap++;state.totalScrap++}else{job.done++;state.totalProduced++;output++}runs++}if(minutes<p.cycle)break}
  if(runs>0){
     if(m.type==='LASER'){
