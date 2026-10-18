@@ -12,6 +12,8 @@ An original, mobile-friendly factory management simulation game built independen
 
 **Release status:** v0.3.4 remains the working playable browser version. v0.4 features are documented proposals/owner rules and **are not implemented** yet.
 
+**New v0.4 capacity rule:** One operator can tend **2–3 CNCs** in one shift, but all new part changes need setup: **easy 0.35h (21 min), medium 1.5h (90 min), difficult 3h (180 min)**. Setup time uses that worker's finite attendance hours and cannot overlap on two machines. Two shifts covering one 2–3-CNC cell need **two separate workers total**, not two workers *per machine*. A high-paying hot job may displace existing machine setups. In-app purchases remain optional future ideas; paid rescue is not required to enjoy the prototype.
+
 **Confirmed v0.4 rule:** urgent/hot customer jobs allow **4 calendar days** (weekends included) while procurement, programming, and outsourced wirecut still take working days. This is a specification change only; the playable game is unchanged.
 
 **Additional confirmed v0.4 rules:** Weekend overtime is optional and costs **2× ordinary wages per worker**, with **resignation after three consecutive worked overtime weekends**, not merely refusal. Each new employee starts with **40% skill**, learning through jobs toward **80% mastery in about two months**. Defective parts carry material/rework costs; customer-escaped defects can bring claim costs and relationship loss (amounts to balance). Each customer begins at **40% individual relationship**: on-time shipments improve the account, late shipments trigger penalties and worsen its future price/volume offers. A new customer-logo relationship network is planned, not implemented.
