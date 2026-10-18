@@ -52,6 +52,9 @@
       const m=state.machines[i],size=footprint(m.type);
       const collide=(x,y)=>allocated.some(p=>x<p.x+p.w&&x+size.w>p.x&&y<p.y+p.h&&y+size.h>p.y);
       const okay=(x,y)=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&y>=0&&x+size.w<=floor.w&&y+size.h<=floor.h&&!collide(x,y);
+      if(i===0&&m.type==='CNC'&&!Number.isInteger(m.tileX)&&okay(2,1)){
+        m.tileX=2;m.tileY=1;changed=true;
+      }
       if(!okay(m.tileX,m.tileY)){
         let found=null;
         outer:for(let y=0;y<=floor.h-size.h;y++)for(let x=0;x<=floor.w-size.w;x++){if(okay(x,y)){found=[x,y];break outer;}}
