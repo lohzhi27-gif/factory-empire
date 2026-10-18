@@ -19,6 +19,30 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
 
+## v0.3 — Live interface upgrade (2026-10-18)
+
+This upgrade changes the **actual playable browser UI**, not a concept screenshot. It preserves the same production simulation, machine purchases, RFQs, cash handling, user-generated floor layout and original localStorage save key.
+
+- Original industrial navy/cyan/amber visual theme across the header, management cards, buttons and dialogs.
+- Working top navigation: **Workshop, Production, Customers, Machines, Finance**; **+1 Day** also advances the simulation.
+- Factory viewport has a drawn warehouse wall, loading shutter, warm workshop lighting, safety perimeter, tool chest, metal workbench and larger fictional machine illustrations.
+- Mobile/tablet layout shows the workshop, then customer/production tabs, then supporting inventory/activity/cash/management sections.
+- **Expand floor** increases the canvas view on narrow devices so a user can scroll across the workshop and place machinery more precisely.
+- Existing functional in-panel tabs, manufacturing, finance, equipment inspection, VMC and laser purchase logic remain working. All money in prototype is game currency only.
+- This remains **interactive 2D isometric artwork**, not photorealistic or free-roaming 3D. The official hybrid walkabout feature is still a future milestone.
+
+### Mobile test — v0.3
+
+1. Visit https://lohzhi27-gif.github.io/factory-empire/ and refresh after GitHub Pages publishes. Header should say `INTERFACE PREVIEW v0.3`.
+2. Test top tabs **Workshop, Production, Customers, Machines, Finance**. All should scroll to the relevant working panel.
+3. Tap **+1 Day** on the top bar and check Day + cash change; test the old **+1 Day** button too.
+4. Tap **Expand floor** and inspect the VMC. In portrait, scroll horizontally to see the floor; close expanded view.
+5. Move the free starter VMC, reload Safari and check that its position, cash and orders survived.
+6. Tap **Preview laser**, verify its reference design, the RM150,000 game-cash price and 365 operating-day service life description.
+7. Send screenshots in **portrait and landscape** and note any cut-off buttons, text overflow or unreadable tiles.
+
+## Previous build notes
+
 ## Current build — v0.2.4 fiber laser preview (2026-10-18)
 
 - See a more detailed, original unbranded starter VMC sprite; tap the CNC and choose **Inspect machine** to view the full illustration
