@@ -5,6 +5,7 @@
  * Material purchase: 2–5 working days. Program: 2 working days after material readiness.
  * Finishing and secondary processes are planned for v0.5 (not charged or simulated here).
  */
+var advanceProductionRouting;
 (function productionCoreV032(){
   'use strict';
   const materialSpecs={
