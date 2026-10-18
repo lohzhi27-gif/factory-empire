@@ -19,8 +19,11 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
 
-## Current build — v0.1
+## Current build — v0.2 preview (2026-10-18)
 
+- Touch an original enclosed VMC model, select it, and relocate it to a free 2 × 2 tile area
+- Select **Equipment → Place VMC**, then tap a free 2 × 2 area to purchase another VMC for **RM180,000 of in-game cash**; no actual money changes hands
+- Factory floor saves tile locations across browser reloads, including existing v0.1 saves
 - Review and accept customer RFQs
 - Operate a CNC and purchase additional CNC / laser equipment
 - Purchase aluminum and steel
@@ -28,27 +31,25 @@ The website uses the repository's `index.html`. It currently runs in Safari and 
 - Advance simulation days, manage production and late deliveries
 - Monitor invoices, cash and machine condition
 
-### First playtest (iPhone or iPad)
+### v0.2 preview playtest (iPhone or iPad)
 
-1. Open the Pages URL in Safari.
-2. Tap **New RFQs** and accept an order.
-3. Tap **+1 Day** a few times and confirm production advances.
-4. Tap **Purchasing & Inventory** to buy raw material.
-5. Tap **Equipment** to buy a machine, then hire an operator.
-6. Reload the browser page and verify your game saves.
-7. Send a screenshot and a short description of anything confusing or broken.
+1. Open the Pages URL in Safari; look for the heading **Factory Floor Preview v0.2**.
+2. Tap the starter VMC, then choose **Move selected**.
+3. Tap a free 2 × 2-tile area. The machine should move and **cash should not change**.
+4. Refresh the page and confirm that the VMC stays in its new position.
+5. Accept an RFQ and advance a day; existing gameplay must still work.
+6. Send a screenshot and report confusing or broken controls.
+
+Purchasing another VMC costs **RM180,000 in-game**. Most new games do not have that much cash, so testing *moving the free starter* is the immediate priority. The **RM15 real-money introductory second-machine offer** is only a design proposal, not implemented or billed.
 
 **Warning:** v0.1 saves to this browser's local storage. Clearing browser data can erase progress.
 
-## Next milestone — v0.2
+## Next milestones
 
-An interactive, touch-friendly isometric factory floor:
-
-- Tap a free tile to select it
-- Purchase and place machinery at a selected location
-- Move or rearrange machinery
-- Show placement cost, footprint and restrictions
-- Save factory layout across browser sessions
+- **v0.2 preview (now):** custom VMC floor drawing, selection, movable machines, 2×2 collision rules and local layout saves. The scene remains procedural 2D isometric art, not a real 3D model.
+- **Finish v0.2:** improve mobile visual legibility, test on real devices and tune economy/prices.
+- **v0.3:** connect owner-provided RFQs and process lead times to production and payment logic.
+- **v0.4:** prototype a small walkable 3D workshop sharing the same simulation state.
 
 ## Collaboration
 
