@@ -24,6 +24,9 @@
  navButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16M4 7h8v3H4M4 12h14v3H4M4 17h10v3H4"/></svg><span>Schedule</span>';
  const prodNav=nav.querySelector('[data-nav="orders"]');
  if(prodNav)prodNav.after(navButton);else nav.appendChild(navButton);
+ const tagline=document.querySelector('.identity p');
+ if(tagline)tagline.textContent='INDUSTRIAL TYCOON · JOBBING GANTT v0.3.3';
+ document.title='Factory Empire — Jobbing Gantt v0.3.3';
  const panel=document.createElement('div');
  panel.id='gantt';
  panel.className='tabpage';
@@ -205,7 +208,8 @@
    }
    document.getElementById('ganttChart').style.setProperty('--gantt-days',String(windowDays));
    document.getElementById('ganttChart').innerHTML=head
-     +(jobs.length?rows.join(''):'<div class="gantt-no-jobs">No active jobs yet. Accept an RFQ to see its material, programming and machining stages.</div>');
+     +(jobs.length?'':'<div class="gantt-no-jobs">No active jobs yet. Accept an RFQ to see its material, programming and machining stages.</div>')
+     +rows.join('');
    const pending=jobs.filter(j=>coverage.get(j.id).status==='short').length;
    const risks=jobs.filter(j=>plans.get(j.id).finish!==null&&plans.get(j.id).finish>j.dueDay).length;
    document.getElementById('ganttSummary').innerHTML='<span>'+jobs.length+' active job'+(jobs.length===1?'':'s')+'</span>'
