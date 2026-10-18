@@ -33,7 +33,7 @@
  panel.innerHTML='<div class="section gantt-pane">'
   +'<div class="gantt-header"><div><h3>Jobbing production Gantt</h3>'
   +'<div class="mini">Material → programming → machining, compared against customer due dates.</div></div>'
-  +'<div class="gantt-controls"><label for="ganttRange">View</label><select id="ganttRange" aria-label="Gantt days shown">'
+  +'<div class="gantt-controls"><button type="button" class="btn minor ghost" id="expandGantt" aria-pressed="false">⛶ Expand Gantt</button><label for="ganttRange">View</label><select id="ganttRange" aria-label="Gantt days shown">'
   +'<option value="14">14 days</option><option value="28" selected>28 days</option><option value="42">42 days</option></select></div></div>'
   +'<div class="gantt-legend"><span><i class="legend-square mat"></i>Material waiting</span>'
   +'<span><i class="legend-square prog"></i>Programming</span>'
@@ -52,6 +52,20 @@
     const el=document.getElementById('inventory');
     el?.scrollIntoView({behavior:'smooth',block:'center'});
  });
+ const expandButton=document.getElementById('expandGantt');
+ function closeExpanded(){
+   document.body.classList.remove('gantt-expanded');
+   expandButton.setAttribute('aria-pressed','false');
+   expandButton.textContent='⛶ Expand Gantt';
+ }
+ expandButton.addEventListener('click',()=>{
+   const opening=!document.body.classList.contains('gantt-expanded');
+   document.body.classList.toggle('gantt-expanded',opening);
+   expandButton.setAttribute('aria-pressed',String(opening));
+   expandButton.textContent=opening?'✕ Close Gantt':'⛶ Expand Gantt';
+   if(opening)document.getElementById('ganttScroll').scrollLeft=0;
+ });
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('gantt-expanded'))closeExpanded();});
  const rangeControl=document.getElementById('ganttRange');
  let windowDays=28;
  rangeControl.addEventListener('change',()=>{
@@ -223,6 +237,7 @@
  const previousRender=render;
  render=function(){
    previousRender();
+   if(currentTab!=='gantt'&&document.body.classList.contains('gantt-expanded'))closeExpanded();
    paint();
  };
  render();
