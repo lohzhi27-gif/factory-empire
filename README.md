@@ -19,6 +19,29 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
 
+## v0.3.3 — Jobbing Gantt + material availability (2026-10-18)
+
+**Playable user-requested planning upgrade.** No changes to machine positions, purchases, existing production state, day advancement, or saved game keys.
+
+- **Schedule** in the top navigation and **Job Gantt** in the Production & Orders tabs.
+- Scrollable **14 / 28 / 42-day** jobbing timeline, plus **Expand Gantt** to view the schedule full-width.
+- Each active job has a row showing the part, customer, quantity, due game day, and **material status**: available from current stock, covered by an incoming PO with day of arrival, or not covered (material shortage).
+- Timeline uses stage colors for **material waiting**, **programming**, **projected machining**, and customer **due-date** markers. Weekends are shaded.
+- Supplier material POs appear on the same chart as distinct rows from placement to **Day X delivery**. The material summary beneath the Gantt shows on-hand aluminum and steel, outstanding POs and their arrival days.
+- The planner allocates *theoretical* stock to jobs in due-date order when assessing coverage, so it does **not** count the same inventory twice. This is **a read-only estimate, not a physical stock reservation**.
+- Where stock + open POs cannot cover a job, the schedule displays **Short X kg / ETA unknown** instead of fabricating a production completion date.
+- Simplified capacity estimates use 420 machining minutes/shift and available machines/operators. They **do not account for scrap, machine failures, operator conflicts across separate machine types, subcontract finishing, customer shipping or public holidays**. The existing production engine remains authoritative for what actually happens.
+
+### iPhone / iPad testing
+
+1. Refresh https://lohzhi27-gif.github.io/factory-empire/ until the header says **JOBBING GANTT v0.3.3**.
+2. Accept an RFQ, then tap **Schedule** at the top or **Job Gantt** inside Production & Orders.
+3. Check that the job shows its material status, programming bar, machining estimate and due-date marker.
+4. In **Materials & Inventory**, order a small quantity of aluminum or steel, then return to **Schedule**. A **PO row and supplier arrival Day** should appear.
+5. Test **14 / 28 / 42-day** views and **Expand Gantt**, then close it.
+6. Advance one day and verify the chart and PO ETA automatically update. Refresh and confirm progress is intact.
+7. Share a screenshot and point out any dates, shortages or labels that don't match your real production-planning intuition.
+
 ## v0.3.2 — Production routing foundation (2026-10-18)
 
 The first phase of v0.3 is live. This release retains v0.3.1's polished UI and drag/save machine moving, preserves old `factory_empire_proto_v1` saves, and introduces a **real waiting sequence** for newly accepted RFQs:
