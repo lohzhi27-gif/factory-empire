@@ -52,6 +52,19 @@
       "accuracy": "High",
       "best_for": "High spec",
       "weakness": null
+    },
+    {
+      "id": "entry_laser_cutter",
+      "type": "CNC Laser Cutting",
+      "nickname": "Sheet Metal Laser Cutter",
+      "purchase_price_game_rm": 150000,
+      "reliability": "Medium",
+      "speed": "Medium",
+      "accuracy": "Medium",
+      "best_for": "Cutting sheet metal blanks and panels",
+      "weakness": "Requires sheet material; does not replace CNC milling",
+      "design_reference": "Fictional unbranded equipment for the game",
+      "pricing_confirmed_by_owner": true
     }
   ],
   "monetization_concept": {
