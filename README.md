@@ -19,6 +19,21 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
 
+## v0.3.1 — Easier machine moving (2026-10-18)
+
+This updates the working factory floor only; production, balances, equipment price and the local save key are unchanged.
+
+**iPhone / iPad instructions:**
+
+1. Open the game, tap the machine itself (including its upper enclosure).
+2. Tap **Move selected**. A move panel appears below the floor.
+3. Either **drag the machine**, **tap a new floor tile**, or use the **four direction arrow** buttons (↖ ↗ ↙ ↘) to nudge it by one tile.
+4. The green floor outline shows a valid temporary position. A red outline indicates blocked/out-of-bounds placement.
+5. Tap **Save position** to permanently move the machine, or **Cancel** to keep the original position. Until saved, cash and saved machine coordinates remain unchanged.
+6. Refresh the game after saving; confirm that the location persists.
+
+Machine footprint rules remain: 2 × 2 tiles for the starter VMC; 3 × 2 for the fiber laser. Relocating owned machines is free. No real payments are involved. The rest of v0.3's interface is intentionally left alone.
+
 ## v0.3 — Live interface upgrade (2026-10-18)
 
 This upgrade changes the **actual playable browser UI**, not a concept screenshot. It preserves the same production simulation, machine purchases, RFQs, cash handling, user-generated floor layout and original localStorage save key.
