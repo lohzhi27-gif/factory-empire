@@ -1,61 +1,59 @@
-# FACTORY EMPIRE — After-work Development Roadmap
-Status: official direction | Hybrid camera game approved: 2026-10-18
+# Factory Empire — Mobile-first Market Test Roadmap
 
-## Working assumptions
-- Founder tests on iPhone/iPad; ChatGPT helps with code and documentation during active chat sessions.
-- 3 sessions/week × 1–2 hours is an OPTIONAL pace estimate, not an automated working schedule or delivery promise.
-- Browser gameplay first; no paid developer/artist until there is evidence of player retention.
-- `index.html` is presently an HTML/JS isometric 2D prototype (v0.1), not yet a 3D game.
+**Updated:** 2026-10-18
+**Product decision:** Original factory-business simulation, not an RPG. Skip third-person characters, open-world city and expensive walkable 3D during the prototype/market-test phase.
 
-| Phase | Deliverable | Minimum acceptance check | Indicative effort at part-time pace |
-|---|---|---|---|
-| v0.1 **Existing** | Basic RFQs, purchases, operators, production, cash flow | Existing browser demo loads | Already present |
-| v0.2 **NEXT** | Recognizable original budget VMC, touch-based tile placement/movement, 1-machine starting state, data-driven machine display | On iPhone: place one VMC, move it, reload without losing layout; no phantom duplicates | ~3–6 weeks |
-| v0.3 **Production core** | Data-driven 4 example RFQs; procurement queue (2–5 days), programming (2 days), machining cycle time, capacity and overdue alerts; job route and payment terms | One sample job flows from RFQ through material/program/machining to delivery, with correct per-piece revenue | ~4–8 weeks |
-| v0.4 **Hybrid proof** | Small walkable original 3D workshop; third-person avatar, touch movement, inspection interaction, switch to isometric management | Both views show the same machine status and active job; runs acceptably on actual iPhone/iPad | ~6–12 weeks |
-| v0.5 **Process depth** | Tapping/wirecut/EDM/polish/deburr/grinding capability gates; finishing subcontract queue with normal/rush modes, +50% price; QA and packing | 3-day rush skips non-working days; rush applies only to process cost; impossible routes are flagged | ~6–12 weeks |
-| v0.6 **Entrepreneur layer** | Walkable office and 1–2 offsite locations; job offers/customer relationship, basic hiring and property/lease choices; supervisors automate repetition | Player can walk to meet a customer, win a job, return to factory and complete it through the same simulation | ~8–16 weeks |
-| v0.7 **Playtest beta** | Tutorial, save migration, balance, performance, onboarding, analytics/privacy; Android packaging candidate | External testers can play a session and return; core game does not require IAP | ~6–12 weeks |
-| v0.8+ **Business launch candidates** | App-store compliance/testing, optional rewarded ads and RM15 introductory extra-machine offer after careful economy testing | Purchases restore correctly; no paid progression dead-end; launch metrics reviewed | As needed |
+## Product objective
+Test whether mobile players enjoy making manufacturing business decisions: bidding customer RFQs, controlling margins, protecting on-time delivery, buying material with lead times, hiring enough workers, coping with subcontract processes and managing working capital.
 
-**These are planning ranges, not commitments.** Full 3D and mobile distribution can take much longer; device/build access or hired help may eventually be required.
+## Completed / approved
+- **v0.1–v0.2:** original workshop prototype and touch-controlled machinery placement.
+- **v0.3–v0.3.4:** factory dashboard, material procurement queue, two-day programming before machining, and full-width Gantt with material status and PO arrivals; current approved foundation.
+- The playable build remains v0.3.4 until new gameplay code is released and tested. Do not imply v0.4 exists because this plan changed.
 
-## Immediate next sprint — v0.2
-1. Examine starter-machine reference photo for generic machine silhouette (enclosure, front doors, spindle window, machine base, control cabinet) without copying brand marks.
-2. Move start configuration to one generic starter CNC, one operator, low-volume RFQs.
-3. Build a responsive floor grid with camera pan/zoom and tap-to-select tile.
-4. Build place/move machine interactions with a cash cost display and collision check.
-5. Persist floor layout and selected machine; test Safari mobile screen size.
-6. Preserve v0.1 gameplay; no real payment integration yet.
+## Proposed release sequence
 
-### Definition of Done
-- A workshop visually reads as a plausible VMC-equipped workshop rather than abstract blocks.
-- A player using only touch can place, move and inspect a machine.
-- Starting state has precisely one VMC. No accidental duplicate machines after reload.
-- Saves survive normal page refresh. Existing v0.1 financial figures still work.
-- Screenshots from iPhone/iPad are reviewed and issues recorded.
+| Version | Focus | Proof of value |
+|---|---|---|
+| **v0.4 — Jobbing & profitability** | Tapping award restrictions, polishing staffing, two-person double shifts, monthly RM800 rent rising 10% every 24 months, per-CNC electricity (RM900/1 shift; RM1500/2 shifts), outsource wirecut (2 working days), rare 4-day hot jobs, pricing/margin feedback | Player must make meaningful trade-offs; show why a rushed order can be profitable *or* damaging |
+| **v0.5 — Process depth** | Surface-treatment subcontract lead times + costs; QA, deburr, polishing execution, packing, delivery, proper route and capacity checks | An order follows realistic, visible multi-stage routing and reveals true manufacturing contribution |
+| **v0.6 — Progression & sheet metal** | Define and implement later unlock milestones; gate *new* laser/sheet-metal capability and jobs, add larger customers/expansion and clear progression | Player unlocks additional processes through business growth without losing earlier paid/earned machines |
+| **v0.7 — Playtest beta** | Mobile UX, onboarding, tutorial, balancing, save migration, performance, optional analytics with privacy controls, testers | 50–100 targeted external testers; measure tutorial completion and day-1/day-7 return rates (targets, not predictions) |
+| **v0.8+ — Monetization experiments** | Android/iOS commercialization feasibility, optional ads/IAP and RM15 introductory second-machine offer if balanced | Verify free progression remains meaningful, purchase restoration and policy compliance |
 
-## Technical architecture (target; not all present)
-- `game/simulation/`: machines, production, material orders, RFQs, time, payments, workers, subcontract calendar.
-- `game/data/` or `data/`: validated editable customer/machine/RFQ/finishing masters (the existing `data/` files).
-- `game/views/isometric/`: production and factory management controls.
-- `game/views/walk/`: later 3D walking environment.
-- Common `GameState` and save format; migration/version field; simulation unaffected by camera view.
-- Initial browser rendering can remain simple; evaluate Three.js/Babylon.js or a dedicated engine after the loop stabilizes. On-device performance is a hard constraint.
-- In-app purchase, ads and mobile store build tooling require specialized integration/validation and are NOT possible from an HTML mockup alone.
+Timelines are estimates to be scoped during development; no hard delivery promises.
 
-## Responsibilities
-- **Founder**: real shop references, decide realism/balancing, give customer/process samples, test each new build.
-- **Assistant**: implement one scoped feature per session, commit source updates where authorized, explain tradeoffs, document test instructions, address reported issues.
-- Keep game code and assets original. No private customer documents in public GitHub.
+## v0.4 implementation order
+1. **Capability-aware RFQs**: tap-required job is not awarded without own tapping machine. For polish-required jobs, require staffed polishing capability; surface missing prerequisites in quotation UI. Keep machine purchase price and wages configurable until confirmed.
+2. **Correct operating economics**: one worker per active CNC per shift, actual second worker for double shift; remove inaccurate legacy daily power costs when monthly power bills go live; create monthly rental invoices and 10% rent escalation each two years.
+3. **Outsource wirecut**: optional 2-working-day subcontract step, visible in the production queue and Gantt, no early shipment before it returns.
+4. **Hot-job RFQs**: optional occasional 4-day urgent orders, premium economics, capacity and stockpile considerations, realistic feasibility checks.
+5. **Mobile market-playtest polish**: clear feedback loops on margin, profitability, material risk and customer confidence.
 
-## Key project risks
-- Scope explosion from a hybrid open-world vision: limit walking world to a room before a city.
-- Browser 3D performance on phones: prototype and benchmark early.
-- False revenue expectations: free downloads have no intrinsic revenue; test actual retention and IAP conversion.
-- "RM15 second machine" could feel pay-to-win: make early machine growth earnable with gameplay and test purchase value.
-- Editing old saves may require a migration utility; protect player progress.
-- No precise delivery dates without a consistent development environment and regular test results.
+Full requirements, owner-confirmed inputs, assumptions and conflicts: [V0.4 specification](V04_JOBBING_SPEC.md).
 
-## Next founder input
-No more lead-time tables are required immediately. Test the next v0.2 build on iPhone/iPad, share one screenshot and note whether floor placement feels easy. Later confirm start cash/loan balance, shift hours and whether 2-week RFQ dates are calendar vs working days.
+## Interaction design and technical constraints
+- Keep current responsive 2D/isometric management interface; no forced graphics rewrite.
+- Make it easy for phone users to review jobs, assign resources, inspect cash and react in a short session.
+- Allow laptop/browser testing; mobile is the planned audience.
+- Existing v0.3.4 Gantt remains the foundation for jobbing planning, not a new unrelated tool.
+- Maintain common simulation state and original local-storage save continuity with deliberate migration tests.
+- Subcontract calendars should skip weekends and later local holidays. Four-day hot-job deadline type is owner-pending.
+- Do not copy manufacturer branding. Machine art remains original/unbranded.
+- No real payments enabled in prototype.
+- Do not publish customer proprietary drawings or private pricing in public GitHub.
+
+## Scope exclusions
+- No third-person characters, walk-around mode, city travel, real CAM software, photorealistic machine operation, multiplayer, live ERP integration, full accounting ledger or forced IAP during market validation.
+
+## Founder / assistant roles
+- Founder: real workshop process, lead times, economics and game-feel approvals; browser/mobile test screenshots.
+- Assistant: design spec, small source-code changes while collaborating in active sessions, tests, release notes, compatibility and follow-up decisions.
+
+## Open design decisions
+1. Hot-job four-day deadline — working or calendar days?
+2. Exact tapping machine pricing/throughput.
+3. Polishing employee wage and capacity.
+4. Wirecut subcontract price basis.
+5. Final sheet-metal unlock milestone.
+6. Month/day calendar convention for rent/electricity (provisional 30-day billing month, 24-month escalation).
