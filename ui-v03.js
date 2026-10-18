@@ -34,7 +34,7 @@
   const logo=document.querySelector('.logo');
   if(logo){logo.textContent='F';logo.setAttribute('aria-label','Factory Empire original monogram');}
   const tagline=document.querySelector('.identity p');
-  if(tagline)tagline.textContent='INDUSTRIAL TYCOON · INTERFACE PREVIEW v0.3';
+  if(tagline)tagline.textContent='INDUSTRIAL TYCOON · PRODUCTION PREVIEW v0.3.2';
   document.title='Factory Empire — Industrial Tycoon v0.3';
   const topbar=document.querySelector('.topbar');
   const nav=document.createElement('nav');
