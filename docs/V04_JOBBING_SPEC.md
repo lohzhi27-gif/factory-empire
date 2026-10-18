@@ -30,11 +30,44 @@
 - Process is not instant. Display wirecut process lead time on the job and Gantt; block shipment until outsourced work returns.
 - This is a separate subcontract service from surface treatment, which uses existing owner-defined normal/rush lead times.
 
-### 1.4 Staffing for two shifts
-- **One staffed machine in two shifts requires two different workers (one worker per shift)**, not one worker operating twice as long.
-- Enabling two shifts without enough workers must not double output. Show a "Hire second operator" warning.
-- Wage expense reflects the extra worker(s); exact shift premiums are to be determined.
-- For N concurrently running machines in two shifts, the simple initial staffing baseline is up to 2 × N operators, subject to assignment/idle machine logic.
+### 1.4 One minion can tend 2–3 machines; shift staffing is per operator, not per machine
+
+**Owner-confirmed correction of the earlier one-operator-per-machine model:**
+- One suitably assigned minion can tend **2–3 CNC milling machines within one shift** while the machines are machining; they do not have to permanently stand at a single machine.
+- **Double shift still requires two different workers**, one employee for the first shift and one for the second, for an adequately manageable 2–3-machine cell. Do **not** blindly require two employees for each CNC machine. For example, three CNCs with a single-shift minion require one assigned minion; for both shifts across those three CNCs, a practical starting point is one worker in each shift (two total), provided workload permits.
+- The operator **cannot physically perform simultaneous setup or machine attendance tasks**. Shared operator time across several machines is the true bottleneck. Machine hours and minion attendance/setup hours must be tracked separately.
+- Enabling a shift without any appropriately assigned minion for that shift must **not** double machine output. Warn about unstaffed shifts or excessive setup load; don't count a single person in both shifts.
+- Workers' wages are paid per staffed shift/day and weekend overtime still follows the 2× and three-consecutive-weekend resignation rules below.
+- Difficulty, operator skill, loading/unloading and long machine cycles may determine whether one minion can realistically cover two versus three simultaneously running machines. This needs balance testing, not a hard-coded blanket 3-machine-per-worker production multiplier.
+
+### 1.4.1 New part setup / changeover time (separate from programming)
+
+**Owner-confirmed setup times per new part / machine setup:**
+
+| New-part difficulty | Setup hours | Setup minutes |
+|---|---:|---:|
+| Easy | **0.35 hour** | **21 minutes** |
+| Medium | **1.5 hours** | **90 minutes** |
+| Difficult | **3 hours** | **180 minutes** |
+
+- Setup is a **one-time machine preparation/changeover operation for a particular part**, not a per-piece cycle-time charge. It blocks that machine from machining while setup is underway and uses the minion's setup labour/time.
+- Track `machine.currentSetupPartId`, `setupRemainingMinutes`, `setupDifficulty` and which minion is preparing that machine. A job can machine only when it has completed necessary 2-working-day programming, obtained material and finished the appropriate machine setup.
+- Different machines can preserve their own currently prepared part/fixture. Starting a different part on the same machine requires another setup. Whether a part **revision** always triggers new setup, and whether an interrupted setup retains partial progress, are open questions.
+- Gantt should show distinct **programming → setup → machining** stages. Setup consumes finite worker minutes across the machines they supervise; one minion preparing machine B may supervise established long-running cycles on A/C within reasonable limits, but cannot set up B and C simultaneously.
+- Illustrative capacity constraint: **three difficult setups = 9 operator hours**, so one 7-hour productive shift cannot finish all three on the same day. Three easy setups total **63 minutes**. Setup time is a resource cost, not instant UI animation.
+- The currently playable v0.3.4 simulation assumes machines are each allocated based on worker count, and does **not** yet charge part-change setup time. Replacing that logic is required to implement this rule, with migration of saved machine settings and operator staffing.
+
+### 1.4.2 Hot jobs disrupt prepared machine schedules
+
+**Owner-confirmed gameplay scenario:** a player has assigned a minion to 2–3 CNCs, finished setting up ongoing customer parts on all of them, and then receives a valuable **4-calendar-day hot RFQ**.
+- Taking the hot job can force the player to **interrupt or change over** a previously prepared CNC, incurring the hot part's setup duration and risking delays to the displaced order.
+- If the original order later returns to that changed-over CNC, another setup may be needed; no automatic zero-time return to a displaced setup. Confirm exact part/fixture retention options before implementing a setup library.
+- Players can instead leave spare machine capacity, build material buffers, keep a prepared flexible machine, reorganize job priority, or decline the hot offer. A hot job cannot bypass technical capability, material, programming or labour constraints.
+- Make the RFQ offer show *real trade-offs*: extra estimated revenue, material availability, setup labour, at-risk orders, 4-calendar-day due date and potential lost customer trust.
+- **Possible future monetization** (owner floated this jokingly): an optional real-money second machine, extra expansion space, or a convenience progression package could appeal when a surprise hot job arrives. **No real IAP is approved or implemented yet.** Preserve an attainable, clear path to grow through **in-game cash and scheduling choices**; do not make urgent jobs a compulsory paywall or rig hot-job arrival to coerce an immediate purchase. Validate retention and business balance before any store integration.
+- Important timing constraint: buying an extra CNC alone should not magically complete programming, material procurement, setup or operator staffing. The hot job must remain mechanically feasible.
+
+
 
 ### 1.5 Workshop rent
 - Starter workshop rent: **RM800 per month** (monthly basis inferred from "rental" and should be owner-confirmed if necessary).
@@ -155,9 +188,9 @@ WARNING: A third consecutive overtime weekend will cause resignation.
 
 ## Proposed v0.4 implementation order (not yet committed to gameplay)
 1. **Capability and award checks:** tapping RFQ blocked without tapping station; polishing staff gating; visually clear missing-resource notices and required process routing.
-2. **Staffing, wellbeing, training and cash-out:** 2 shifts need 2 distinct people per simultaneously staffed machine; optional Saturday/Sunday overtime costs 2× wages and three consecutive worked overtime weekends trigger that employee's resignation. Introduce skill starting 40%, reaching 80% after roughly two months of productive training; hire/train replacements; add material + processing + claims costs for defects without double charging. Implement monthly rent/power and remove legacy duplicate daily utility charges.
+2. **Cell staffing, setup, wellbeing, training and cash-out:** one minion can tend 2–3 machines within one shift while machine cycles run; a second minion covers a second shift for that same cell. Charge actual new-part setups (easy 0.35h, medium 1.5h, difficult 3h) against shared operator time. Optional Saturday/Sunday overtime costs 2× wages and three consecutive worked overtime weekends trigger that employee's resignation. Introduce skill starting 40%, reaching 80% after roughly two months of productive training; hire/train replacements; add material + processing + claims costs for defects without double charging. Implement monthly rent/power and remove legacy duplicate daily utility charges.
 3. **Wirecut subcontract:** pay process fee, wait 2 working days, show it in Gantt, and prevent premature delivery.
-4. **Hot-job events:** occasional, strict **4-calendar-day** customer deadline, optional material-stock buffer and free-capacity strategy; feasibility first, lucrative but risky margin.
+4. **Hot-job events and changeover dilemma:** occasional, strict **4-calendar-day** customer deadline; a new urgent part can force a costly setup change on an already-prepared machine. Account for shared minion hours, setup time, material buffers, existing orders and free machine capacity. An optional future IAP must never be required to complete normal progression.
 5. **Customer relationship network, quality and late-delivery consequences:** per-customer relationship starting at 40%; colored fictional customer-logo graph, on-time rewards, late-delivery relationship and cash penalties, price/volume changes on future RFQs. **Then mobile playtesting** of meaningful trade-offs; keep sheet metal locked until appropriate progression.
 
 ## Later unlocks
@@ -173,6 +206,7 @@ WARNING: A third consecutive overtime weekend will cause resignation.
 - Is rent RM800/month and does power scale with machines owned or machines operated?
 - Exact sheet-metal unlock conditions (e.g., CNC jobs delivered, company reputation and investment milestones). These are not to be invented during implementation.
 - Confirm a single time/calendar standard for rent escalation, holiday skips, monthly electricity and 365-operating-day machine service.
+- Confirm setup carryover on interruption, whether an engineering revision always requires re-setup, and operator loading/unloading workload. Setup is charged once per *actual* machine part change, never each machined piece.
 - **Confirmed:** employee resigns after **three consecutive weekends of overtime**. For exact streak counting, confirm whether Saturday OR Sunday counts as a worked weekend and when the resignation is processed.
 - Decide per-customer on-time/late point changes and low/high relationship offer tiers; determine late-delivery cash-penalty calculation without duplicate penalties.
 - Confirm employee-skill training balancing: proposed +0.75 percentage points per productive day and +1 point per completed job, capped at 80% (~two productive months to mastery).
@@ -180,16 +214,17 @@ WARNING: A third consecutive overtime weekend will cause resignation.
 - Set quality probability vs. skill and internal rework cost basis; approve/adjust any separate post-shipment rejection debit (10% of affected defective pieces' sales value is *suggested*, not confirmed).
 
 ## Critical compatibility note
-The v0.3.4 code currently charges daily overhead/utilities, permits two shifts with insufficient staffing, has no weekend overtime, per-worker skill/morale, overtime-triggered resignations, replacement training, post-delivery defect claims or consent system, uses only aggregate reputation rather than per-customer 40% scores, and exposes a laser purchase. These are **known differences** between existing prototype behavior and the new owner-approved *design*; this document alone does not change gameplay. They must be deliberately replaced in a versioned update with save migration tests.
+The v0.3.4 code currently charges daily overhead/utilities, uses one-machine-per-worker production assignment and has no per-part setup accounting, permits two shifts with insufficient staffing, has no weekend overtime, per-worker skill/morale, overtime-triggered resignations, replacement training, post-delivery defect claims or consent system, uses only aggregate reputation rather than per-customer 40% scores, and exposes a laser purchase. These are **known differences** between existing prototype behavior and the new owner-approved *design*; this document alone does not change gameplay. They must be deliberately replaced in a versioned update with save migration tests.
 
 ## Definition of done for the first playable slice
 - New tap-required RFQ can't be accepted without the tap machine, with explicit explanation.
 - Once purchased, that specific RFQ can be accepted if all other capability checks pass.
-- No 2-shift production uplift without a second operator on that machine.
+- No 2-shift production uplift without a second operator **to staff the second shift of a manageable 2–3-CNC cell**. Worker scheduling should permit a single minion to supervise multiple running machines, with non-overlapping setups.
 - Each new minion begins at 40% skill, gains auditable experience from productive work and completed orders, reaches 80% mastery in approximately two months at the target workload, and is lost on resignation.
 - 2× weekend wages are charged only for staffed Saturday/Sunday overtime; after the *third successive overtime weekend* the worker quits and future shifts go unstaffed until someone is hired.
 - Defect pieces accrue material and processing loss; post-shipment quality claims are distinctly costed and reduce the correct individual customer's relationship, without duplicated loss accounting.
 - Rent/power expenses appear monthly at the defined rate and are not double-charged.
+- Each newly assigned part requires easy/medium/difficult setup time (21/90/180 min) on a machine, separate from programming. A shared minion cannot perform simultaneous setups, and accepting a hot job can cause real changeover delay.
 - Wirecut appears as a timed outsourced process in the Gantt before shipment.
 - Hot jobs check material and free machine hours before award; use a 4-calendar-day countdown, while procurement, programming, and wirecut normally advance in working days. Weekend production must explicitly request and pay consenting operators 2× wages; fatigue can prevent weekend staffing.
 - Existing and new customers initialize individual relationship scores to 40%; on-time fulfillment improves the correct account, late fulfillment hurts it and applies the agreed penalty. Subsequent RFQs vary in price and quantity accordingly.
