@@ -9,27 +9,32 @@
   const factory=canvas.parentElement;
   const toolbar=document.createElement('div');
   toolbar.className='floor-tools';
-  toolbar.innerHTML='<div class="floor-actions"><strong>🏭 WORKSHOP LAYOUT</strong><button class="btn minor ghost" id="inspectVmc" type="button">🔎 Inspect machine</button><button class="btn minor" id="moveVmc" type="button">↔ Move selected</button><button class="btn minor ghost" id="cancelLayout" type="button">Cancel</button></div><div class="floor-hint" id="floorHint" aria-live="polite">Tap the CNC to select it, then tap Move selected.</div>';
+  toolbar.innerHTML='<div class="floor-actions"><strong>🏭 WORKSHOP LAYOUT</strong><button class="btn minor ghost" id="previewLaser" type="button">⚡ Preview laser</button><button class="btn minor ghost" id="inspectVmc" type="button">🔎 Inspect machine</button><button class="btn minor" id="moveVmc" type="button">↔ Move selected</button><button class="btn minor ghost" id="cancelLayout" type="button">Cancel</button></div><div class="floor-hint" id="floorHint" aria-live="polite">Tap the CNC to select it, then tap Move selected.</div>';
   factory.after(toolbar);
   const info=toolbar.querySelector('#floorHint');
   const moveBtn=toolbar.querySelector('#moveVmc');
   const cancelBtn=toolbar.querySelector('#cancelLayout');
   const inspectBtn=toolbar.querySelector('#inspectVmc');
+  const previewLaserBtn=toolbar.querySelector('#previewLaser');
   const inspector=document.createElement('dialog');
   inspector.className='machine-inspector';
   inspector.innerHTML='<div class="machine-inspector-head"><strong>STARTER VMC-760 · UNBRANDED</strong><button class="btn minor ghost" id="closeVmcPreview" type="button">✕ Close</button></div><img src="assets/starter-vmc.svg?v=21" alt="Original illustration of a fully enclosed vertical CNC milling center with front sliding doors, control panel and tower light"><p>Generic 3-axis enclosed VMC · 1 machine included at start · in-game additional machine RM180,000.</p>';
   document.body.appendChild(inspector);
-  inspectBtn.addEventListener('click',()=>{
-    const m=state.machines.find(x=>x.id===chosenId);if(!m)return;
-    const laser=m.type==='LASER';
+  function showMachinePreview(type,m){
+    const laser=type==='LASER',remaining=m?Math.max(0,365-(m.laserOperatingDays||0)):365;
     inspector.querySelector('.machine-inspector-head strong').textContent=laser?'FIBER LASER 3015 · UNBRANDED':'STARTER VMC-760 · UNBRANDED';
     inspector.querySelector('img').src=laser?'assets/laser-cutter.svg?v=23':'assets/starter-vmc.svg?v=21';
-    inspector.querySelector('img').alt=laser?'Original open-bed fiber laser with long slat table, overhead bridge, cutting head and console':'Original enclosed vertical CNC milling machine';
+    inspector.querySelector('img').alt=laser?'Original open-bed fiber laser with slatted table, overhead bridge, cutting head and console':'Original enclosed vertical CNC milling machine';
     inspector.querySelector('p').textContent=laser
-      ?'Open-bed fiber laser cutter · RM150,000 game cash · '+Math.max(0,365-(m.laserOperatingDays||0))+' operating days until major service.'
-      :'Generic 3-axis enclosed VMC · first machine included free · additional machine RM180,000 game cash.';
+      ?'Original open-bed fiber laser · RM150,000 in-game · footprint 3 × 2 tiles · '+remaining+' operating days until major service'+(m?'.':' (new machine).')
+      :'Generic 3-axis VMC · first machine included free · additional VMC RM180,000 in-game.';
     if(typeof inspector.showModal==='function')inspector.showModal();else inspector.setAttribute('open','');
+  }
+  inspectBtn.addEventListener('click',()=>{
+    const m=state.machines.find(x=>x.id===chosenId);if(!m)return;
+    showMachinePreview(m.type,m);
   });
+  previewLaserBtn.addEventListener('click',()=>showMachinePreview('LASER',null));
   inspector.querySelector('#closeVmcPreview').addEventListener('click',()=>{if(typeof inspector.close==='function')inspector.close();else inspector.removeAttribute('open');});
   const originalSeed=seed;
   seed=function(){const fresh=originalSeed();fresh.machines[0].tileX=2;fresh.machines[0].tileY=1;fresh.machines[0].model='Starter VMC-760';fresh.layoutVersion=2;chosenId=1;moveMode=false;purchaseMode=null;selectedTile=null;return fresh;};
