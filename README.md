@@ -2,14 +2,15 @@
 
 An original, mobile-friendly factory management simulation game built independently.
 
-## Official game direction (approved 2026-10-18)
+## Official game direction — mobile-first management (2026-10-18)
 
-**Hybrid = isometric factory management + third-person entrepreneur walkabout.** The same saved factory, jobs and cash flow are shared by both modes. We will build production gameplay first, then a small 3D walkable workshop, and only later external business locations.
+**Factory Empire is a manufacturing tycoon/management prototype, not an RPG.** We are prioritizing fun, repeatable decisions and a low-cost market test; no third-person walkabout or open-world city in the current roadmap.
 
-- [Game vision and design rules](docs/GAME_VISION.md)
-- [After-work development roadmap and milestone acceptance tests](docs/DEVELOPMENT_ROADMAP.md)
+- [Updated official game vision](docs/GAME_VISION.md)
+- [Revised development roadmap](docs/DEVELOPMENT_ROADMAP.md)
+- [v0.4 capability, cost, staffing and hot-job design specification](docs/V04_JOBBING_SPEC.md)
 
-**Important:** The hybrid 3D vision is planned. A v0.2 **isometric 2D preview** with original VMC rendering and touch-based placement is now committed; full 3D walking mode is not yet implemented.
+**Release status:** v0.3.4 remains the working playable browser version. v0.4 features are documented proposals/owner rules and **are not implemented** yet.
 
 ## Play
 
