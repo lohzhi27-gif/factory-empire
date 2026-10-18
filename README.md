@@ -19,6 +19,27 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
 
+## v0.3.4 — Main-page Production / Gantt switch (2026-10-18)
+
+As requested in the playtest, Gantt is no longer confined to the right-hand operations sidebar.
+
+- A two-choice workspace switch immediately below the main KPI dashboard provides **1 — Production View** and **2 — Gantt Chart View**.
+- **Production View** keeps the existing isometric workshop, movable machines, right-side customer/order tabs, inventory, factory activity, cash forecast and management decisions.
+- **Gantt Chart View** replaces the two-column dashboard with **one full-width jobbing Gantt**, using the *same existing chart DOM element and planning logic*: material stock/shortage status, incoming supplier POs, production stages, due dates, 14/28/42-day selector and fullscreen.
+- The top-nav **Schedule** shortcut now opens the full-width Gantt rather than scrolling to the former narrow tab. Navigating to Workshop, Production, Customers, Machines or Finance returns to Production View.
+- The **↓ Purchasing** shortcut in Gantt returns to Production View and scrolls to materials. The previous narrow right-side Job Gantt tab is removed to avoid duplicate/competing views.
+- Neither workspace toggle changes the game day, money, machine placement, accepted jobs, procurement or the established local save key.
+
+### Quick verification
+
+1. Open https://lohzhi27-gif.github.io/factory-empire/ and find **WORKSPACE V0.3.4**.
+2. Tap **1 · Production View** to see the familiar factory workspace.
+3. Tap **2 · Gantt Chart View** — the main workshop and side panel are replaced by a full-width jobbing chart.
+4. Try day ranges, horizontal scrolling, **Expand Gantt**, and the top-nav Schedule shortcut.
+5. Use **Production View** (or the return button) to come back to machinery. Check that your orders and machine locations haven't changed.
+6. On mobile, tap **↓ Purchasing** inside Gantt: it should open the inventory in Production View.
+7. Please send a screenshot in your preferred device orientation.
+
 ## v0.3.3 — Jobbing Gantt + material availability (2026-10-18)
 
 **Playable user-requested planning upgrade.** No changes to machine positions, purchases, existing production state, day advancement, or saved game keys.
