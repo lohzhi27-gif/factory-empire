@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.4 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.5 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,32 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.5 ALPHA — Optional HOT JOB customer orders (2026-10-19)
+
+**This is playable code, not only roadmap text.** Customer HOT JOBs occasionally appear in a separate amber-highlighted offer above the normal CNC RFQ list. A visible **🔥 HOT** marker appears on the Customers navigation. They **do not consume a normal quotation slot**.
+
+- A HOT JOB offers a premium price and **four calendar days after PO acceptance** to deliver. For the initial balancing test, **the countdown begins upon accepting the PO**, not when the RFQ appears; this exact starting event is a **provisional choice awaiting the owner's final approval**. Saturdays/Sundays reduce delivery time even though regular production and programming are working-day activities.
+- The first opportunity is scheduled from **Day 8**, once the workshop has had time to develop. Initial test offers arrive **occasionally on Monday or Tuesday** after roughly 8–12 calendar days of cooldown (actual opportunity may be later when weekday conditions are met). This is **tentative balancing**, not an owner-approved frequency.
+- Offers are **optional** with a Decline action that costs nothing. They expire after a short offer period. Showing an offer never automatically accepts or changes a prepared machine.
+- Existing CNC templates only: bracket/block. **Sheet metal stays completely locked** before semi-D Stage 3, consistent with v0.4.4.
+- The offer shows urgent sales value, price premium (initial test **50–80%** per-unit increase), stock needed/on-hand, setup time, earliest machining day, possible at-risk prepared CNCs and four-calendar-day due date if accepted now. Batches are deliberately small so some orders can be completed without IAP.
+- **Award gate:** current stock must cover the batch, one working CNC and minion must exist, active orders must be below five, and two working days of programming must leave a machining day before the customer deadline. Impossible offers are blocked rather than granting instantly produced material/programs.
+- **Normal routing and penalties remain**: acceptance goes through the existing PO/2-workday programming/physical production system. The existing late-delivery invoice discount/reputation consequences apply at day close—no extra hot-job penalty is double-charged.
+- To interrupt an earlier customer order, the player explicitly chooses a CNC from the urgent Production card and taps **Prioritize HOT JOB**. In-progress automatic cuts complete naturally; changing A → B → A requires **full re-setup**, and the same shared-minion attention bottleneck slows the other CNCs. Other jobs remain saved.
+- HOT orders have distinctive 🔥 labels in Production and on the main Gantt. **Gantt remains an approximate forecast** and does not yet incorporate detailed setup/operator delays, which can make actual completion later than its ETA.
+- Existing `localStorage` key `factory_empire_proto_v1` is unchanged. New state fields: `hotOffer`, `hotHistory`, `nextHotOfferDay`, `hotJobsVersion`; previously owned laser machines, orders, cash and state carry forward. **No payments/IAP**.
+
+### HOT JOB laptop playtest
+
+1. Open the game without Restart; the header should show **HOT JOBS v0.4.5 ALPHA**. Use +7 Days to approach Day 8, ideally after accepting and setting up a CNC job. An older saved factory begins with an upcoming eligible day rather than receiving a forced instant order.
+2. On an eligible Monday/Tuesday, look for the **🔥 HOT** Customers tab indicator and separate urgent offer. Verify **four CALENDAR days**, higher unit price and material/setup risk.
+3. **Decline** one offer without losing money, or accept a future offer with sufficient aluminum and order space. If the offer is impossible due to stock, staff or timing, the game should explain why.
+4. In Production tap **Prioritize HOT JOB** on the chosen CNC. Inspect Equipment each hour to see the setup/changeover and slower production on shared staffed cells.
+5. Let the deadline cross a weekend; check due date does not move forward to the next working day. If late, the normal invoice penalty applies, without a separate surprise HOT fee.
+6. Reload mid-offer or mid-job; confirm the pending offer or accepted order, due date, machine setup and cash persist.
+
+**Still planned:** weekend overtime, individual staff skill/morale, per-customer relationship penalties and terms, monthly rent/power overhaul, tapping/polishing/wirecut mechanics and more accurate hourly Gantt forecasting. These do not ship as part of this slice.
 
 ## v0.4.4 ALPHA — Corrected early-stage RFQ visibility (2026-10-19)
 
