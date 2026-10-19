@@ -41,7 +41,7 @@
      <section class="panel"><div class="heading"><h2>Purchasing & Inventory</h2><small>Buy raw materials</small></div><div class="pad slim" id="inventory"></div></section>
      <section class="panel"><div class="heading"><h2>Factory Activity</h2><small>Most recent events</small></div><div class="pad slim activity" id="eventLog"></div></section>
     </div>
-    <div class="bottom-left"><section class="panel"><div class="heading"><h2>Cash Forecast</h2><small>Available cash over time</small></div><div class="pad" id="cashChart"></div></section><section class="panel"><div class="heading"><h2>Executive Decisions</h2><small>Control capacity & cost</small></div><div class="pad"><div class="resource"><div><strong>Production shift</strong><div class="sub">Two shifts increase throughput and labor expense</div></div><button id="shiftBtn" class="btn minor">1 shift</button></div><div class="resource"><div><strong>Hire machine operator</strong><div class="sub">One operator needed per running machine · RM160/day</div></div><button id="hireBtn" class="btn minor">Hire · RM800</button></div><div class="resource"><div><strong>Payroll per day</strong><div class="sub">Paid whether machines are busy or idle</div></div><strong id="payroll">RM160</strong></div></div></section></div>
+    <div class="bottom-left"><section class="panel"><div class="heading"><h2>Cash Forecast</h2><small>Available cash over time</small></div><div class="pad" id="cashChart"></div></section><section class="panel"><div class="heading"><h2>Executive Decisions</h2><small>Control capacity & cost</small></div><div class="pad"><div class="resource"><div><strong>Production shift</strong><div class="sub">Two shifts increase throughput and labor expense</div></div><button id="shiftBtn" class="btn minor">1 shift</button></div><div class="resource"><div><strong>Hire machine operator</strong><div class="sub">One Ironman can tend 2–3 CNCs · RM120/workday</div></div><button id="hireBtn" class="btn minor">Hire · RM800</button></div><div class="resource"><div><strong>Payroll per day</strong><div class="sub">Paid whether machines are busy or idle</div></div><strong id="payroll">RM300</strong></div></div></section></div>
    </div>
    <div class="panel">
     <div class="tabs"><button class="tab active" data-tab="rfqs">New RFQs <span id="rfqCount"></span></button><button class="tab" data-tab="orders">Production <span id="jobCount"></span></button><button class="tab" data-tab="machines">Equipment</button><button class="tab" data-tab="reports">Finance</button></div>
@@ -111,7 +111,7 @@ function maintain(id){const m=state.machines.find(x=>x.id===id);if(!m)return;if(
  log((m.type==='LASER'?'Major service':'Preventive maintenance')+' completed on machine #'+id+' (RM850)');update()}
 function nextDay(){state.day++;if(typeof advanceProductionRouting==='function')advanceProductionRouting();let output=0;
 const workday=((state.day-1)%7+7)%7<5;
-const wage=workday?(state.workers*160+Math.max(1,Number(state.programmers)||1)*180+(state.tappingOperators||0)*160):0,utilities=workday?state.machines.length*38*state.shifts:0;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
+const wage=workday?(state.workers*120+Math.max(1,Number(state.programmers)||1)*180+(state.tappingOperators||0)*120):0,utilities=workday?state.machines.length*38*state.shifts:0;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
  if(typeof runJobbingProduction==='function'){output=runJobbingProduction(workday)}else{
  // The most urgent compatible job is assigned before each machine's daily schedule.
  const machineOrder=state.machines.map(m=>({m,deadline:Math.min(...state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))).map(j=>j.dueDay).concat([9999]))})).sort((a,b)=>a.deadline-b.deadline);
@@ -157,7 +157,7 @@ function renderJobs(){document.getElementById('jobCount').textContent=state.jobs
 function renderMachines(){document.getElementById('machineList').innerHTML=state.machines.map(m=>`<div class="machine"><div class="left"><div class="iconbox">${m.type==='CNC'?'⚙':'✂'}</div><div><strong>${m.type==='CNC'?'CNC Milling':'CNC Laser Cutting'} #${m.id}</strong><div class="sub">Condition: ${Math.round(m.condition)}% · ${m.condition<=15?'NEEDS MAINTENANCE':m.condition<=45?'WEAR WARNING':'Available'}</div></div></div><div class="right"><button class="btn minor ghost" data-maintain="${m.id}" ${m.condition>=99?'disabled':''}>Repair RM850</button></div></div>`).join('');document.querySelectorAll('[data-buy]').forEach(x=>x.disabled=state.cash<(x.dataset.buy==='CNC'?28000:150000)||state.machines.length>=slots.length)}
 function renderFinance(){const inventoryValue=state.aluminum*25+state.steel*12, ar=state.receivables.reduce((a,x)=>a+x.total,0),bookValue=state.machines.reduce((a,x)=>a+(x.type==='CNC'?180000:150000)*Math.max(.45,1-.015*(state.day-1)),0),netCash=state.totalPaid-state.totalMaterials-state.totalExpenses-state.totalCapex;
  document.getElementById('financeReport').innerHTML=`<div class="resource"><div><strong>Total invoiced sales</strong><div class="sub">Earned revenue; not all cash collected</div></div><strong>${F(state.totalBilled)}</strong></div><div class="resource"><div><strong>Payments collected</strong><div class="sub">Actual customer receipts</div></div><strong>${F(state.totalPaid)}</strong></div><div class="resource"><div><strong>Raw material purchases</strong></div><strong>${F(state.totalMaterials)}</strong></div><div class="resource"><div><strong>Payroll, overhead, maintenance, sales</strong></div><strong>${F(state.totalExpenses)}</strong></div><div class="resource"><div><strong>Machinery investment</strong></div><strong>${F(state.totalCapex)}</strong></div><div class="resource"><div><strong>Operating cash balance</strong></div><strong>${F(state.cash)}</strong></div><div class="resource"><div><strong>Stock + receivables</strong><div class="sub">Inventory at purchasing prices</div></div><strong>${F(inventoryValue+ar)}</strong></div><div class="resource"><div><strong>Illustrative machinery book value</strong><div class="sub">Simplified depreciation proxy</div></div><strong>${F(bookValue)}</strong></div><div class="resource"><div><strong>Good pieces / rejected</strong></div><strong>${state.totalProduced} / ${state.totalScrap}</strong></div><div class="resource"><div><strong>Shipments on-time / total</strong></div><strong>${state.onTime} / ${state.completed}</strong></div><div class="tooltip" style="margin-top:12px">Accounting is simplified for gameplay. Figures are not GAAP financial statements and exclude tax, debt, actual depreciation accounting, and customer-specific commercial terms.</div>`;
- document.getElementById('payroll').textContent=F(Math.round(state.workers*160*(state.shifts===2?1.65:1)));document.getElementById('shiftBtn').textContent=state.shifts===1?'1 shift':'2 shifts';document.getElementById('shiftBtn').classList.toggle('selected',state.shifts===2);document.getElementById('hireBtn').disabled=state.workers>=state.machines.length||state.cash<800;
+ document.getElementById('payroll').textContent=F(Math.round(state.workers*120*(state.shifts===2?1.65:1)+Math.max(1,Number(state.programmers)||1)*180+(state.tappingOperators||0)*120));document.getElementById('shiftBtn').textContent=state.shifts===1?'1 shift':'2 shifts';document.getElementById('shiftBtn').classList.toggle('selected',state.shifts===2);document.getElementById('hireBtn').disabled=state.workers>=state.machines.length||state.cash<800;
  }
 function cashChart(){const vals=state.history, min=Math.min(...vals)-5000,max=Math.max(...vals)+5000,pts=vals.map((v,i)=>[(i/(Math.max(1,vals.length-1))*340+9).toFixed(1),(88-(v-min)/(max-min)*73).toFixed(1)]),path=pts.map((p,i)=>(i?'L':'M')+p.join(',')).join(' ');document.getElementById('cashChart').innerHTML=`<svg viewBox="0 0 360 105" class="bargraph" preserveAspectRatio="none" aria-label="Cash balance historical trend"><line x1="0" y1="88" x2="360" y2="88" stroke="#3b4d61"/><line x1="0" y1="50" x2="360" y2="50" stroke="#2b4154" stroke-dasharray="5,5"/><path d="${path}" fill="none" stroke="${state.cash>=0?'#55d6cb':'#ec8181'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="sectrow"><span class="mini">Day 1–${state.day}</span><strong style="color:${state.cash>=0?'var(--good)':'var(--red)'}">${F(state.cash)}</strong></div>`}
 // Isometric canvas: all shapes are original procedural vector drawings (no external image assets).
@@ -222,31 +222,58 @@ function render(){
 }
 // Navigation is a safety-critical interaction. Switch visible panels FIRST;
  // an optional Gantt/Equipment widget must not trap the player if its draw fails.
-function tabTo(name){
- const permitted=['rfqs','orders','machines','reports'];
- if(!permitted.includes(name))return;
+function tabTo(name){selectFactoryPanel(name,true)}
+
+// Factory UI recovery is registered CAPTURE-phase on the document. It runs
+// before legacy dashboard listeners and remains usable even if an optional
+// add-on throws while setting up its own click handlers.
+function selectFactoryPanel(name,refresh){
+ const pages=['rfqs','orders','machines','reports'];
+ if(!pages.includes(name))return;
  currentTab=name;
- // A collapsed/full-screen planning view must not cover the navigation tabs.
  document.body.classList.remove('sheet-fullscreen','gantt-expanded','floor-expanded','main-gantt-view');
  const floor=document.querySelector('.gamegrid');
  if(floor)floor.hidden=false;
- const fullGantt=document.getElementById('mainGanttPanel');
- if(fullGantt)fullGantt.hidden=true;
- const oldWarning=document.getElementById('interfaceStatus');
- if(oldWarning)oldWarning.hidden=true;
- const selectPanel=()=>{
-   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
-   document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('active',p.id===name));
-   document.querySelectorAll('.main-nav [data-nav]').forEach(t=>t.classList.toggle('active',t.dataset.nav===name));
- };
- selectPanel();
- try{render();}
- catch(err){
-   console.error('Factory Empire: panel redraw failed; preserving navigation',err);
-   const banner=document.getElementById('interfaceStatus');
-   if(banner){banner.hidden=false;banner.textContent='Panel opened. Some details could not refresh; please reload if needed.';}
- }finally{selectPanel();}
+ const former=document.getElementById('mainGanttPanel');
+ if(former)former.hidden=true;
+ function setSelected(){
+  document.querySelectorAll('.tab').forEach(button=>{
+    const active=button.dataset.tab===name;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-selected',String(active));
+  });
+  document.querySelectorAll('.tabpage').forEach(panel=>{
+    panel.classList.toggle('active',panel.id===name);
+    panel.hidden=panel.id!==name;
+  });
+  document.querySelectorAll('.main-nav [data-nav]').forEach(button=>{
+    const active=button.dataset.nav===name;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-current',active?'page':'false');
+  });
+ }
+ setSelected();
+ if(refresh){
+  try{render();}
+  catch(error){
+   console.error('Factory Empire panel refresh failed',error);
+   const notice=document.getElementById('interfaceStatus');
+   if(notice){notice.hidden=false;notice.textContent='One panel could not refresh, but navigation remains available. Please report this message.';}
+  }finally{setSelected();}
+ }
 }
+document.addEventListener('click',function factoryPanelCapture(event){
+ const target=event.target?.closest?.('button[data-tab],button[data-nav]');
+ if(!target)return;
+ const key=target.dataset.tab||target.dataset.nav;
+ if(!['rfqs','orders','machines','reports'].includes(key))return;
+ event.preventDefault();
+ event.stopImmediatePropagation();
+ selectFactoryPanel(key,true);
+ if(target.dataset.nav){
+  document.querySelector('.operations-panel')?.scrollIntoView({behavior:'smooth',block:'start'});
+ }
+},true);
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.tab)return tabTo(b.dataset.tab);if(b.dataset.accept)return accept(+b.dataset.accept);if(b.dataset.buy)return buyMachine(b.dataset.buy);if(b.dataset.maintain)return maintain(+b.dataset.maintain);if(b.dataset.material)return buyMaterial(b.dataset.material)});
 document.getElementById('nextDayBtn').onclick=nextDay;
 document.getElementById('weekBtn').onclick=()=>{for(let i=0;i<7;i++)nextDay();toast('Advanced 7 factory days')};
@@ -271,5 +298,22 @@ render();
 <script src="founding-customer-materials-v046.js?v=49"></script>
 <script src="production-sheet-v047.js?v=50"></script>
 <script src="workshop-support-v048.js?v=50"></script>
+<script>
+(function factoryRecoveryVersion(){
+ const version='v0.4.10';
+ const update=()=>{
+  const marker=document.querySelector('.identity p');
+  if(marker)marker.textContent='INDUSTRIAL TYCOON · PANEL RECOVERY '+version+' ALPHA';
+  const note=document.getElementById('interfaceStatus');
+  if(note&&(!state?.workshopSupportVersion || state.workshopSupportVersion<48)){
+   note.hidden=false;
+   note.textContent='Support module did not finish loading. Navigation recovery is active. Please share this warning.';
+  }
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',update);
+ else update();
+ window.addEventListener('pageshow',update);
+})();
+</script>
 </body>
 </html>
