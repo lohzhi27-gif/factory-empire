@@ -89,7 +89,8 @@ function maintain(id){const m=state.machines.find(x=>x.id===id);if(!m)return;if(
  log((m.type==='LASER'?'Major service':'Preventive maintenance')+' completed on machine #'+id+' (RM850)');update()}
 function nextDay(){state.day++;if(typeof advanceProductionRouting==='function')advanceProductionRouting();let output=0;
 const workday=((state.day-1)%7+7)%7<5;
-const wage=workday?state.workers*160*(state.shifts===2?1.65:1):0,utilities=workday?state.machines.length*38*state.shifts:0;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
+const wage=workday?state.workers*160:0,utilities=workday?state.machines.length*38*state.shifts:0;const overhead=120;let dayExpense=Math.round(wage+utilities+overhead);state.cash-=dayExpense;state.totalExpenses+=dayExpense;
+ if(typeof runJobbingProduction==='function'){output=runJobbingProduction(workday)}else{
  // The most urgent compatible job is assigned before each machine's daily schedule.
  const machineOrder=state.machines.map(m=>({m,deadline:Math.min(...state.jobs.filter(j=>P[j.product].machine===m.type&&j.done<j.qty&&(!j.routing||(j.routing.phase==='machining'&&(!j.routing.machineReadyDay||j.routing.machineReadyDay<=state.day)))).map(j=>j.dueDay).concat([9999]))})).sort((a,b)=>a.deadline-b.deadline);
  const activeMachines=workday?machineOrder.slice(0,state.workers).map(x=>x.m):[];
@@ -113,6 +114,7 @@ const wage=workday?state.workers*160*(state.shifts===2?1.65:1):0,utilities=workd
     }else{
       m.condition=Math.max(0,+(m.condition-(1.0+runs*.055)).toFixed(1));
     }
+ }
  }
  }
  state.lastOutput=output;
@@ -185,5 +187,6 @@ render();
 <script src="ui-v03.js?v=32"></script>
 <script src="gantt-v033.js?v=34"></script>
 <script src="main-views-v034.js?v=35"></script>
+<script src="jobbing-v040.js?v=40"></script>
 </body>
 </html>
