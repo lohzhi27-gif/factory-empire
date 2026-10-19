@@ -1,5 +1,5 @@
 /*
- * Factory Empire v0.4.3 alpha — Stage 1 / 2 quotation gate.
+ * Factory Empire v0.4.4 alpha — Stage 1 / 2 quotation gate.
  *
  * Laser and sheet-metal RFQs must never be offered before Stage 3.
  * Save prior unaccepted legacy offers in an inert archive, leaving already
@@ -40,7 +40,7 @@
   render=function(){
     previousRender();
     const tagline=document.querySelector('.identity p');
-    if(tagline)tagline.textContent='INDUSTRIAL TYCOON · CNC RFQs v0.4.3 ALPHA';
+    if(tagline)tagline.textContent='INDUSTRIAL TYCOON · CNC RFQs v0.4.4 ALPHA';
   };
   render();
 })();
