@@ -45,6 +45,7 @@
    </div>
    <div class="panel">
     <div class="tabs"><button class="tab active" data-tab="rfqs">New RFQs <span id="rfqCount"></span></button><button class="tab" data-tab="orders">Production <span id="jobCount"></span></button><button class="tab" data-tab="machines">Equipment</button><button class="tab" data-tab="reports">Finance</button></div>
+    <div id="interfaceStatus" class="interface-status" role="status" hidden></div>
     <div class="rightscroll"><div id="rfqs" class="tabpage active"><div class="section"><h3>Incoming CNC quotations</h3><div class="mini">CNC milling RFQs only. Sheet-metal quotations unlock at Stage 3, after the semi-D factory expansion.</div><div id="rfqList"></div><div style="padding-top:10px"><button class="btn ghost minor" id="newRfqBtn">Find another RFQ · RM300</button></div></div></div>
       <div id="orders" class="tabpage"><div class="section"><h3>Live production orders</h3><div class="mini">Your available machines automatically prioritize the nearest deadlines. Complete orders to issue invoices.</div><div id="orderList"></div></div><div class="section"><h3>Accounts receivable</h3><div class="mini">Customers pay 7 days after the order is shipped.</div><div id="receivableList"></div></div></div>
       <div id="machines" class="tabpage"><div class="section"><h3>Machine fleet</h3><div class="mini">Machinery condition affects production. Maintenance restores equipment health.</div><div id="machineList"></div></div><div class="section"><h3>Capital investment</h3><div class="mini">Buying a machine does not automatically give you an operator.</div><div class="twocol"><div class="buycard"><h4>⚙ CNC Mill</h4><div class="desc">Produce precision brackets and machined aluminum parts</div><div class="cost">RM28,000</div><button class="btn minor primary" data-buy="CNC">Buy CNC</button></div><div class="buycard"><h4>✂ Laser Cutter</h4><div class="desc">Produce steel panels and cut sheet-metal components</div><div class="cost">RM150,000</div><button class="btn minor primary" data-buy="LASER">Buy laser</button></div></div></div></div>
@@ -197,6 +198,14 @@ function tabTo(name){
  const permitted=['rfqs','orders','machines','reports'];
  if(!permitted.includes(name))return;
  currentTab=name;
+ // A collapsed/full-screen planning view must not cover the navigation tabs.
+ document.body.classList.remove('sheet-fullscreen','gantt-expanded','floor-expanded','main-gantt-view');
+ const floor=document.querySelector('.gamegrid');
+ if(floor)floor.hidden=false;
+ const fullGantt=document.getElementById('mainGanttPanel');
+ if(fullGantt)fullGantt.hidden=true;
+ const oldWarning=document.getElementById('interfaceStatus');
+ if(oldWarning)oldWarning.hidden=true;
  const selectPanel=()=>{
    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
    document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('active',p.id===name));
