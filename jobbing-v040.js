@@ -44,7 +44,7 @@ var runJobbingProduction;
       if(!chosen){m.manualJobId=null;}else{return qualified(chosen,m)?chosen:null;}
     }
     // Maintain the current configured part unless an earlier-due order requires changeover.
-    return state.jobs.filter(j=>qualified(j,m)).sort((a,b)=>a.dueDay-b.dueDay||
+    return state.jobs.filter(j=>qualified(j,m)&&hasQty(j)).sort((a,b)=>a.dueDay-b.dueDay||
       (a.product===m.setupPart?-1:b.product===m.setupPart?1:0))[0]||null;
   }
   function inflight(jobId){
@@ -62,6 +62,7 @@ var runJobbingProduction;
   function need(m,j){
     if(!j||m.condition<=15||m.cutRemaining>0)return null;
     if(m.loadRemaining>0)return {kind:'load',job:j};
+    if(!hasQty(j))return null;
     if(m.setupFor && m.setupFor!==j.product){
       // A change in the selected job resets any incomplete setup.
       m.setupFor=null;m.setupRemaining=0;
@@ -202,6 +203,35 @@ var runJobbingProduction;
       options.map(j=>'<option value="'+j.id+'"'+(m.manualJobId===j.id?' selected':'')+'>'+
       escapeHtml(P[j.product].short)+' · D'+j.dueDay+'</option>').join('');
   }
+  // Stage 1 milestone: new players begin in a tiny 2-CNC room. Preserve all
+  // earlier saves and already-owned lasers rather than confiscating equipment.
+  const previousBuy=buyMachine;
+  buyMachine=function(type){
+    if(type==='LASER'){toast('Sheet metal and new laser purchases unlock at Stage 3 · Semi-D factory');return;}
+    if(state.machines.length>=2){toast('Starter room limit: 2 machines. Shoplot expansion comes at Stage 2');return;}
+    return previousBuy(type);
+  };
+  const previousAccept=accept;
+  accept=function(id){
+    const q=state.rfqs.find(x=>x.id===id);
+    if(q && P[q.product]?.machine==='LASER'){
+      toast('Sheet-metal orders unlock at Stage 3 · Semi-D factory');
+      return;
+    }
+    return previousAccept(id);
+  };
+  // Future prospecting in the starter room offers CNC-only jobs; previous
+  // saved RFQs remain untouched and are labeled if still locked.
+  addRfq=function(paid){
+    if(paid && state.cash<300){toast('Insufficient cash for prospecting');return;}
+    if(state.rfqs.length>=5){toast('Complete or accept existing quotations first');return;}
+    if(paid){state.cash-=300;state.totalExpenses+=300;}
+    const product=Math.random()<.5?'bracket':'block',p=P[product];
+    const qty=rnd(25,85),dueOffset=rnd(5,13),offer=Math.round(p.unit*(.85+Math.random()*.27));
+    state.rfqs.push({id:state.nextId++,product,qty,dueOffset,offer});
+    if(paid)log('Sales generated a new CNC customer RFQ (RM300)');
+    update();
+  };
   const oldMachineRender=renderMachines;
   renderMachines=function(){
     init();
@@ -221,6 +251,15 @@ var runJobbingProduction;
         '<label>Machine job priority <select data-machine-job="'+m.id+'" aria-label="Production assignment for machine '+m.id+'">'+
         jobOptions(m)+'</select></label>';
       card.appendChild(extra);
+    });
+    document.querySelectorAll('[data-buy]').forEach(b=>{
+      if(b.dataset.buy==='LASER'){
+        b.disabled=true;b.title='Sheet metal unlocks at Stage 3 (semi-D)';
+        b.textContent='🔒 Stage 3 · Sheet Metal';
+      }else if(state.machines.length>=2){
+        b.disabled=true;b.title='Starter room fits a maximum of two machines';
+        b.textContent='🔒 Room full · Stage 2';
+      }
     });
   };
   const oldJobRender=renderJobs;
@@ -243,6 +282,16 @@ var runJobbingProduction;
     const cards=document.querySelectorAll('#rfqList .rfq');
     cards.forEach((card,i)=>{
       const q=state.rfqs[i];if(!q)return;
+      if(P[q.product]?.machine==='LASER'){
+        const btn=card.querySelector('[data-accept]');
+        if(btn){btn.disabled=true;btn.textContent='🔒 Unlock sheet metal · Stage 3';}
+        const warning=document.createElement('div');
+        warning.className='jobbing-rfq-setup';
+        warning.textContent='Semi-D industrial lot required. Sheet-metal production remains locked until Stage 3.';
+        const footer=card.querySelector('.rfqfoot');
+        if(footer)card.insertBefore(warning,footer);
+        return;
+      }
       const info=document.createElement('div');
       info.className='jobbing-rfq-setup';
       info.textContent='New part setup · '+difficulty(q.product)+' · '+setupMinutes(q.product)+' min of operator time / changeover';
