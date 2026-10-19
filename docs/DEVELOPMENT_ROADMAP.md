@@ -11,7 +11,7 @@ The *long-term fantasy* is to build from one humble rented-room CNC to a group o
 ## Completed / approved
 - **v0.1–v0.2:** original workshop prototype and touch-controlled machinery placement.
 - **v0.3–v0.3.4:** factory dashboard, material procurement queue, two-day programming before machining, and full-width Gantt with material status and PO arrivals; current approved foundation.
-- **v0.4.9 alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
+- **v0.4.10 alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
 
 ## Proposed release sequence
 
@@ -42,6 +42,13 @@ Full stage details, migration rules and proposed bank screening logic: [Long-ter
 **Bank loans:** no instant cash for an unproven starter room. A credible shoplot player must build a trading record and meet a minimum sales/repayment threshold. Candidate balancing figures (NOT approved constants) include three in-game months of trading, RM50k sales over those months, at least 80% OTD and monthly cash coverage above 1.3× installments. Loan decisions may be conditional/rejected; repay principal/interest on schedule. The player can also save up without borrowing.
 
 **IAP vs gameplay:** the owner wants optional later real-money expansion opportunities for in-house painting/treatment. Avoid essential capability paywalls: substantial in-game cash, careful financing and subcontracting must remain viable for non-paying players.
+
+## v0.4.10 alpha — panel navigation recovery and corrected minion wages (2026-10-19)
+
+- After owner screenshot still showed v0.4.7 and nonfunctional panel tabs, route navigation through an early **capture-phase** DOM handler embedded in the main page, not through optional later modules. Direct panel activation remains functional even if a widget throws; full-screen overlays are dismissed. Each dashboard render is independently guarded.
+- Main HTML now sets the final v0.4.10 build marker at load and warns if the v0.4.8 support module failed to initialize.
+- Correct **CNC minion and dedicated tapping minion salary to RM120/working day**; programmer remains RM180/day including first starter programmer, charged in the actual financial simulation and visible in Finance. Previous RM160 day rates are retired.
+- Preserve all preexisting saves, machines, jobs and cash. Owner laptop retest required before moving on.
 
 ## v0.4.9 alpha — release-blocking panel navigation and starter programmer payroll (2026-10-19)
 
