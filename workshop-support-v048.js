@@ -163,7 +163,7 @@
      '<div class="support-heading"><strong>🧰 Support stations & programming</strong><small>Auxiliary equipment does NOT occupy your 2-CNC room limit</small></div>'+
      '<div class="support-stations"><section class="support-station">'+
      '<h4>⌨ Programmer desk</h4><strong>'+state.programmers+' / '+state.programmerDesks+' active desk'+(state.programmerDesks===1?'':'s')+'</strong>'+
-     '<p>Starter desk included · each programmer works on one two-day program at a time.</p>'+
+     '<p>Desk included, programmer salary RM180/working day. One programmer advances one two-day program at a time.</p>'+
      (cncList().length>=4?
       '<button class="btn minor ghost" type="button" data-support-buy="programmer">Add programmer + desk · RM2,000</button>':
       '<small>🔒 Extra programmers unlock in Stage 2 (4 CNCs).</small>')+
@@ -183,8 +183,13 @@
  renderFinance=function(){
    init();beforeFinance();
    const payroll=document.getElementById('payroll');
+   if(payroll){
+     payroll.title='CNC workers: '+(state.workers||0)+' × RM160; programmers: '+
+       Math.max(1,Number(state.programmers)||1)+' × RM180; tapping minions: '+
+       (state.tappingOperators||0)+' × RM160 per staffed working day';
+   }
    if(payroll)payroll.textContent=F((state.workers||0)*160+
-     Math.max(0,(state.programmers||1)-1)*180+(state.tappingOperators||0)*160)+
+     Math.max(1,Number(state.programmers)||1)*180+(state.tappingOperators||0)*160)+
      ' / staffed working day (CNC + office + tapping)';
  };
   const beforeJobs=renderJobs;
