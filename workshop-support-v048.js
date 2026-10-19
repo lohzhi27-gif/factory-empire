@@ -66,7 +66,8 @@
    }
    // Starter tapping is performed opportunistically, without hiring a
    // dedicated tapping minion. Restrict actual station run to half a shift.
-   let budget=Math.min(Math.max(0,minutes),Math.max(0,210-(state.tappingTodayMinutes||0)));
+   const tapDayCapacity=cncList().length>=6?420:210;
+   let budget=Math.min(Math.max(0,minutes),Math.max(0,tapDayCapacity-(state.tappingTodayMinutes||0)));
    let used=0,finished=0;
    const queue=state.jobs.filter(j=>P[j.product]?.requiresTapping&&
      (Number(j.cncDone)||0)>j.done).sort((a,b)=>a.dueDay-b.dueDay);
@@ -168,7 +169,7 @@
       '<small>🔒 Extra programmers unlock in Stage 2 (4 CNCs).</small>')+
      '</section><section class="support-station"><h4>🔩 Tapping station</h4><strong>'+
      (state.supportEquipment.tappingStations?'Installed · 1 station':'Not purchased')+'</strong>'+
-     '<p>First stage: occasional tapping work without a dedicated operator. 30m first setup + 2m per piece (test values), up to half a shift/day.</p>'+
+     '<p>First stage: occasional tapping work without a dedicated operator. 30m first setup + 2m per piece (test values), up to half a shift/day before Stage 3; a dedicated minion later allows a full shift.</p>'+
      (!state.supportEquipment.tappingStations?
        '<button class="btn minor gold" type="button" data-support-buy="tapping">Buy tapping station · '+F(TAP_PRICE)+'</button>':
        (canStaff?
