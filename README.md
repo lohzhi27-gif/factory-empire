@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.3 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.4 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,19 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.4 ALPHA — Corrected early-stage RFQ visibility (2026-10-19)
+
+**Follow-up bug fix after screenshot:** the Sheet Metal Cabinet Panel was still visible in a tester's saved early-stage RFQs, despite its button being locked. The restriction has been moved into the **main application state initialization** and **base RFQ renderer**, rather than relying on a late-loaded UI patch alone.
+
+- Any unaccepted LASER/sheet-metal RFQ from an existing local save is archived once as `state.deferredSheetMetalRfqs` and immediately removed from `state.rfqs` before the initial RFQ list displays. Quote counter and prospecting capacity count CNC jobs only.
+- The base `addRfq` generator is now CNC-only as well. The already-existing jobbing prospecting override also produces CNC jobs only.
+- The base `renderRfq` independently rechecks the active RFQs every render, preventing previously cached or accidentally inserted locked offers from displaying.
+- **No factory reset required**; cash, active accepted jobs, existing purchased lasers, machine setups and worker assignments are not changed.
+- Quotation panel explicitly says **Incoming CNC quotations**. After a fresh reload the header should say **CNC RFQs v0.4.4 ALPHA**.
+- If a browser still shows the older page, use Ctrl+Shift+R or open the game with `?v=044` to bypass an older cached HTML page. GitHub Pages deployment may take a short time.
+
+**Regression tests:** simulated first-load migration of a legacy save with both CNC and LASER quotations; no laser cards or wrong RFQ count; new-game seed; fresh quote generator; repeated reload idempotency; accepted laser jobs and owned machines preserved.
 
 ## v0.4.3 ALPHA — CNC-only RFQ board before Stage 3 (2026-10-19)
 
