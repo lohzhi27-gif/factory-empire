@@ -10,6 +10,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Revised development roadmap](docs/DEVELOPMENT_ROADMAP.md)
 - [v0.4 capability, cost, staffing and hot-job design specification](docs/V04_JOBBING_SPEC.md)
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
+- [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
 **Release status:** v0.3.4 remains the working playable browser version. v0.4 features are documented proposals/owner rules and **are not implemented** yet.
 
