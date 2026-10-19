@@ -97,13 +97,13 @@
  }
  function tally(j){
    const p=P[j.product];
-   const good=Math.max(0,Number(j.done)||0),bad=Math.max(0,Number(j.scrap)||0),running=inflight(j);
+   const good=Math.max(0,Number(p.requiresTapping?j.cncDone:j.done)||0),bad=Math.max(0,Number(j.scrap)||0),running=inflight(j);
    const need=Math.max(0,(Number(j.qty)||0)-good-running)*p.material;
    const used=(good+bad+running)*p.material;
    const open=state.jobs.reduce((sum,x)=>{
       const px=P[x.product];
       return sum+((px&&px.mat===p.mat)?
-        Math.max(0,x.qty-x.done-inflight(x))*px.material:0);
+        Math.max(0,x.qty-(px.requiresTapping?(x.cncDone||0):x.done)-inflight(x))*px.material:0);
    },0);
    return {used,need,short:Math.max(0,open-(Number(state[p.mat])||0)),name:p.mat};
  }
@@ -116,7 +116,11 @@
    const r=j.routing||{};
    if(r.phase==='awaiting_material')return {label:'MATERIAL',cls:'material'};
    if(r.phase==='programming')return {label:'PROGRAM',cls:'programming'};
-   if(r.phase==='machining')return {label:'READY / CNC',cls:'ready'};
+   if(r.phase==='machining'){
+     if(P[j.product]?.requiresTapping && (j.cncDone||0)>j.done)
+       return {label:'TAPPING '+j.done+'/'+j.qty,cls:'setting'};
+     return {label:'READY / CNC',cls:'ready'};
+   }
    return {label:'QUEUED',cls:'queued'};
  }
  function ganttForecasts(){
@@ -163,7 +167,9 @@
      const mat=tally(j),pdone=Math.round(j.done/Math.max(1,j.qty)*100);
      const info=status(j),pr=projects.get(j.id);
      const risk=(pr?.eta!==null&&pr?.eta!==undefined&&pr.eta>j.dueDay)||mat.short>.001||j.dueDay<state.day;
-     const assigned=state.machines.some(m=>m.manualJobId===j.id||m.cutJobId===j.id||m.loadJobId===j.id);
+     const assignedMachines=state.machines.filter(m=>m.type===p.machine&&
+       (m.manualJobId===j.id||m.cutJobId===j.id||m.loadJobId===j.id));
+     const assigned=assignedMachines.length>0;
      if(risk)riskCount++;
      const hay=('PO '+j.id+' '+p.short+' '+p.name+' '+j.customer).toLowerCase();
      if(q&&!hay.includes(q))continue;
@@ -175,7 +181,9 @@
        '<td><strong>'+txt(j.done)+' / '+txt(j.qty)+'</strong><div class="sheet-mini-progress"><i style="width:'+pdone+'%"></i></div></td>'+
        '<td><strong>'+kilo(mat.used)+' used</strong><small>'+kilo(mat.need)+' still needed</small>'+
          (mat.short>.001?'<small class="sheet-warn">Shared shortage '+kilo(mat.short)+'</small>':'')+'</td>'+
-       '<td><span class="sheet-process '+info.cls+'">'+txt(info.label)+'</span></td>'+
+       '<td><span class="sheet-process '+info.cls+'">'+txt(info.label)+'</span>'+
+       (assigned?'<small class="sheet-machine-tags">'+assignedMachines.map(m=>'CNC #'+m.id).join(' + ')+'</small>':'')+
+       '</td>'+
        '<td><strong>D'+txt(j.dueDay)+'</strong><small>'+((pr?.eta!==null&&pr?.eta!==undefined)?'ETA D'+pr.eta:'ETA unknown')+'</small>'+
          (risk?'<small class="sheet-warn">Check risk</small>':'')+'</td>'+
        '<td><div class="sheet-week">'+miniTimeline(j,pr)+'</div></td>'+
