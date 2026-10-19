@@ -483,3 +483,7 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
 .hot-job-dispatch select{width:100%;min-width:0;padding:10px 9px;min-height:42px;background:#1c3047;border:1px solid #bc955e;border-radius:8px;color:#f5eff0;font:inherit}
 .hot-job-dispatch button{min-height:42px}
 @media (max-width:740px){.hot-job-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.hot-job-top h4{font-size:14px}.hot-job-actions .btn{flex:1}}
+
+/* v0.4.5 urgent offer visible when player is on Production/Gantt */
+.hot-offer-indicator{display:inline-block;margin-left:5px;padding:3px 6px;border-radius:5px;border:1px solid #ffbd6c;background:#7d3e28;color:#fff1d2;font-size:9px;font-weight:900;letter-spacing:.2px;white-space:nowrap;vertical-align:middle}
+[data-tab="rfqs"]:has(.hot-offer-indicator),[data-nav="rfqs"]:has(.hot-offer-indicator){box-shadow:0 0 10px #f8a54f44}
