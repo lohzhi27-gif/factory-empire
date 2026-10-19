@@ -38,10 +38,19 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
     }
     save();
   }
+  function manualPriorityReady(m){
+    if(!m || m.manualJobId===null || m.manualJobId===undefined)return false;
+    const requested=state.jobs.find(j=>j.id===m.manualJobId);
+    return !!requested && qualified(requested,m);
+  }
   function getJob(m){
     if(m.manualJobId!==null){
       const chosen=state.jobs.find(j=>j.id===m.manualJobId&&P[j.product]?.machine===m.type&&j.done<j.qty);
-      if(!chosen){m.manualJobId=null;}else{return qualified(chosen,m)?chosen:null;}
+      if(!chosen){m.manualJobId=null;}
+      else if(qualified(chosen,m))return chosen;
+      // Keep the existing CNC producing while a manually selected HOT JOB
+      // waits for supplier material or its two-day programming to finish.
+      // Switch only after its normal routing makes it machinable.
     }
     // Maintain the current configured part unless an earlier-due order requires changeover.
     return state.jobs.filter(j=>qualified(j,m)&&hasQty(j)).sort((a,b)=>a.dueDay-b.dueDay||
@@ -126,7 +135,7 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
         let task=tasks[w];
         if(task && (!group.some(m=>m.id===task.machineId) ||
           !state.jobs.some(j=>j.id===task.jobId && j.done<j.qty) ||
-          (group.find(m=>m.id===task.machineId)?.manualJobId!==null &&
+          (manualPriorityReady(group.find(m=>m.id===task.machineId)) &&
            group.find(m=>m.id===task.machineId)?.manualJobId!==task.jobId))){
           task=null;tasks[w]=null;
         }
@@ -136,7 +145,7 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
             const j=jobForMachine(m);
             const request=need(m,j);
             if(!request)continue;
-            const priority=(m.manualJobId!==null?-100000:0)+j.dueDay*10+
+            const priority=(manualPriorityReady(m)?-100000:0)+j.dueDay*10+
               (request.kind==='setup'?0:1);
             options.push({m,j,kind:request.kind,priority});
           }
