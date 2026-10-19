@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.7 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.8 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,20 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.8 ALPHA — Two CNCs, tapping station, starter programmer desk (2026-10-19)
+
+**Playtest findings / owner design decisions implemented:**
+- **Assign the same customer PO to both CNCs:** Open Production & Schedule → **Details ↗** on any accepted CNC order. Tap **+ Assign CNC #1 / #2** independently. A single Ironman can attend both machines but cannot do overlapping setups/reloads. Each CNC keeps its own setup and material consumption, while *completed / ordered pieces* is combined once at the PO level. No duplicate finished pieces allowed when two spindles are cutting the final few pieces.
+- **Per-machine good-piece counters:** Each PO lists good output attributable to CNC #1 and #2 **since this release**; the Equipment cards also show contribution to the assigned/current PO. Pre-existing good-piece totals remain included in the PO progress but are not falsely assigned retroactively to a specific CNC. Two CNCs can therefore improve OTD instead of silently locking one machine out.
+- **Starter tapping station:** Available to **buy in Equipment during Stage 1** for **RM4,500 in-game** (provisional balance). This is auxiliary support equipment, **not one of the two allowed CNCs**. A new fictional **Threaded CNC Bracket** RFQ requiring tapping appears sometimes. The order **cannot be accepted until the tapping station is owned**.
+- **Real second operation:** A successfully milled threaded bracket becomes `cncDone` (machined quantity); only after the tapping station does it count toward `done` / shipment. Tapping processes up to 210 station-minutes/day without a *dedicated assigned minion* while the factory has fewer than six CNCs; test timings: **30 minutes setup per tapped PO + 2 minutes per piece**. At **six or more CNCs**, require a dedicated tapping minion (RM800 hiring fee + RM160/working day) and allow a full 420-minute station shift. These times and costs are **not yet owner-approved balancing constants**.
+- **Programmer desk in the Stage 1 factory:** Included for free as one visible programmer desk and one owner/operator programmer. **One programmer can advance only one two-working-day job program per working day**. Jobs queued behind a busy programmer retain their original progress. For later expansion at **4+ CNCs**, another programmer + desk can be added for **RM2,000 game money** and **RM180 per staffed working day**. A second programmer cannot be hired in the current capped two-CNC room; shoplot Stage 2 development remains future work. The small desk is depicted on the workshop wall.
+- **Red-edged HOT JOBS:** Strong red/orange borders around urgent offers, accepted urgent PO cards and urgent rows in the combined Production sheet, without changing the previously approved four-*calendar*-day deadline.
+- **Gantt estimate revised** to show up to three CNC machine lanes per minion instead of assuming one minion per CNC. This is **still only an approximation**, not a true operator-loading, tapping, skill or programmer-queue-aware delivery prediction.
+- **Save safety:** `factory_empire_proto_v1` remains the only save key; purchased CNCs, old orders, partial setups, financial balances and material stocks are not reset. Machine-specific output attribution starts at v0.4.8, so historical units remain in the combined total.
+
+**Test mission:** Assign a sufficiently large bracket PO to **two CNCs** and use +1 Hour / +1 Day. Expect **both machines to cut and contribute pieces**, more combined throughput than one CNC, and no overproduction at the job's final quantity. Buy the tapping station, receive a fictional threaded-bracket RFQ, complete programming and CNC milling, and verify tapped parts only ship after the station has processed them. Look for the programmer desk near the workshop wall and the red HOT order edges.
 
 ## v0.4.7 ALPHA — Production & Schedule one-sheet view (2026-10-19)
 
