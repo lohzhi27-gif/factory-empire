@@ -59,6 +59,15 @@ var advanceProductionRouting;
       log('RECEIVED material PO #'+po.id+': '+po.qty+' kg '+materialName(po.type)+' · inventory updated');
     }
     state.materialOrders=state.materialOrders.filter(p=>p.arrivalDay>state.day);
+    // A single starter programmer desk can advance ONE distinct program per
+    // workday. An extra programmer/desk increases concurrency only after expansion.
+    // Prioritize urgent deadlines, but never consume two working days in one day.
+    const availableProgrammers=Math.max(1,Math.floor(Number(state.programmers)||1));
+    const programsToday=new Set(state.jobs.filter(j=>j.routing?.phase==='programming' &&
+      isWorkDay(state.day) && state.day>=(j.routing.programStartDay||0) &&
+      j.routing.programRemaining>0)
+      .slice().sort((a,b)=>(!!b.hot)-(!!a.hot)||a.dueDay-b.dueDay||a.id-b.id)
+      .slice(0,availableProgrammers).map(j=>j.id));
     for(const j of state.jobs){
       if(!j.routing)j.routing={phase:'machining',machineReadyDay:state.day,legacy:true};
       const r=j.routing,p=P[j.product];
@@ -71,7 +80,7 @@ var advanceProductionRouting;
           r.programStartDay=nextWorkDay(state.day);
           log('Material available for '+p.short+' · CNC programming queued for Day '+r.programStartDay);
         }
-      }else if(r.phase==='programming' && isWorkDay(state.day) && state.day>=r.programStartDay && r.programRemaining>0){
+      }else if(r.phase==='programming' && programsToday.has(j.id)){
         r.programRemaining--;
         if(r.programRemaining===0){
           r.phase='machining';
