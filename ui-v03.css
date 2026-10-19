@@ -487,3 +487,31 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
 /* v0.4.5 urgent offer visible when player is on Production/Gantt */
 .hot-offer-indicator{display:inline-block;margin-left:5px;padding:3px 6px;border-radius:5px;border:1px solid #ffbd6c;background:#7d3e28;color:#fff1d2;font-size:9px;font-weight:900;letter-spacing:.2px;white-space:nowrap;vertical-align:middle}
 [data-tab="rfqs"]:has(.hot-offer-indicator),[data-nav="rfqs"]:has(.hot-offer-indicator){box-shadow:0 0 10px #f8a54f44}
+
+
+/* v0.4.6 — Material usage per accepted PO, YPS founding customer */
+.order-material-usage{margin-top:12px;display:grid;gap:9px;padding:11px;background:linear-gradient(140deg,#102d40,#122b3c);border:1px solid #3d7a89;border-radius:10px}
+.order-material-header,.order-material-progress-label{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.order-material-header strong{color:#a9f2e4;font-size:12px}
+.order-material-header>span{font-size:11px;color:#add6e4;white-space:nowrap}
+.order-material-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.order-material-metrics>div{display:grid;gap:3px;min-width:0;padding:8px;border:1px solid #38596e;border-radius:7px;background:#1a3346}
+.order-material-metrics small{color:#a2c2d3;font-size:10px;line-height:1.35}
+.order-material-metrics strong{font-size:13px;color:#e1f7fc;font-variant-numeric:tabular-nums}
+.order-material-progress{display:grid;gap:5px}
+.order-material-progress-label{color:#c3e3e7;font-size:11px}
+.order-material-progress-label strong{color:#8de8c5;font-size:12px;font-variant-numeric:tabular-nums}
+.order-material-progress-track{height:10px;background:#0c1b2e;border:1px solid #3c6377;border-radius:20px;overflow:hidden}
+.order-material-progress-track>span{height:100%;display:block;border-radius:20px;background:linear-gradient(90deg,#2493a6,#70e7d4);transition:width .18s}
+.order-material-foot{font-size:11px;line-height:1.5;color:#c3ebd5}
+.order-material-foot.order-material-short{color:#ffd59e}
+.order-material-disclaimer{font-size:10px;line-height:1.45;color:#93b8cb}
+.founding-customer-tag{font-size:10px;font-weight:900;letter-spacing:.25px;color:#ffe6aa;background:#473c28;border:1px solid #ba9356;border-radius:6px;padding:7px 9px;margin:8px 0}
+.founding-customer-note{font-size:10px;line-height:1.5;color:#c9dce9;margin:5px 0 8px}
+.rfq.founding-yps-rfq,.rfq.founding-yps-order{border-color:#9a7a47}
+@media(max-width:740px){
+ .order-material-usage{padding:9px}
+ .order-material-metrics{gap:5px}
+ .order-material-metrics>div{padding:7px}
+ .order-material-metrics strong{font-size:12px}
+}
