@@ -262,6 +262,12 @@
       update();
     }
   });
+  const previousRender=render;
+  render=function(){
+    previousRender();
+    const tag=document.querySelector('.identity p');
+    if(tag)tag.textContent='INDUSTRIAL TYCOON · HOT JOBS v0.4.5 ALPHA';
+  };
   ensure();
   // Catch up if a tester loaded a save already past first event.
   expire();
