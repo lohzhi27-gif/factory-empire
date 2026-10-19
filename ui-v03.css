@@ -630,3 +630,5 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
 .support-station button{width:100%;min-height:39px;font-size:11px}
 .sheet-machine-tags{font-size:10px;color:#9feadb!important;font-weight:800}
 @media(max-width:740px){.support-stations{grid-template-columns:1fr}.multi-cnc-switch{flex:1 1 100%}}
+
+.machine-output-contribution{margin-top:7px;padding:8px 9px;border-left:3px solid #56d8bf;background:#103548;color:#c6f8e7;font-size:11px;line-height:1.5;font-weight:700}
