@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.8 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.9 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,23 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.9 ALPHA — Panel navigation rescue and paid programmer (2026-10-19)
+
+**User-reported release blocker:** v0.4.8 stopped responding to panel selection on at least one playtest. This hotfix makes panel navigation independent of optional widget rendering, so errors in Production/Gantt or Equipment cannot trap the player.
+
+- **Tab selection is immediate:** switching to New RFQs, Production & Schedule, Equipment or Finance activates the requested page **before** rerendering. It preserves the chosen panel even if a renderer throws, and safely exits leftover floor/Gantt/sheet full-screen overlays.
+- **Isolated module refresh:** the main render function now tries each dashboard area separately. A failed PO widget no longer prevents the other eight components from updating. Any suppressed UI error is reported in the browser console and a modest in-game warning banner rather than silently freezing buttons.
+- **Clickability:** tabs and navigation have explicit click targets and stacking above ordinary workshop content.
+- **Real starter programmer wages:** one starting programmer is **RM180 per working day**, added to game cash deductions and operating expenses. Every additional programmer adds **RM180 per working day**. This is a **provisional balance value** awaiting owner confirmation, not an approved real-world payroll rate. CNC operators remain RM160/working day; separate tapping operators RM160/working day. No regular weekend wages while the workshop is closed. The Finance payroll figure and programmer desk now include the first programmer.
+- **Save key unchanged:** `factory_empire_proto_v1`. All machines, jobs, setups, hourly clock and materials persist.
+
+### Confirm on laptop
+1. Visit the game with `?v=049` and check the heading **PANEL FIX v0.4.9 ALPHA**.
+2. Without pressing Restart, click **Equipment**, **Production & Schedule**, **Finance**, **New RFQs**, then top-navigation versions of those pages. Each should open.
+3. If any optional widget still errors, the requested panel should **remain open** with an on-screen warning; share the warning and browser console stack for final root-cause repair.
+4. From Equipment, confirm one included programmer desk and **RM180/working day** salary; Finance should show **RM340/day** total wages for one Ironman plus the programmer. Day advances now actually deduct both salaries (plus utilities/overhead).
+5. Test the shared-PO assignment controls, tapping purchase, and +1 Hour after confirming panel switching.
 
 ## v0.4.8 ALPHA — Two CNCs, tapping station, starter programmer desk (2026-10-19)
 
