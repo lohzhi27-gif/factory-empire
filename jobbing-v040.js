@@ -4,7 +4,7 @@
  * Owner-confirmed setup times: easy 21, medium 90, difficult 180 operator minutes.
  * Provisional tuning: 2 minutes of operator load/unload attention per machining cycle.
  */
-var runJobbingProduction;
+var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
 (function jobbingV040(){
   'use strict';
   const SETUPS={easy:21,medium:90,difficult:180};
@@ -95,7 +95,7 @@ var runJobbingProduction;
     return true;
   }
   function machineReady(m){return m.condition>15;}
-  function runShift(workers,counts){
+  function runShift(workers,counts,minutes=420,checkFailures=true,shiftKey='day'){
     if(!workers)return;
     const eligible=state.machines.filter(machineReady);
     const groups=Array.from({length:workers},()=>[]);
@@ -104,14 +104,16 @@ var runJobbingProduction;
     eligible.slice(0,workers*3).forEach((m,i)=>groups[i%workers].push(m));
     const active=groups.flat();
     if(!active.length)return;
-    for(const m of active){
+    for(const m of checkFailures?active:[]){
       if(m.type==='CNC' && Math.random()<.006+(100-m.condition)*.0003){
         m.condition=Math.max(0,m.condition-24);
         log('Unplanned machine stoppage on #'+m.id);
       }
     }
-    const tasks=groups.map(()=>null);
-    for(let minute=0;minute<420;minute++){
+    if(!state.jobbingWorkerTasks || typeof state.jobbingWorkerTasks!=='object')state.jobbingWorkerTasks={};
+    const tasks=state.jobbingWorkerTasks[shiftKey]||groups.map(()=>null);
+    state.jobbingWorkerTasks[shiftKey]=tasks;
+    for(let minute=0;minute<minutes;minute++){
       // Automatic spindle cycles progress even when the operator is busy elsewhere.
       for(const m of active){
         if(!machineReady(m)||m.cutRemaining<=0)continue;
@@ -122,6 +124,12 @@ var runJobbingProduction;
         const group=groups[w];
         if(!group.length)continue;
         let task=tasks[w];
+        if(task && (!group.some(m=>m.id===task.machineId) ||
+          !state.jobs.some(j=>j.id===task.jobId && j.done<j.qty) ||
+          (group.find(m=>m.id===task.machineId)?.manualJobId!==null &&
+           group.find(m=>m.id===task.machineId)?.manualJobId!==task.jobId))){
+          task=null;tasks[w]=null;
+        }
         if(!task){
           const options=[];
           for(const m of group){
@@ -138,13 +146,13 @@ var runJobbingProduction;
             if(o.kind==='load'&&o.m.loadRemaining<=0){
               o.m.loadRemaining=LOAD_MIN;o.m.loadJobId=o.j.id;
             }
-            task={machine:o.m,kind:o.kind,jobId:o.j.id};
+            task={machineId:o.m.id,kind:o.kind,jobId:o.j.id};
             tasks[w]=task;
           }
         }
         if(task){
-          const m=task.machine;
-          if(!machineReady(m)){tasks[w]=null;continue;}
+          const m=group.find(x=>x.id===task.machineId);
+          if(!m || !machineReady(m)){tasks[w]=null;continue;}
           if(task.kind==='setup'){
             m.setupRemaining=Math.max(0,m.setupRemaining-1);
             counts.setupMinutes++;
@@ -173,16 +181,18 @@ var runJobbingProduction;
       }
     }
   }
-  runJobbingProduction=function(isWorkday){
-    init();
-    const counts={output:0,runs:{},setupMinutes:0,attendMinutes:0,operatorWait:0,waitByMachine:{}};
-    if(isWorkday!==false && workday(state.day)){
-      const workers=Math.max(0,Math.floor(Number(state.workers)||0));
-      const two=state.shifts===2&&workers>=2;
-      const first=two?Math.ceil(workers/2):workers;
-      runShift(first,counts);
-      if(two)runShift(workers-first,counts);
-    }
+  function blankCounts(){
+    return {output:0,runs:{},setupMinutes:0,attendMinutes:0,operatorWait:0,waitByMachine:{}};
+  }
+  function joinCounts(dest,part){
+    dest.output+=part.output;
+    dest.setupMinutes+=part.setupMinutes;
+    dest.attendMinutes+=part.attendMinutes;
+    dest.operatorWait+=part.operatorWait;
+    for(const k of Object.keys(part.runs))dest.runs[k]=(dest.runs[k]||0)+part.runs[k];
+    for(const k of Object.keys(part.waitByMachine))dest.waitByMachine[k]=(dest.waitByMachine[k]||0)+part.waitByMachine[k];
+  }
+  function applyWear(counts){
     for(const m of state.machines){
       const runs=counts.runs[m.id]||0;
       if(!runs)continue;
@@ -196,6 +206,48 @@ var runJobbingProduction;
       }else m.condition=Math.max(0,+(m.condition-(1+runs*.055)).toFixed(1));
     }
     if(counts.setupMinutes)log('SETUP TIME: '+counts.setupMinutes+' min · shared minions kept other machines waiting '+counts.operatorWait+' min');
+  }
+  runJobbingHour=function(shift,mins){
+    init();
+    const day=state.day;
+    if(!state.jobbingHourTotals || state.jobbingHourTotals.day!==day)
+      state.jobbingHourTotals={day,...blankCounts()};
+    const part=blankCounts();
+    if(workday(day)){
+      const workers=Math.max(0,Math.floor(Number(state.workers)||0));
+      const two=state.shifts===2&&workers>=2;
+      const first=two?Math.ceil(workers/2):workers;
+      const assigned=shift===1?(two?workers-first:0):first;
+      runShift(assigned,part,mins,!(state.jobbingHourShiftStarted||{})[shift],'hour'+shift);
+      if(!state.jobbingHourShiftStarted)state.jobbingHourShiftStarted={};
+      state.jobbingHourShiftStarted[shift]=true;
+    }
+    joinCounts(state.jobbingHourTotals,part);
+    state.jobbingDaily=state.jobbingHourTotals;
+    return part.output;
+  };
+  finalizeJobbingHours=function(){
+    init();
+    const totals=state.jobbingHourTotals?.day===state.day ? state.jobbingHourTotals : blankCounts();
+    applyWear(totals);
+    state.jobbingDaily={day:state.day,...totals};
+    state.jobbingWorkerTasks={};
+    state.jobbingHourShiftStarted={};
+    state.jobbingHourTotals=null;
+    return totals.output;
+  };
+  runJobbingProduction=function(isWorkday){
+    init();
+    const counts=blankCounts();
+    if(isWorkday!==false && workday(state.day)){
+      const workers=Math.max(0,Math.floor(Number(state.workers)||0));
+      const two=state.shifts===2&&workers>=2;
+      const first=two?Math.ceil(workers/2):workers;
+      runShift(first,counts);
+      if(two)runShift(workers-first,counts);
+    }
+    applyWear(counts);
+    state.jobbingWorkerTasks={};
     state.jobbingDaily={day:state.day,...counts};
     return counts.output;
   };
