@@ -1,7 +1,7 @@
 # Factory Empire — v0.4 Jobbing, Capabilities & Cash Flow Specification
 
 **Decision date:** 2026-10-18
-**Status:** Owner design inputs captured; implementation NOT started. The approved playable release remains v0.3.4.
+**Status:** Design remains active. First scoped playable portion launched as **v0.4.0 alpha** (CNC setups, shared operator attendance, per-machine dispatch, two-machine starter-room purchase gate, sheet-metal RFQ/laser gate). Most sections below remain **planned, not yet implemented**.
 **Product strategy:** Mobile-first, free-to-download factory-management prototype for market validation. NO RPG/character walking or open-world city in this phase.
 
 ## Owner-confirmed gameplay rules
@@ -221,7 +221,7 @@ WARNING: A third consecutive overtime weekend will cause resignation.
 - Set quality probability vs. skill and internal rework cost basis; approve/adjust any separate post-shipment rejection debit (10% of affected defective pieces' sales value is *suggested*, not confirmed).
 
 ## Critical compatibility note
-The v0.3.4 code currently charges daily overhead/utilities, uses one-machine-per-worker production assignment and has no per-part setup accounting, permits two shifts with insufficient staffing, has no weekend overtime, per-worker skill/morale, overtime-triggered resignations, replacement training, post-delivery defect claims or consent system, uses only aggregate reputation rather than per-customer 40% scores, and exposes a laser purchase. These are **known differences** between existing prototype behavior and the new owner-approved *design*; this document alone does not change gameplay. They must be deliberately replaced in a versioned update with save migration tests.
+The newly playable v0.4.0 alpha still charges simplified daily overhead/utilities, now supports one minion across 2–3 CNCs and per-part setup accounting, requires a second minion for two shifts, has no weekend overtime, per-worker skill/morale, overtime-triggered resignations, replacement training, post-delivery defect claims or consent system, uses only aggregate reputation rather than per-customer 40% scores, and exposes a laser purchase. These are **remaining differences** between the playable v0.4.0 alpha and the full owner-approved design. This document records both playable and future mechanics. They must be deliberately replaced in a versioned update with save migration tests.
 
 ## Definition of done for the first playable slice
 - New tap-required RFQ can't be accepted without the tap machine, with explicit explanation.
