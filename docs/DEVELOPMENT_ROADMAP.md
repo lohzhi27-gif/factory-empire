@@ -11,7 +11,7 @@ The *long-term fantasy* is to build from one humble rented-room CNC to a group o
 ## Completed / approved
 - **v0.1–v0.2:** original workshop prototype and touch-controlled machinery placement.
 - **v0.3–v0.3.4:** factory dashboard, material procurement queue, two-day programming before machining, and full-width Gantt with material status and PO arrivals; current approved foundation.
-- **v0.4.2 alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
+- **v0.4.5 alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
 
 ## Proposed release sequence
 
@@ -42,6 +42,15 @@ Full stage details, migration rules and proposed bank screening logic: [Long-ter
 **Bank loans:** no instant cash for an unproven starter room. A credible shoplot player must build a trading record and meet a minimum sales/repayment threshold. Candidate balancing figures (NOT approved constants) include three in-game months of trading, RM50k sales over those months, at least 80% OTD and monthly cash coverage above 1.3× installments. Loan decisions may be conditional/rejected; repay principal/interest on schedule. The player can also save up without borrowing.
 
 **IAP vs gameplay:** the owner wants optional later real-money expansion opportunities for in-house painting/treatment. Avoid essential capability paywalls: substantial in-game cash, careful financing and subcontracting must remain viable for non-paying players.
+
+## v0.4.5 alpha — HOT JOBS urgency-and-disruption test (2026-10-19)
+
+- Occasional optional premium **CNC** RFQs appear in a separate HOT JOB panel, without using a normal RFQ slot, starting around Day 8 (Mon/Tue for first balancing pass). Notifications and Customers navigation mark active urgent offers.
+- Owner-confirmed **4-CALENDAR-day customer lead time**; prototype countdown begins at PO award (owner confirmation pending), with all seven weekdays counted. Materials and programming continue to follow regular working days, and staffed CNC/normal setup rules cannot be bypassed.
+- The player sees premium price, material stock, estimated earliest machine day, setup duration and potential displacement of prepared CNCs. Impossible basic resource/program cases cannot be accepted. Decline/expiry causes no penalty.
+- PO acceptance uses existing routed programming and production, current cash/late-invoice/reputation logic, and persistent original local save key. Urgent Production cards expose an explicit CNC dispatch action; changing to hot part and back still pays full setups.
+- Main Gantt labels HOT jobs but remains visibly **approximate**, since shared-operator bottlenecks are not in its ETA algorithm.
+- Exact offer frequency, premium percentage, small batch quantities, award-countdown start and offer expiry are **provisional balance choices**, not final owner rules.
 
 ## v0.4.2 alpha — machine progress and Job Radar (2026-10-19)
 
