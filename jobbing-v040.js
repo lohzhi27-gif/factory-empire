@@ -188,7 +188,7 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
         // while this worker is committed to a difficult setup or load.
         if(task){
           for(const m of group){
-            if(m===task.machine||!machineReady(m)||m.cutRemaining>0)continue;
+            if(m.id===task.machineId||!machineReady(m)||m.cutRemaining>0)continue;
             const j=jobForMachine(m);
             if(j && m.setupPart===j.product && hasQty(j) &&
               state[P[j.product].mat]+1e-7>=P[j.product].material){counts.operatorWait++;counts.waitByMachine[m.id]=(counts.waitByMachine[m.id]||0)+1;}
