@@ -257,7 +257,7 @@
        ' concurrent programming slot(s). Tapping '+(state.supportEquipment.tappingStations?'available':'not installed');
    }
    const tag=document.querySelector('.identity p');
-   if(tag)tag.textContent='INDUSTRIAL TYCOON · SHOP SUPPORT v0.4.8 ALPHA';
+   if(tag)tag.textContent='INDUSTRIAL TYCOON · PANEL FIX v0.4.9 ALPHA';
  };
  init();render();
 })();
