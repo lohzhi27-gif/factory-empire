@@ -397,3 +397,55 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
 
 .floor-clock{display:inline-flex;align-items:center;min-height:34px;padding:6px 9px;border-radius:8px;background:#143c4c;border:1px solid #38778e;color:#b1f3ee;font-size:11px;font-weight:800;white-space:nowrap}
 @media(max-width:740px){.floor-clock{width:100%;white-space:normal;justify-content:center;text-align:center;font-size:10px}}
+
+
+/* v0.4.2 alpha — Job Radar linked machine/production indicators */
+.job-radar-tools{display:grid;gap:8px;margin:0 0 14px;padding:11px;background:#0d263a;border:1px solid #3b657c;border-radius:10px}
+.job-radar-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.job-radar-heading strong{color:#b1f4eb;font-size:13px;letter-spacing:.2px}
+.job-radar-heading span{color:#95b9d0;font-size:11px;font-variant-numeric:tabular-nums}
+.job-radar-controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.job-radar-toggle{display:flex;gap:5px;flex-shrink:0}
+.job-radar-btn{min-height:38px;padding:7px 10px;border:1px solid #466d84;border-radius:7px;background:#142e44;color:#c4d9e5;font-size:11px;font-weight:800;cursor:pointer}
+.job-radar-btn.selected{background:#125b6b;border-color:#38c7d2;color:#e1ffff;box-shadow:0 0 0 1px #38d0d029}
+#jobRadarSearch{min-height:38px;min-width:155px;flex:1;padding:7px 10px;background:#0c1d2d;border:1px solid #406078;border-radius:7px;color:#e8f8ff;font:inherit;font-size:12px}
+#jobRadarSearch::placeholder{color:#8eb0c0}
+#jobRadarSearch:focus-visible,.job-radar-btn:focus-visible,.machine-find-job:focus-visible{outline:2px solid #6cdaf4;outline-offset:2px}
+#orderList>.rfq.job-radar-match{position:relative;border:2px solid #347b90;box-shadow:inset 5px 0 #37a3b5,0 0 0 1px #1d697d,0 0 15px #24768a37;transition:border-color .16s,box-shadow .16s}
+#orderList>.rfq.job-radar-cutting{border-color:#39c9e6;box-shadow:inset 5px 0 #3cdeed,0 0 0 1px #3fdff580,0 0 17px #17c8e03b}
+#orderList>.rfq.job-radar-loading{border-color:#69c8af;box-shadow:inset 5px 0 #67e4b9,0 0 0 1px #39bd9c5c,0 0 14px #17b79529}
+#orderList>.rfq.job-radar-setup,#orderList>.rfq.job-radar-waiting{border-color:#e6a64c;box-shadow:inset 5px 0 #f9b54c,0 0 0 1px #eeb44c6e,0 0 15px #ffb13e34}
+#orderList>.rfq.job-radar-ready{border-color:#6caa82;box-shadow:inset 5px 0 #7bc293,0 0 0 1px #69bf8e4d}
+#orderList>.rfq.job-radar-assigned{border-color:#6b91c5;box-shadow:inset 5px 0 #7a9aca,0 0 0 1px #6e9dd84b}
+.job-radar-ribbon{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin:8px 0;color:#bff6f6;font-size:10px}
+.job-radar-ribbon>strong{font-size:10px;color:#acd8e9;white-space:nowrap}
+.job-radar-tag{border:1px solid #4b7794;border-radius:6px;padding:5px 7px;background:#14344a;color:#d7f3ff;font-size:10px;font-weight:850;letter-spacing:.2px;white-space:normal}
+.job-radar-tag.radar-cutting{color:#bdf8ff;border-color:#36b6cf;background:#125369}
+.job-radar-tag.radar-loading{color:#c4ffeb;border-color:#36ae91;background:#144f45}
+.job-radar-tag.radar-setup,.job-radar-tag.radar-waiting{color:#ffe1b0;border-color:#bf8f45;background:#543e27}
+.job-radar-tag.radar-ready{color:#baf8ce;border-color:#578c71;background:#23483a}
+.job-radar-tag.radar-assigned{color:#cedcff;border-color:#6684bc;background:#283a58}
+.job-radar-note{font-size:10px;color:#b4c4d2;margin:5px 0}
+.job-radar-no-results{padding:20px 10px;text-align:center;color:#b9d6e2;background:#162b41;border:1px dashed #43637a;border-radius:9px;font-size:12px}
+#orderList>.rfq[hidden]{display:none!important}
+#orderList>.rfq.job-radar-jump{outline:3px solid #fff0b2;outline-offset:3px;scroll-margin-top:100px}
+.machine-job-progress{display:grid;gap:7px;padding:10px 11px;background:#0d2b3f;border:1px solid #3c6b80;border-radius:9px}
+.machine-progress-heading{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:11px;color:#c6e2eb}
+.machine-progress-heading strong{font-size:13px;font-variant-numeric:tabular-nums;color:#ebfcff}
+.machine-progress-track{display:block;overflow:hidden;height:12px;border-radius:20px;border:1px solid #3e5c6f;background:#091b2d}
+.machine-progress-track>span{display:block;height:100%;background:linear-gradient(90deg,#2a8baa,#3ddbee);border-radius:20px;transition:width .2s ease}
+.machine-progress-setup .machine-progress-track>span,.machine-progress-waiting .machine-progress-track>span{background:linear-gradient(90deg,#bd8442,#ffc772)}
+.machine-progress-loading .machine-progress-track>span{background:linear-gradient(90deg,#2fa67f,#91e8be)}
+.machine-progress-ready .machine-progress-track>span{background:linear-gradient(90deg,#3e9572,#95e8ac)}
+.machine-progress-assigned .machine-progress-track>span{background:#7899c5}
+.machine-progress-detail{display:grid;gap:3px;color:#d1eaf1;font-size:11px;line-height:1.4}
+.machine-progress-detail small{color:#a6c4d0;font-size:10px}
+.machine-find-job{width:100%;min-height:38px;font-size:11px}
+@media(max-width:740px){
+ .job-radar-controls{display:grid;grid-template-columns:1fr;gap:8px}
+ .job-radar-toggle{width:100%}
+ .job-radar-btn{flex:1}
+ #jobRadarSearch{width:100%;min-width:0}
+ .job-radar-ribbon{gap:4px}
+ .job-radar-tag{font-size:9px;padding:5px}
+}
