@@ -231,6 +231,25 @@
     }
     ctx.fillStyle='#233846';
     for(const x of [47,171]){ctx.fillRect(x,336,6,8);ctx.beginPath();ctx.arc(x+3,347,5,0,Math.PI*2);ctx.fill();}
+    // Starter programmer desk (support equipment, not a purchasable CNC tile).
+    // This is a light prop by the wall and never blocks machine placement.
+    ctx.fillStyle='#152e42';ctx.fillRect(201,188,109,35);
+    ctx.fillStyle='#567687';ctx.fillRect(197,184,116,7);
+    ctx.fillStyle='#14202d';ctx.fillRect(229,162,51,27);
+    ctx.fillStyle='#78cae4';ctx.fillRect(233,166,43,19);
+    ctx.fillStyle='#d8e8ef';ctx.fillRect(247,189,17,3);
+    ctx.fillStyle='#93a7b4';ctx.fillRect(202,217,5,19);ctx.fillRect(304,217,5,19);
+    ctx.fillStyle='#d5f2f8';ctx.font='10px system-ui';
+    ctx.fillText('PROGRAM DESK ×'+Math.max(1,state.programmers||1),203,155);
+    if(state.supportEquipment?.tappingStations){
+      // Auxiliary compact tapping station displayed as a small benchtop tool.
+      ctx.fillStyle='#163248';ctx.fillRect(864,280,44,46);
+      ctx.fillStyle='#7897a9';ctx.fillRect(865,278,42,7);
+      ctx.fillStyle='#d4b76d';ctx.fillRect(880,260,11,24);
+      ctx.fillStyle='#afc4d0';ctx.fillRect(876,272,18,6);
+      ctx.fillStyle='#93dce3';ctx.font='10px system-ui';
+      ctx.fillText('TAP',869,338);
+    }
     // Metal workbench and sample pieces at front right, original generic props.
     ctx.fillStyle='#111d28a6';ctx.fillRect(743,328,107,14);
     ctx.fillStyle='#506c7f';ctx.fillRect(754,285,83,49);
