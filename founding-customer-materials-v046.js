@@ -76,7 +76,8 @@
       const p=P[j.product];
       if(!p || p.mat!==mat)return sum;
       const inflight=inflightCount(j);
-      return sum+Math.max(0,(Number(j.qty)||0)-(Number(j.done)||0)-inflight)*p.material;
+      const machined=p.requiresTapping?(Number(j.cncDone)||0):(Number(j.done)||0);
+      return sum+Math.max(0,(Number(j.qty)||0)-machined-inflight)*p.material;
     },0);
   }
   function usage(job){
