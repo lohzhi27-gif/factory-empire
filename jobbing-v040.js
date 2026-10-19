@@ -167,7 +167,7 @@ var runJobbingProduction;
             if(m===task.machine||!machineReady(m)||m.cutRemaining>0)continue;
             const j=jobForMachine(m);
             if(j && m.setupPart===j.product && hasQty(j) &&
-              state[P[j.product].mat]+1e-7>=P[j.product].material)counts.operatorWait++;
+              state[P[j.product].mat]+1e-7>=P[j.product].material){counts.operatorWait++;counts.waitByMachine[m.id]=(counts.waitByMachine[m.id]||0)+1;}
           }
         }
       }
@@ -175,7 +175,7 @@ var runJobbingProduction;
   }
   runJobbingProduction=function(isWorkday){
     init();
-    const counts={output:0,runs:{},setupMinutes:0,attendMinutes:0,operatorWait:0};
+    const counts={output:0,runs:{},setupMinutes:0,attendMinutes:0,operatorWait:0,waitByMachine:{}};
     if(isWorkday!==false && workday(state.day)){
       const workers=Math.max(0,Math.floor(Number(state.workers)||0));
       const two=state.shifts===2&&workers>=2;
@@ -246,11 +246,12 @@ var runJobbingProduction;
       const extra=document.createElement('div');
       extra.className='jobbing-machine';
       const current=m.setupFor||m.setupPart;
+      const wait=(state.jobbingDaily?.waitByMachine||{})[m.id]||0;
       const text=m.cutRemaining>0?'Cutting · '+m.cutRemaining+' min remain':
         m.setupRemaining>0?'Setting '+(P[current]?.short||current)+' · '+m.setupRemaining+' min remain':
         m.loadRemaining>0?'Operator loading · '+m.loadRemaining+' min':
         m.setupPart?'Setup ready · '+(P[m.setupPart]?.short||m.setupPart):'No part set up yet';
-      extra.innerHTML='<div class="jobbing-machine-state">⚙ '+escapeHtml(text)+'</div>'+
+      extra.innerHTML='<div class="jobbing-machine-state">⚙ '+escapeHtml(text)+(wait?' · Last workday: '+wait+' min waiting for minion':'')+'</div>'+
         '<label>Machine job priority <select data-machine-job="'+m.id+'" aria-label="Production assignment for machine '+m.id+'">'+
         jobOptions(m)+'</select></label>';
       card.appendChild(extra);
