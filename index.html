@@ -191,7 +191,35 @@ function drawFactory(){const c=document.getElementById('factoryCanvas'),ctx=c.ge
  ctx.fillStyle='#0d1c2bb9';ctx.fillRect(20,19,169,58);ctx.fillStyle='#85aabb';ctx.font='bold 11px system-ui';ctx.fillText('WORKSHOP SIMULATION',30,38);ctx.font='bold 19px system-ui';ctx.fillStyle='#e5f1f5';ctx.fillText('DAY '+state.day,30,64);
  ctx.fillStyle='#91a8b7';ctx.font='12px system-ui';ctx.fillText('NOT TO SCALE • v0.1',20,h-19);ctx.fillText('MACHINES: '+state.machines.length+' / '+slots.length,w-160,h-19);
  }
-function render(){renderStats();renderInventory();renderLog();renderRfq();renderJobs();renderMachines();renderFinance();cashChart();drawFactory();document.getElementById('floorWorkers').textContent=state.workers;document.getElementById('dailyOutput').textContent=state.lastOutput+' pcs/day';document.getElementById('floorStatus').textContent=state.jobs.length?'Orders in production':'Machine awaiting orders';document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===currentTab));document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('active',p.id===currentTab));}
+function render(){
+ // A broken optional department panel must never freeze RFQs, jobs, or the tabs.
+ const components=[
+  ['stats',renderStats],['inventory',renderInventory],['log',renderLog],
+  ['customer RFQs',renderRfq],['production orders',renderJobs],
+  ['machines and support equipment',renderMachines],['finances',renderFinance],
+  ['cash chart',cashChart],['factory drawing',drawFactory]
+ ];
+ let failed=false;
+ for(const [name,draw] of components){
+   try{draw();}
+   catch(error){
+     failed=true;
+     console.error('Factory Empire '+name+' render failed (other panels remain available)',error);
+   }
+ }
+ try{
+  document.getElementById('floorWorkers').textContent=state.workers;
+  document.getElementById('dailyOutput').textContent=state.lastOutput+' pcs/day';
+  document.getElementById('floorStatus').textContent=state.jobs.length?'Orders in production':'Machine awaiting orders';
+ }catch(error){failed=true;console.error('Factory HUD error',error);}
+ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===currentTab));
+ document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('active',p.id===currentTab));
+ const banner=document.getElementById('interfaceStatus');
+ if(banner){
+  banner.hidden=!failed;
+  if(failed)banner.textContent='Some dashboard details could not refresh. Your factory is saved; tab navigation remains available. Reload if this continues.';
+ }
+}
 // Navigation is a safety-critical interaction. Switch visible panels FIRST;
  // an optional Gantt/Equipment widget must not trap the player if its draw fails.
 function tabTo(name){
