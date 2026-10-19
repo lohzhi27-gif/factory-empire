@@ -237,7 +237,7 @@
  const previousRender=render;
  render=function(){
    previousRender();
-   if(currentTab!=='gantt'&&document.body.classList.contains('gantt-expanded'))closeExpanded();
+   if(currentTab!=='gantt'&&currentTab!=='orders'&&document.body.classList.contains('gantt-expanded'))closeExpanded();
    paint();
  };
  render();
