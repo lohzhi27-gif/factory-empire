@@ -353,6 +353,20 @@ var runJobbingProduction;
     toast('Dispatch preference saved · setup begins when the job is ready');
     update();
   });
+  const helpButton=document.getElementById('helpBtn');
+  if(helpButton)helpButton.onclick=function(){
+    alert('FACTORY EMPIRE v0.4 ALPHA — THE FIRST IRONMAN\n\n'+
+      '1. Start with one CNC in a room that fits at most two machines.\n'+
+      '2. Accept an AL Bracket or Machined Block RFQ. Material must arrive and programming takes two working days.\n'+
+      '3. Each new machine/part combination requires setup: Easy 21m; Medium 90m; Difficult 180m.\n'+
+      '4. An unchanged setup can continue producing without repeating it. A → B → A requires full setup of A again.\n'+
+      '5. One minion can tend up to three CNCs but cannot reload another while busy setting up. Hiring another helps.\n'+
+      '6. Equipment → Machine job priority assigns an order to a particular CNC or switches back to Auto.\n'+
+      '7. The Gantt is currently an estimate and does not yet include real setup or worker waiting delays.\n'+
+      '8. The first room locks new laser/sheet-metal production until Stage 3.\n\n'+
+      'Weekend overtime, minion skill/morale, customer network, monthly rent/power bills and hot-job arrivals are coming in future v0.4 slices.\n\n'+
+      'All money is simulated in-game. No real transactions.');
+  };
   const oldRender=render;
   render=function(){
     init();
