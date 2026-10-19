@@ -11,7 +11,7 @@ The *long-term fantasy* is to build from one humble rented-room CNC to a group o
 ## Completed / approved
 - **v0.1–v0.2:** original workshop prototype and touch-controlled machinery placement.
 - **v0.3–v0.3.4:** factory dashboard, material procurement queue, two-day programming before machining, and full-width Gantt with material status and PO arrivals; current approved foundation.
-- **v0.4.7 alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
+- **v0.4.8 alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
 
 ## Proposed release sequence
 
@@ -42,6 +42,15 @@ Full stage details, migration rules and proposed bank screening logic: [Long-ter
 **Bank loans:** no instant cash for an unproven starter room. A credible shoplot player must build a trading record and meet a minimum sales/repayment threshold. Candidate balancing figures (NOT approved constants) include three in-game months of trading, RM50k sales over those months, at least 80% OTD and monthly cash coverage above 1.3× installments. Loan decisions may be conditional/rejected; repay principal/interest on schedule. The player can also save up without borrowing.
 
 **IAP vs gameplay:** the owner wants optional later real-money expansion opportunities for in-house painting/treatment. Avoid essential capability paywalls: substantial in-game cash, careful financing and subcontracting must remain viable for non-paying players.
+
+## v0.4.8 alpha — Shared-PO CNCs + Stage 1 support equipment (2026-10-19)
+
+- Accepted POs can be manually assigned to two CNCs simultaneously; per-CNC good output counters, combined order tally and shared-Ironman tending/loading are simulated. Tiny remaining quantities are protected from overproduction.
+- Equipment offers a Stage 1 **tapping station** outside the two-CNC room cap. New fictional tapped-bracket RFQs require station ownership **before award**, followed by real secondary tapping process before shipping. Test duration 30m setup + 2m/pc, up to a half-day for early-stage shared support.
+- From 6+ CNCs, a **dedicated tapping minion** becomes required; tappable shift budget rises from 210m to 420m/day.
+- **Stage 1 programmer desk** is present/depicted and supplied with one available programmer. One programmer works on one two-working-day program per workday; expansion introduces desks/hired programmers and parallel programming at 4+ CNCs.
+- HOT RFQ, Production job and urgent sheet borders now visually **red**. Existing v0.4.7 combined sheet shows CNC assignment names.
+- Costs and actual tapping cycle/setup times are provisional balancing pending owner feedback. Original `factory_empire_proto_v1` save kept; future Gantt needs precise operator/station/program queue forecasting.
 
 ## v0.4.7 alpha — single Production & Schedule sheet (2026-10-19)
 
