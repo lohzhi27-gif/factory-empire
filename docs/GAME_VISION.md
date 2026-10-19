@@ -42,4 +42,4 @@ Free progression first, validated retention and enjoyment before adding optional
 - Do not publish private customer engineering drawings or prices.
 
 ## Technical state
-**v0.4.0 alpha** is the current playable browser release: shared-minion CNC setups and automatic cutting/attendance, same original saves and factory/Gantt UI, early-stage two-machine/sheet-metal gates. The rest of the long-term vision (including Hero Cards, loans, multi-site, staff skill/morale and customer network) remains planned.
+**v0.4.1 alpha** is the current playable browser release: shared-minion CNC setups and automatic cutting/attendance with an actual 60-minute +1 Hour option, same original saves and factory/Gantt UI, early-stage two-machine/sheet-metal gates. The rest of the long-term vision (including Hero Cards, loans, multi-site, staff skill/morale and customer network) remains planned.
