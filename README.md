@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.0 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.1 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,28 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.1 ALPHA — +1 Hour factory simulation (2026-10-19)
+
+**Live controls:** **+1 Hour**, **+1 Day**, **+7 Days** and auto-days. A **simulation clock** is shown in the workshop heading and top navigation, starting at **Day 1 / Monday / 08:00** for new saves. One standard in-game shift is **7 hours (420 minutes)**, two shifts are **14 hours**, and the clock resets to **08:00** on the next day after the final hour.
+
+- **+1 Hour processes precisely 60 simulated production minutes** through the same CNC setup, operator attendance, loading/unloading and cutting logic as full-day simulation. Example: a difficult (180-minute) setup shows 120 minutes remaining after one hour, 60 after two hours and ready after three hours.
+- **+1 Day finishes only the remaining hours of the current day**. Advancing +1 Hour first and then +1 Day does not run an extra 7 hours of production.
+- **Day close**: wages, electricity, overhead, machine wear, invoices/shipments and automatic RFQs are handled once. Procurement arrivals and 2-working-day programming move forward once on entering the next game day. Weekend hours show **WEEKEND CLOSED** and do not machine (overtime will be implemented separately).
+- **Save migration**: uses original `factory_empire_proto_v1` key, introduces `hourIndex` 0–6/13 and `hourSchemaVersion=41`; keeps cash, equipment, machine setup progress, partial cuts, orders and placements. Reloading mid-shift preserves progress.
+- The game now shows **pieces made so far** in the current day and current setup/wait-for-operator statistics.
+
+**Remaining limitations:** The v0.4 alpha Gantt remains read-only and does not yet forecast detailed hourly setup/operator delays. The 2-minute load/unload attention per cycle is a provisional balancing assumption. Monthly overhead, staff morale/fatigue and weekend overtime are not yet live. The hourly clock uses fixed 7-hour operating windows, skipping over nights automatically; it's not a 24-hour simulation.
+
+### Quick test
+
+1. Refresh until the header says **HOURLY v0.4.1 ALPHA**. Locate the **+1 Hour** control beside +1 Day.
+2. Accept a Machined Block RFQ, then use +1 Day to let materials/programming become ready. (Programming still requires two working days.)
+3. When the block's **3-hour setup** starts, tap +1 Hour three times and inspect Equipment: **180 → 120 → 60 → ready**.
+4. With two CNCs and one minion, verify that waiting for operator time is visible when one machine has a long setup.
+5. Tap +1 Hour once, then +1 Day: the next day should start at 08:00 with wages/day close charged only once.
+6. Reload during a setup and verify that remaining setup minutes and displayed clock persist.
+7. Try +7 Days / auto-days and the two-shift 14-hour clock.
 
 ## v0.4.0 ALPHA — First jobbing + minion-attendance production slice (2026-10-19)
 
