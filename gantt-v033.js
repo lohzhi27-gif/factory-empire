@@ -92,7 +92,7 @@
    }
    const allocated=new Map();
    for(const j of jobs){
-     const p=P[j.product],required=round(Math.max(0,j.qty-j.done)*p.material);
+     const p=P[j.product],doneForMaterial=p.requiresTapping?(j.cncDone||0):j.done,required=round(Math.max(0,j.qty-doneForMaterial)*p.material);
      const buckets=pool[p.mat]||[];
      let need=required,latest=today(),fromPo=false;
      const stockBefore=buckets[0]?.qty||0;
@@ -117,7 +117,10 @@
    const out=new Map();
    const lanes=new Map();
    for(const type of ['CNC','LASER']){
-     const count=Math.min(state.workers,state.machines.filter(m=>m.type===type&&m.condition>15).length);
+     // A single trained Ironman can supervise 2–3 CNCs rather than one
+     // operator per machine. Forecast still excludes finite reload/setup time.
+     const count=Math.min(Math.max(0,Number(state.workers)||0)*3,
+       state.machines.filter(m=>m.type===type&&m.condition>15).length);
      lanes.set(type,Array.from({length:Math.max(0,count)},()=>nextWorkday(today())));
    }
    for(const job of jobs){
@@ -164,7 +167,8 @@
      }
      const lane=machines.indexOf(Math.min(...machines));
      const from=atOrAfter(Math.max(machiningStart,machines[lane]));
-     const days=Math.max(1,Math.ceil(Math.max(0,job.qty-job.done)*p.cycle/(420*Math.max(1,state.shifts))));
+     const machined=p.requiresTapping?(job.cncDone||0):job.done;
+     const days=Math.max(1,Math.ceil(Math.max(0,job.qty-machined)*p.cycle/(420*Math.max(1,state.shifts))));
      let day=from;
      for(let n=0;n<days;n++){
        segments.push({day,kind:'machining'});
