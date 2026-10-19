@@ -411,7 +411,11 @@
       const type=purchaseMode,price=pricing[type];
       if(state.cash<price){purchaseMode=null;toast('Insufficient cash');render();return;}
       state.cash-=price;state.totalCapex+=price;
-      const m={id:state.nextId++,type,condition:100,tileX:x,tileY:y,model:type==='CNC'?'Starter VMC-760':'Fiber Laser 3015'};
+      const m={id:state.nextId++,type,condition:100,tileX:x,tileY:y,
+        model:type==='CNC'?'Starter VMC-760':'Fiber Laser 3015',
+        // v0.4.8: each new CNC has its OWN persisted dispatch and spindle state.
+        manualJobId:null,setupPart:null,setupFor:null,setupRemaining:0,
+        cutRemaining:0,cutJobId:null,loadRemaining:0,loadJobId:null};
       if(type==='LASER'){m.laserOperatingDays=0;m.laserServiceWarningIssued=false;}
       state.machines.push(m);chosenId=m.id;purchaseMode=null;selectedTile=null;
       log('Purchased and installed '+m.model+' for '+F(price));
