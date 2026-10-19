@@ -86,6 +86,11 @@
   const nextButton=document.getElementById('nextDayBtn');
   if(nextButton?.parentNode)nextButton.parentNode.insertBefore(advanceHourBtn,nextButton);
   advanceHourBtn.onclick=function(){oneHour(false);};
+  const floorClock=document.createElement('span');
+  floorClock.id='floorClock';
+  floorClock.className='floor-clock';
+  floorClock.setAttribute('aria-live','polite');
+  if(nextButton?.parentNode)nextButton.parentNode.insertBefore(floorClock,advanceHourBtn);
   const dayButton=document.getElementById('nextDayBtn');
   if(dayButton)dayButton.onclick=oneDay;
   const nav=document.querySelector('.main-nav');
@@ -122,6 +127,9 @@
     ensureClock();
     oldRender();
     if(clock)clock.textContent=label();
+    if(floorClock)floorClock.textContent=label()+' · '+state.hourIndex+'/'+slots()+' hours';
+    const tagline=document.querySelector('.identity p');
+    if(tagline)tagline.textContent='INDUSTRIAL TYCOON · HOURLY v0.4.1 ALPHA';
     const lbl=document.getElementById('dailyOutput');
     if(lbl)lbl.textContent=(state.jobbingHourTotals?.day===state.day?
       state.jobbingHourTotals.output:state.lastOutput||0)+' pcs'+
