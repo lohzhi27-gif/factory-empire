@@ -232,6 +232,8 @@
  };
  const tab=document.querySelector('[data-tab="orders"]');
  if(tab)tab.textContent='Production & Schedule';
+ const tagline=document.querySelector('.identity p');
+ if(tagline)tagline.textContent='INDUSTRIAL TYCOON · PRODUCTION SHEET v0.4.7 ALPHA';
  document.title='Factory Empire — Production & Schedule';
  render();
 })();
