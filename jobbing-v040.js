@@ -292,7 +292,11 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
     if(paid){state.cash-=300;state.totalExpenses+=300;}
     const product=Math.random()<.5?'bracket':'block',p=P[product];
     const qty=rnd(25,85),dueOffset=rnd(5,13),offer=Math.round(p.unit*(.85+Math.random()*.27));
-    state.rfqs.push({id:state.nextId++,product,qty,dueOffset,offer});
+    // The founding customer can return with occasional fictional CNC orders.
+    // No genuine YPS job, price, drawing, or company contact is disclosed.
+    const yps=product==='bracket'&&Math.random()<0.3;
+    state.rfqs.push({id:state.nextId++,product,qty,dueOffset,offer,
+      ...(yps?{customer:'YPS Technologies'}:{})});
     if(paid)log('Sales generated a new CNC customer RFQ (RM300)');
     update();
   };
