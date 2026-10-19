@@ -50,7 +50,7 @@
    if(state.cash<800){toast('Need RM800 recruitment cost');return;}
    state.cash-=800;state.totalExpenses+=800;state.tappingOperators=1;
    log('Assigned dedicated tapping minion (mid-term 6+ CNC capacity)');
-   toast('Dedicated tapping specialist recruited; RM160 per working day');
+   toast('Dedicated tapping specialist recruited; RM120 per working day');
    update();
  }
  function eligibleTapping(){
@@ -184,12 +184,12 @@
    init();beforeFinance();
    const payroll=document.getElementById('payroll');
    if(payroll){
-     payroll.title='CNC workers: '+(state.workers||0)+' × RM160; programmers: '+
+     payroll.title='CNC workers: '+(state.workers||0)+' × RM120; programmers: '+
        Math.max(1,Number(state.programmers)||1)+' × RM180; tapping minions: '+
-       (state.tappingOperators||0)+' × RM160 per staffed working day';
+       (state.tappingOperators||0)+' × RM120 per staffed working day';
    }
-   if(payroll)payroll.textContent=F((state.workers||0)*160+
-     Math.max(1,Number(state.programmers)||1)*180+(state.tappingOperators||0)*160)+
+   if(payroll)payroll.textContent=F((state.workers||0)*120+
+     Math.max(1,Number(state.programmers)||1)*180+(state.tappingOperators||0)*120)+
      ' / staffed working day (CNC + office + tapping)';
  };
   const beforeJobs=renderJobs;
@@ -257,7 +257,7 @@
        ' concurrent programming slot(s). Tapping '+(state.supportEquipment.tappingStations?'available':'not installed');
    }
    const tag=document.querySelector('.identity p');
-   if(tag)tag.textContent='INDUSTRIAL TYCOON · PANEL FIX v0.4.9 ALPHA';
+   if(tag)tag.textContent='INDUSTRIAL TYCOON · PANEL RECOVERY v0.4.10 ALPHA';
  };
  init();render();
 })();
