@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** v0.3.4 remains the working playable browser version. v0.4 features are documented proposals/owner rules and **are not implemented** yet.
+**Release status:** **v0.4.0 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,33 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.0 ALPHA — First jobbing + minion-attendance production slice (2026-10-19)
+
+**Playable change, not merely a design document.** The live browser loads `jobbing-v040.js` after v0.3.4 and uses it instead of the old one-worker-per-machine machining loop. Same saved localStorage key (`factory_empire_proto_v1`), same Production/Gantt navigation, inventory purchasing and two-working-day programming. No real transactions/IAP.
+
+- **One minion can tend up to three CNCs per shift**, subject to real attention limits. The machine can't be unloaded/reloaded while its minion is occupied on a different setup; already-running automatic cutting cycles can finish. Extra minions distribute machine attendance load.
+- **One setup per machine / part change**: easy 0.35h/21m (AL Bracket), medium 1.5h/90m (existing sheet-metal panel), difficult 3h/180m (Machined Block and Enclosure Panel). Product difficulty mapping is provisional gameplay balancing; exact time categories are owner-confirmed.
+- **Changeover A → B → A** incurs the *full* new setup of A again. Same-part repeat production on an unchanged setup doesn't pay twice.
+- Equipment → machine cards now display **setup/cutting status**, last-workday minutes waiting for minion and a **Machine job priority** selector (Auto / assign a specific available customer order). Manual assignment lets the player deliberately prioritize a hot job when that feature launches; new orders still wait for procurement/programming as required.
+- **Starter room cap 2 new machine purchases**, not all old map slots. New laser purchases and *new* sheet-metal RFQ awards are locked until Stage 3; earlier saved owned lasers and active orders are **not deleted**.
+- A second shift must have **two distinct minions**; the Hire button permits recruiting the second employee even with a single machine. If an older save had two shifts with one worker, migration resets it to one shift and logs the reason. Simplified pay is now RM160 per worker per workday; the full monthly rent/electricity and weekend overtime models aren't in this slice.
+- A per-day production summary shows how many operator minutes were spent setting up and how many machine-minutes were lost waiting for attention.
+
+**Known limitations:** The existing Gantt is **still a rough projection** and *does not yet account for setup/attendance bottlenecks*. A visible notice warns players; the new production engine is authoritative. No weekend overtime, 40%-skill training, quit-after-3-weekends, defective-part commercial claims, customer relationship scores, 4-day hot-job generator, tapping/polishing capability, bank loans or Stage 2 move is playable yet. Existing basic random machine scrap logic remains. Real factory machines can have more nuanced unattended cycling and operator requirements than this first 2-minute-per-part loading approximation.
+
+### Quick laptop / phone verification
+
+1. Load the game with a fresh refresh; look for **JOBBING v0.4 ALPHA** in the header. Normal refresh preserves saves.
+2. Accept an **AL Bracket** CNC RFQ. Buy material only if stock is short; advance working days past its two-day programming requirement.
+3. Open **Equipment**: machine #1 should show **Setting AL Bracket** then **Setup ready**. Easy setup uses 21 operator minutes, not a full extra calendar day.
+4. Try a Machined Block order, assign it to CNC #1 via **Machine job priority**. It takes a 180-minute difficult setup. Reassign Bracket and confirm another 21-minute setup is required.
+5. If you own two CNCs, accept both part types and compare a one-minion day against a two-minion day: machine attendance waiting should shrink with extra staff.
+6. Click the new laser placement or a sheet-metal RFQ: both should indicate **Stage 3 locked** (but old owned lasers should remain).
+7. Open **2 · Gantt Chart View** and look for the forecast disclaimer; the board should not falsely claim to be accurate to the minute.
+8. Reload and confirm existing cash, machinery positions, orders, materials and machine setups persist.
+
+This is the **first v0.4 alpha iteration**. Treat any screenshots or timing surprises as valuable playtest feedback.
 
 ## v0.3.4 — Main-page Production / Gantt switch (2026-10-18)
 
