@@ -98,7 +98,10 @@ var runJobbingProduction;
   function runShift(workers,counts){
     if(!workers)return;
     const eligible=state.machines.filter(machineReady);
-    const groups=Array.from({length:workers},(_,w)=>eligible.slice(w*3,w*3+3));
+    const groups=Array.from({length:workers},()=>[]);
+    // Balance machines across available workers. The second minion must actually
+    // ease load/reload waiting, even when the shop has only two CNCs.
+    eligible.slice(0,workers*3).forEach((m,i)=>groups[i%workers].push(m));
     const active=groups.flat();
     if(!active.length)return;
     for(const m of active){
