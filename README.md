@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.5 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.7 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,32 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.7 ALPHA — Production & Schedule one-sheet view (2026-10-19)
+
+**Owner UX request:** stop forcing players to toggle between a workshop Production view and a completely separate Gantt workspace. The Production tab now contains a **compact searchable sheet** that combines accepted jobs, process state, material usage, customer due dates and the next **seven calendar days** of the EXISTING Gantt forecast.
+
+- **One main workshop screen**; previous "Production View / Gantt View" switcher and separate schedule nav entry are removed. The factory floor, Customers, Equipment and Finance remain available. The main Production tab is renamed **Production & Schedule**.
+- One row per accepted PO: **job number, part, customer, completed/total pieces, material kilograms already consumed / still needed, current operation, due day, estimated finish day, and a 7-day mini Gantt strip.** HOT POs are identified. Material numbers include scrap and in-progress machining, based on the v0.4.6 accounting.
+- Single-table **search** by job/part/customer and filters for all jobs, HOT JOB only, at-risk, or assigned/on a machine. A **full-screen Expand sheet** control improves readability on laptops and smaller displays, without adding a second workspace.
+- Tap **Details** from any row to reveal the same individual PO cards, original machine-linked Job Radar, and HOT JOB dispatch. Existing Equipment → "Show highlighted job" automatically opens these details.
+- An optional expandable **Detailed Gantt & incoming material POs** section contains the **same original functional Gantt** and range selector (now 14 days by default). Its source forecast still assumes simplified machine lanes and does **not** model accurate setup or shared-Ironman delays. The compact timeline is a visual extract of that same forecast, not a second invented ETA algorithm.
+- Existing RFQ acceptance, machine selection, payables/receivables, day/hour advancement, physical CNC simulation and save key remain untouched. No factory reset.
+
+### Quick v0.4.7 UI check
+1. Refresh until the heading says **PRODUCTION SHEET v0.4.7 ALPHA**.
+2. Open **Production & Schedule**. See a single horizontal-scrolling table with 7-day strips and YPS/customer names; no separate Gantt workspace buttons.
+3. Click a PO's **Details ↗**. Its full material usage, Job Radar and HOT dispatch remain usable.
+4. Open **Detailed Gantt & incoming material POs** only when you need a larger planning view; test 14/28-day controls.
+5. Use **Expand sheet** and Esc to return to the standard workshop.
+6. Advance +1 Hour and verify the PO quantities, material consumed and timeline update without changing cash merely from expanding/collapsing.
+
+## v0.4.6 ALPHA — PO material consumption and YPS Technologies founding customer (2026-10-19)
+
+- Accepted production orders now show a **material-usage panel**: per-piece kg, original baseline kg, **kg consumed including good pieces + scrap + active spindle cycle**, minimum additional kg to finish, shared raw-stock available, and shortages **across all current orders for the same material**. This is a planning aid, not per-PO stock reservation. Materials were already physically deducted by the existing CNC simulation; this panel **does not double-deduct** them.
+- **YPS Technologies** is honored as a **Founding Customer** in the humble starter workshop. New games start with one original YPS-labeled **fictional** aluminum bracket RFQ; the business can also appear occasionally in later sample RFQs. Older saves receive one introductory offer when a normal quote slot is free; accepted jobs and prior customer records are never overwritten.
+- The client name honors the owner's story. Game part details, volumes, prices, dates and quotations are **imagined gameplay examples**, **not genuine YPS purchase orders**; no logos, confidential data or real drawings are used.
+- The original local save key, ongoing material consumption, previously accepted orders and customer history remain intact.
 
 ## v0.4.5 ALPHA — Optional HOT JOB customer orders (2026-10-19)
 
