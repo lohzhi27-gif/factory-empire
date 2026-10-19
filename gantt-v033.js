@@ -43,7 +43,7 @@
   +'<div class="gantt-summary" id="ganttSummary"></div>'
   +'<div class="gantt-scroller" id="ganttScroll" tabindex="0" aria-label="Scroll Gantt schedule horizontally">'
   +'<div id="ganttChart"></div></div>'
-  +'<div class="gantt-note">Forecast only, not a stock reservation. The game prioritizes urgent work automatically; this chart assumes one order at a time per estimated machine lane, 420 minutes per shift, no scrap or stoppages. Weekends are excluded; holidays, finishing, inspection, shipping and staff conflicts across machine types are not yet modeled. Due dates remain the customer’s requested game days.</div>'
+  +'<div class="gantt-note">Planning estimate only. Setup time, shared Ironman availability and scrap may delay actual delivery. Customer due dates use calendar days; machining/programming still follow their working-day rules. This chart does not reserve stock or promise delivery.</div>'
   +'<div class="gantt-material-title"><h3>Material availability & incoming orders</h3>'
   +'<button class="btn minor ghost" type="button" id="jumpMaterials">↓ Purchasing</button></div>'
   +'<div id="ganttMaterialSummary"></div></div>';
@@ -193,7 +193,7 @@
    return '<div class="gantt-metrics"><span>On-hand: Al '+fmtQty(Number(state.aluminum)||0)+' kg · Steel '+fmtQty(Number(state.steel)||0)+' kg</span><span>'+p+'</span></div>';
  }
  function paint(){
-   if(currentTab!=='gantt')return;
+   if(currentTab!=='gantt' && currentTab!=='orders')return;
    const jobs=products(),coverage=coverJobs(jobs),plans=predict(jobs,coverage),start=today(),finish=start+windowDays-1;
    const timeline=Array.from({length:windowDays},(_,i)=>start+i);
    const rows=[];
