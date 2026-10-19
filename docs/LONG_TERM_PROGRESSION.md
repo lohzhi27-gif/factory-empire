@@ -56,7 +56,8 @@
 - Add a **Quality Control department** with:
   - **QA Inspector:** first article and outgoing/in-process inspection tasks, rejection detection and QA workload.
   - **QA Engineer:** root-cause/action plans, defect reduction, quality-system investment, customer claim handling and process improvements.
-- Introduce **Managers** with real wages and role limits; production and quality management reduce excessive micromanagement, but not instant error-free operations. Departmental manager performance depends on staff/resources and customer priorities.
+- Introduce **Manager Hero Cards** with visible **rarity, buffs AND debuffs**, monthly salary, department specialization and finite assignments. Character strengths/weaknesses may be creatively inspired by the owner's current and former colleagues, but all public names/portraits/stories must be original fictionalizations (or authorized by the person). This system makes managers distinct and collectible rather than anonymous +10% buttons. See [Hero Cards specification](HERO_MANAGERS.md).
+- Manager buffs can improve production planning, setup speed, QA, customer service or procurement; debuffs can raise wage expenses, slow release/inspection or lower employee happiness. No manager can bypass required operators, equipment, materials or working calendars. Production and quality management reduce excessive micromanagement, but not instant error-free operations.
 - Higher-capacity machining and meaningful bottlenecks between programming, setup, machine tending, polishing, subcontract operations and QC.
 - Move/build-out cost, deposits, extra power consumption and payroll scale appropriately; upgrading has financial risk.
 - Original v0.3.x users may already own an in-game laser (legacy purchase). **Preserve owned equipment and existing game progress** and phase in future eligibility without silently deleting machines or orders.
