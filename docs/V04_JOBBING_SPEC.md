@@ -1,7 +1,7 @@
 # Factory Empire — v0.4 Jobbing, Capabilities & Cash Flow Specification
 
 **Decision date:** 2026-10-18
-**Status:** Design remains active. First scoped playable portion launched as **v0.4.0 alpha** (CNC setups, shared operator attendance, per-machine dispatch, two-machine starter-room purchase gate, sheet-metal RFQ/laser gate). Most sections below remain **planned, not yet implemented**.
+**Status:** Design remains active. Playable slices now include **v0.4.5 alpha HOT JOBS** (following the first v0.4.0 CNC jobbing slice) (CNC setups, shared operator attendance, per-machine dispatch, two-machine starter-room purchase gate, sheet-metal RFQ/laser gate). Most sections below remain **planned, not yet implemented**.
 **Product strategy:** Mobile-first, free-to-download factory-management prototype for market validation. NO RPG/character walking or open-world city in this phase.
 
 ## Owner-confirmed gameplay rules
@@ -91,6 +91,12 @@
 - Only CNC electricity rates were supplied. Laser cutter, tapping machine and auxiliary-equipment power costs are TBD.
 - Monthly workshop fixed overhead initially = RM800 rent + RM900 electricity = RM1,700/month for one CNC at one shift, before wages, materials and other expenses.
 - With that same CNC running two shifts: RM800 + RM1,500 = RM2,300/month before wages, materials and other expenses.
+
+### v0.4.5 implementation status (playable test slice)
+
+- **Implemented:** occasional optional HOT JOB offer; higher unit price; CNC-only gating; four-**calendar**-day customer due date; resource/programming checks; existing physical setup and operator bottleneck; accept, decline and expiry; persistent save; deliberate dispatch to chosen CNC; HOT order tags in Production and Gantt.
+- **Provisional balance choices (not owner-confirmed):** the four-day clock begins when the player **accepts/gets the PO** (the owner has not yet chosen between RFQ issue and award); first offer around Day 8, Mon/Tue initial scheduling, roughly 8–12 game-day cooldown, a one-day follow-up offer window, roughly +50–80% unit premium and small CNC batches. Adjust from actual playtesting.
+- **Still planned:** weekend overtime and staff fatigue; richer commercial account-relationship damage; accurate Gantt forecast with operator bottlenecks; dynamic planning simulation for all at-risk orders. The current Gantt is **not** a reliable completion-time prediction for urgent work.
 
 ### 2. Occasional hot jobs (urgent RFQs)
 - Special, occasional **hot jobs with a strict four-calendar-day customer lead time** offer attractive revenue. **All seven days of the week count toward the customer deadline, including Saturday and Sunday.**
