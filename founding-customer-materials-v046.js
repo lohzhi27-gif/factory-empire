@@ -82,7 +82,7 @@
   function usage(job){
     const p=P[job.product];if(!p)return null;
     const per=Number(p.material)||0;
-    const completed=Math.max(0,Number(job.done)||0),scrapped=Math.max(0,Number(job.scrap)||0);
+    const completed=Math.max(0,Number(P[job.product]?.requiresTapping?job.cncDone:job.done)||0),scrapped=Math.max(0,Number(job.scrap)||0);
     const inflight=inflightCount(job);
     // Material is deducted when a part STARTS cutting. Include the current
     // uncompleted cutting cycle, but not a merely queued/loading cycle.
