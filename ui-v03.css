@@ -595,3 +595,38 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .sheet-detail-body{padding:8px}
  .sheet-gantt .gantt-pane{--gantt-label:150px;--gantt-cell:34px}
 }
+
+
+/* v0.4.8: urgency is red (and labeled), not only a subtle amber edge */
+.hot-job-card{border-color:#f16b68;box-shadow:0 0 0 1px #ff858c70,0 0 18px #ef4c6250,inset 0 0 15px #c43f4214}
+.hot-eyebrow{color:#ffabab}.hot-priority{border-color:#ff8186;background:#8e2737;color:#fff1eb}
+#orderList>.rfq.hot-production-order{border:2px solid #f16a6b;box-shadow:inset 6px 0 #ff535f,0 0 0 1px #f66a76b0,0 0 19px #e8465350}
+#orderList>.rfq.hot-production-order.job-radar-cutting{border-color:#f16a6b;box-shadow:inset 6px 0 #ff535f,0 0 0 1px #f66a76b0,0 0 19px #e8465350}
+.hot-job-order-banner{border-color:#e87075;background:#612934;color:#ffe0df}
+.production-sheet-table tr.sheet-hot th:first-child{border-left:5px solid #f35a67!important;background:#562936!important}
+.production-sheet-table tr.sheet-hot td{border-bottom-color:#a14b58}
+.hot-offer-indicator{border-color:#ff7b80;background:#972c3f;color:#fff3f3}
+
+/* v0.4.8: explicit multi-CNC PO assignments, support stations */
+.multi-cnc-assignment{display:grid;gap:8px;margin-top:12px;padding:11px;border:1px solid #437c90;border-radius:9px;background:#152f42}
+.multi-cnc-heading{display:grid;gap:3px;color:#c0faf2}
+.multi-cnc-heading strong{font-size:12px}
+.multi-cnc-heading small,.multi-cnc-footer{font-size:10px;line-height:1.5;color:#b1d2df}
+.multi-cnc-row{display:flex;gap:7px;flex-wrap:wrap}
+.multi-cnc-switch{flex:1 1 135px;min-height:42px;padding:8px 10px;border:1px solid #49758e;border-radius:7px;background:#1a3a50;color:#cde6f0;font-weight:750;font-size:11px;cursor:pointer}
+.multi-cnc-switch.selected{background:#155f60;border-color:#51d5ba;color:#eafff4;box-shadow:0 0 0 1px #69ecce44}
+.multi-cnc-switch:focus-visible{outline:2px solid #7aebeb;outline-offset:2px}
+.aux-job-tapping,.aux-rfq-requirement{padding:8px 9px;font-size:11px;line-height:1.5;color:#ffdda0;border:1px solid #ae8755;background:#3c3328;border-radius:7px}
+.workshop-support{margin:12px 0 16px;padding:13px;border:1px solid #3e8b9a;border-radius:10px;background:#122c40}
+.support-heading{display:grid;gap:4px;margin-bottom:10px}
+.support-heading strong{color:#b1f5e9;font-size:13px}
+.support-heading small{font-size:10px;color:#b6cfdd}
+.support-stations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.support-station{min-width:0;border:1px solid #406276;border-radius:9px;padding:12px;background:#1a3447}
+.support-station h4{margin:0 0 8px;font-size:12px;color:#e3faff}
+.support-station>strong{font-size:12px;color:#b8f2db}
+.support-station p{font-size:10px;color:#adcddd;line-height:1.6;margin:7px 0}
+.support-station small{font-size:10px;color:#b9d2df;line-height:1.5}
+.support-station button{width:100%;min-height:39px;font-size:11px}
+.sheet-machine-tags{font-size:10px;color:#9feadb!important;font-weight:800}
+@media(max-width:740px){.support-stations{grid-template-columns:1fr}.multi-cnc-switch{flex:1 1 100%}}
