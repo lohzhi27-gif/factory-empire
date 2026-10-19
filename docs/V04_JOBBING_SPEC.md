@@ -4,6 +4,13 @@
 **Status:** Design remains active. Playable slices now include **v0.4.5 alpha HOT JOBS** (following the first v0.4.0 CNC jobbing slice) (CNC setups, shared operator attendance, per-machine dispatch, two-machine starter-room purchase gate, sheet-metal RFQ/laser gate). Most sections below remain **planned, not yet implemented**.
 **Product strategy:** Mobile-first, free-to-download factory-management prototype for market validation. NO RPG/character walking or open-world city in this phase.
 
+## v0.4.6–0.4.7 playtest improvements
+
+- **Accepted-job material visibility:** production orders show total planned input, already physically consumed material including scrap/in-progress cuts, minimum uncut requirement, and material shortage across the shared warehouse. Tracking is visual and cannot double-consume physical stock.
+- **Founder-inspired customer:** YPS Technologies appears as a founding CNC customer, with fictional RFQ numbers and machine parts/quantities/prices. The game must not imply those are real YPS contracts.
+- **Unified planning UI:** Production and Gantt now share a **single Production & Schedule panel**, including a searchable seven-day overview, filters, expandable per-PO information and longer read-only forecast. This replaces the separate workspace toggle. Do not conflate approximate Gantt ETAs with guaranteed delivery dates.
+- The original `factory_empire_proto_v1` local save remains unchanged, with migration for older customers/quote lists only.
+
 ## Owner-confirmed gameplay rules
 
 ### 1. Sheet-metal production is locked early in the game
