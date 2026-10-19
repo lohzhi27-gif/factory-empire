@@ -380,7 +380,7 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
   renderFinance=function(){
     oldFinance();
     const p=document.getElementById('payroll');
-    if(p)p.textContent=F((state.workers||0)*160)+' / staffed working day';
+    if(p)p.textContent=F((state.workers||0)*120)+' / staffed working day';
     const hire=document.getElementById('hireBtn');
     if(hire){
       const capacity=2*Math.max(1,Math.ceil(state.machines.length/3));
