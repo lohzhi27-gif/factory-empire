@@ -382,3 +382,15 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .jobbing-machine label{align-items:stretch;flex-direction:column;gap:6px}
  .jobbing-machine select{width:100%;min-width:0;flex:auto}
 }
+
+
+/* v0.4.1 — hourly simulation clock and touch-friendly advance */
+.simulation-clock{display:inline-flex;align-items:center;min-height:36px;padding:7px 11px;border:1px solid #3d8193;border-radius:8px;background:#0f3447;color:#b8fae8;font-size:12px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
+.hourly-button,.nav-hour{border-color:#53879e!important;background:#173c52!important;color:#d1f9ff!important}
+.hourly-button{min-height:38px}
+.nav-hour{min-width:92px;justify-content:center}
+@media(max-width:740px){
+ .simulation-clock{width:100%;justify-content:center;order:20;font-size:11px;min-height:32px}
+ .nav-hour{min-width:86px}
+ .hourly-button{padding:9px 10px;font-size:11px}
+}
