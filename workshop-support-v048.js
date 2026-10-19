@@ -138,6 +138,19 @@
    init();beforeMachines();
    const root=document.getElementById('machineList');
    if(!root)return;
+   [...root.querySelectorAll('.machine')].forEach((card,i)=>{
+     const m=state.machines[i];if(!m)return;
+     const j=state.jobs.find(j=>j.id===m.manualJobId)||
+       state.jobs.find(j=>j.id===m.cutJobId)||
+       state.jobs.find(j=>(j.machineOutput||{})[m.id]>0);
+     if(!j)return;
+     const target=card.querySelector('.jobbing-machine')||card;
+     const info=document.createElement('div');
+     info.className='machine-output-contribution';
+     info.textContent='CNC #'+m.id+' contribution → PO #'+j.id+': '+((j.machineOutput||{})[m.id]||0)+
+       ' good pcs (combined job progress: '+j.done+'/'+j.qty+')';
+     target.appendChild(info);
+   });
    let support=document.getElementById('workshopSupport');
    if(!support){
      support=document.createElement('div');support.id='workshopSupport';
@@ -165,7 +178,15 @@
          '<small>Shared support process · dedicated minion not required under 6 CNCs.</small>'))+
      '</section></div>';
  };
- const beforeJobs=renderJobs;
+ const beforeFinance=renderFinance;
+ renderFinance=function(){
+   init();beforeFinance();
+   const payroll=document.getElementById('payroll');
+   if(payroll)payroll.textContent=F((state.workers||0)*160+
+     Math.max(0,(state.programmers||1)-1)*180+(state.tappingOperators||0)*160)+
+     ' / staffed working day (CNC + office + tapping)';
+ };
+  const beforeJobs=renderJobs;
  renderJobs=function(){
    init();beforeJobs();
    const cards=[...document.querySelectorAll('#orderList .rfq[data-radar-job]')];
