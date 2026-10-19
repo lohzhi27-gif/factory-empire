@@ -258,7 +258,10 @@
       m.manualJobId=job.id;
       log('🔥 HOT JOB #'+job.id+' given production priority on CNC #'+m.id+
         ' (current cutting cycle may finish first; full part changeover required)');
-      toast('CNC #'+m.id+' prioritized HOT JOB. Other orders may slip.');
+      const ready=job.routing?.phase==='machining' &&
+        (!job.routing.machineReadyDay||job.routing.machineReadyDay<=state.day);
+      toast(ready?'CNC #'+m.id+' prioritized HOT JOB. Other orders may slip.':
+        'HOT JOB priority queued on CNC #'+m.id+'; existing work continues until programming is ready.');
       update();
     }
   });
