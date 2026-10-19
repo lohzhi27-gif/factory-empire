@@ -271,6 +271,8 @@ var runJobbingProduction;
     log('Hired operator #'+state.workers+' · can attend another shift or CNC cell (RM800)');
     update();
   };
+  const hireButton=document.getElementById('hireBtn');
+  if(hireButton)hireButton.onclick=hire;
   const shiftButton=document.getElementById('shiftBtn');
   if(shiftButton)shiftButton.onclick=function(){
     init();
