@@ -515,3 +515,83 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .order-material-metrics>div{padding:7px}
  .order-material-metrics strong{font-size:12px}
 }
+
+
+/* v0.4.7 — one Production & Schedule view with compact searchable sheet */
+.production-sheet{margin:11px 0 13px;background:#0e293d;border:1px solid #3c6d83;border-radius:10px;overflow:hidden}
+.production-sheet-tools{padding:10px;display:grid;gap:8px;background:#142e42}
+.production-sheet-lead{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.production-sheet-lead strong{color:#a9f4e9;font-size:13px}
+.production-sheet-lead span{color:#a2c2d3;font-size:11px}
+.production-sheet-controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.production-sheet-controls input,.production-sheet-controls select{min-height:37px;border:1px solid #47738a;background:#0b2337;color:#f1fbfe;padding:8px;border-radius:7px;font:inherit;font-size:11px}
+.production-sheet-controls input{min-width:140px;flex:1 1 155px}
+.production-sheet-controls select{flex:0 1 133px;max-width:100%}
+.production-sheet-controls .btn{flex:0 1 auto;min-height:38px;white-space:nowrap}
+.production-sheet-scroller{width:100%;max-height:52vh;overflow:auto;border-top:1px solid #31596e;border-bottom:1px solid #31596e;scrollbar-width:thin;scrollbar-color:#477e93 #0d2639}
+.production-sheet-scroller:focus-visible{outline:2px solid #68ddf1;outline-offset:-2px}
+.production-sheet-table{border-collapse:separate;border-spacing:0;min-width:870px;width:100%;font-size:11px;color:#d4e9f1}
+.production-sheet-table th,.production-sheet-table td{padding:9px 8px;border-right:1px solid #2b4b61;border-bottom:1px solid #28475d;text-align:left;vertical-align:middle;white-space:nowrap}
+.production-sheet-table thead th{position:sticky;top:0;z-index:2;background:#1e4357;font-size:10px;font-weight:900;letter-spacing:.2px;color:#cbf2f7}
+.production-sheet-table thead th small{display:block;font-size:9px;font-weight:400;letter-spacing:0;color:#9cc0d0}
+.production-sheet-table thead th:first-child{z-index:4}
+.production-sheet-table tr:nth-child(2n){background:#0b2639}
+.production-sheet-table tr:hover{background:#1b4152}
+.production-sheet-table th:first-child{position:sticky;left:0;z-index:1;min-width:137px;max-width:186px;background:#163549}
+.production-sheet-table tbody tr:nth-child(2n) th:first-child{background:#143044}
+.production-sheet-table tbody tr.sheet-hot th:first-child{background:#4d3929}
+.production-sheet-table tbody tr.sheet-risk td{border-bottom-color:#6a4f37}
+.sheet-job-name{color:#ebfaff;font-weight:900;max-width:170px;overflow:hidden;text-overflow:ellipsis}
+.production-sheet-table td strong{color:#e3f9fc;display:block;font-size:11px}
+.production-sheet-table td small,.production-sheet-table th small{display:block;color:#a5c5d6;font-size:10px;margin-top:3px;white-space:normal;max-width:165px;line-height:1.3}
+.sheet-mini-progress{height:5px;margin-top:7px;width:82px;max-width:100%;overflow:hidden;border-radius:9px;background:#284b60}
+.sheet-mini-progress i{display:block;height:100%;background:#5be1d3}
+.production-sheet-table .sheet-warn{color:#ffd090;font-weight:800}
+.sheet-process{display:inline-block;border:1px solid #446a80;border-radius:5px;padding:5px 7px;background:#194259;font-size:10px;font-weight:800;color:#b8e4ef}
+.sheet-process.programming{border-color:#8478c8;background:#332e59;color:#ddd2ff}
+.sheet-process.material{border-color:#b9844e;background:#493923;color:#ffe0b2}
+.sheet-process.cutting{border-color:#38b4cf;background:#14546a;color:#b4faff}
+.sheet-process.setting{border-color:#d29b53;background:#533b26;color:#ffdfac}
+.sheet-week{display:flex;gap:3px}
+.sheet-day{display:grid;gap:2px;align-content:center;justify-items:center;width:31px;min-width:31px;height:39px;border:1px solid #31526b;border-radius:4px;background:#0e2438;color:#8eaabd}
+.sheet-day small{font-size:9px!important;margin:0!important;color:inherit!important}
+.sheet-day b{font-size:11px;font-weight:900}
+.sheet-day.material{background:#604128;border-color:#9a764d;color:#ffe1b2}
+.sheet-day.program{background:#393264;border-color:#786cc5;color:#e8daff}
+.sheet-day.machining{background:#154d61;border-color:#2588a2;color:#c6fbff}
+.sheet-day.weekend{opacity:.55}
+.sheet-day.due{border:2px solid #ff9d9d;box-shadow:inset 0 0 0 1px #b44755;color:#fff2c5}
+.sheet-open-job{font:inherit;font-size:11px;font-weight:850;border:1px solid #477d96;border-radius:6px;color:#c4f5ff;background:#1b485e;padding:9px;cursor:pointer;min-height:36px}
+.sheet-open-job:focus-visible,.production-sheet-controls input:focus-visible,.production-sheet-controls select:focus-visible{outline:2px solid #5bdaed;outline-offset:2px}
+.sheet-no-jobs{text-align:center!important;padding:18px!important;color:#a9c8d8!important}
+.production-sheet-key{padding:8px 10px;display:flex;gap:7px 13px;align-items:center;flex-wrap:wrap;color:#a7cad8;font-size:10px}
+.production-sheet-key>span{display:inline-flex;gap:5px;align-items:center}
+.production-sheet-key i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.sheet-key-mat{background:#dfa344}.sheet-key-prog{background:#918afa}.sheet-key-cnc{background:#2ab5d5}
+.sheet-disclosure{border:1px solid #3c5f74;border-radius:9px;margin:11px 0;background:#10283c;overflow:hidden}
+.sheet-disclosure summary{display:flex;gap:9px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 11px;cursor:pointer;color:#dcf4fa;font-size:12px;font-weight:850;background:#1b374b}
+.sheet-disclosure summary>span{font-size:10px;color:#abc5d4;font-weight:500}
+.sheet-detail-body{padding:12px 10px}
+.sheet-forecast-body{padding:5px;min-width:0}
+.sheet-gantt{display:block!important;width:100%;min-height:0}
+.sheet-gantt .gantt-pane{--gantt-label:174px;--gantt-cell:36px;padding:10px 8px;max-width:100%}
+.sheet-gantt .gantt-scroller{max-width:100%}
+.sheet-gantt .gantt-header h3{font-size:13px}
+.sheet-gantt .gantt-controls,.sheet-gantt .gantt-legend{font-size:10px}
+.sheet-fullscreen{overflow:hidden}
+.sheet-fullscreen .operations-panel{position:fixed!important;inset:12px!important;z-index:80;overflow-y:auto;overflow-x:hidden;box-shadow:0 20px 100px #000e}
+.sheet-fullscreen .operations-panel .rightscroll{max-height:none!important;overflow:visible!important}
+.sheet-fullscreen .production-sheet-scroller{max-height:64vh}
+.sheet-fullscreen .production-sheet-table{min-width:1000px}
+@media(max-width:740px){
+ .production-sheet-controls input{flex:1 1 100%;width:100%;min-width:0}
+ .production-sheet-controls select{flex:1}
+ .production-sheet-controls .btn{flex:1}
+ .production-sheet-scroller{max-height:48vh}
+ .production-sheet-table{min-width:810px}
+ .production-sheet-table th:first-child{min-width:120px;max-width:148px}
+ .sheet-day{width:29px;min-width:29px}
+ .sheet-fullscreen .operations-panel{inset:3px!important}
+ .sheet-detail-body{padding:8px}
+ .sheet-gantt .gantt-pane{--gantt-label:150px;--gantt-cell:34px}
+}
