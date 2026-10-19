@@ -4,6 +4,17 @@
 **Status:** Design remains active. Playable slices now include **v0.4.5 alpha HOT JOBS** (following the first v0.4.0 CNC jobbing slice) (CNC setups, shared operator attendance, per-machine dispatch, two-machine starter-room purchase gate, sheet-metal RFQ/laser gate). Most sections below remain **planned, not yet implemented**.
 **Product strategy:** Mobile-first, free-to-download factory-management prototype for market validation. NO RPG/character walking or open-world city in this phase.
 
+## v0.4.8 owner findings and implementation
+
+**Owner direction, 2026-10-19:** multiple CNC machines may run **the same customer part/order** to improve OTD; a single Ironman attends both, with separate setups and machine attendance; aggregate pieces once to the PO. The game must expose assignment on the Production job and report both machine contributions. Starter tapping equipment must be purchasable before Stage 2, and from six CNCs onward a dedicated tapping minion is required. The workshop also starts with a programmer desk; office programming capacity increases with later expansion. Urgent orders need **red** attention-grabbing borders.
+
+**Current implementation:**
+- PO details have multi-CNC assignment switches; shared single-job completion logic and per-machine output counters. Preserve existing total PO quantity, and don't fabricate legacy machine-specific output.
+- A **tapping station** can be purchased in Stage 1 separate from the two-CNC limit. New fictional threaded-bracket jobs need the station *before PO acceptance*. CNC good output for such a job remains pending until tapping actually processes the parts; no early shipment.
+- No dedicated tapping assignment when factory size is below 6 CNCs. At 6+, a dedicated tapping minion is required and receives payroll. Balance **TBD**: currently RM4,500 station price, 30m first setup + 2m/piece, 210m/day early stage or 420m/day with dedicated support.
+- Program desk appears in the shop and one programmer is initially available. Only one two-workday program per day can advance at Stage 1. Additional desks/operators cost in-game funds and unlock at 4+ CNCs during future Stage 2 expansion; exact prices and wages **TBD**.
+- HOT edges visibly red; Gantt still a rough estimate that can overstate actual capacity when setup/minion loads/tapping and queued programming intervene.
+
 ## v0.4.6–0.4.7 playtest improvements
 
 - **Accepted-job material visibility:** production orders show total planned input, already physically consumed material including scrap/in-progress cuts, minimum uncut requirement, and material shortage across the shared warehouse. Tracking is visual and cannot double-consume physical stock.
