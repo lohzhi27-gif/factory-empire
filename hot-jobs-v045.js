@@ -36,6 +36,7 @@
     const h=state.hotOffer;
     state.hotOffer=null;
     state.hotHistory.push({id:h.id,product:h.product,result:'expired',day:state.day});
+    state.hotHistory=state.hotHistory.slice(-40);
     log('HOT JOB EXPIRED: '+P[h.product].short+' · no order awarded, no penalty');
     save();
     return true;
@@ -69,6 +70,7 @@
     state.nextHotOfferDay=state.day+8+rnd(0,4);
     log('🔥 HOT JOB RFQ #'+id+': '+p.short+' × '+qty+
       ' · '+displayMoney(qty*offer)+' potential sales · 4 CALENDAR days after PO award');
+    toast('🔥 New HOT JOB RFQ! Check Customers · four-calendar-day deadline after award.');
     save();
     return true;
   }
@@ -107,6 +109,7 @@
     const h=activeHot();if(!h)return;
     state.hotOffer=null;
     state.hotHistory.push({id:h.id,product:h.product,result:'declined',day:state.day});
+    state.hotHistory=state.hotHistory.slice(-40);
     log('DECLINED HOT JOB #'+h.id+' · protected current commitments; no penalty');
     toast('Urgent offer declined · no penalty');
     update();
@@ -138,6 +141,7 @@
     job.dueDay=state.day+HOT_LEAD;
     state.hotOffer=null;
     state.hotHistory.push({id:h.id,product:h.product,result:'awarded',day:state.day});
+    state.hotHistory=state.hotHistory.slice(-40);
     log('🔥 HOT PO AWARDED #'+h.id+' · '+risk.p.short+' × '+h.qty+
       ' · DUE DAY '+job.dueDay+' (4 CALENDAR days from award, weekends included)');
     toast('HOT JOB accepted! Open Production → prioritize on CNC to schedule.');
@@ -157,6 +161,17 @@
   function renderHot(){
     if(!panel)return;
     const h=activeHot();
+    for(const selector of ['[data-tab="rfqs"]','[data-nav="rfqs"]']){
+      const button=document.querySelector(selector);
+      if(!button)continue;
+      let chip=button.querySelector('.hot-offer-indicator');
+      if(h && !chip){
+        chip=document.createElement('span');
+        chip.className='hot-offer-indicator';
+        chip.textContent='🔥 HOT';
+        button.appendChild(chip);
+      }else if(!h && chip)chip.remove();
+    }
     if(!h){
       const next=Number(state.nextHotOfferDay)||8;
       panel.innerHTML='<div class="hot-job-pending"><strong>🔥 Urgent customer desk</strong>'+
