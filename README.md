@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.9 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.10 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,18 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.10 ALPHA — Direct-click panel recovery + owner-updated wages (2026-10-19)
+
+**Second failed navigation playtest:** the previous v0.4.9 fix did not restore navigation, and the screenshot still displayed the older v0.4.7 heading. This release installs an independent **document capture-phase** panel selector directly in the main HTML, **before optional add-on JavaScript files**. Its click handler suppresses conflicting legacy listeners and switches to the intended page before attempting optional redraws. It resets leftover full-screen overlay modes. Even if a Production, Gantt, or Equipment renderer fails, the selected page remains open.
+
+- Main render loop isolates faults in its nine dashboard components; errors are logged and shown via the warning banner without stopping other panels. There is a module-startup warning if Stage 1 support features did not finish loading.
+- The **v0.4.10 header is now applied by the main page at DOMContentLoaded/pageshow**, after older plug-ins, rather than trusting the last version of a component script. An old screenshot saying v0.4.7 may also mean the browser is still serving a cached HTML page; open `?v=410` and perform Ctrl+Shift+R.
+- **Owner-confirmed gameplay wage correction:** each CNC minion/ironman earns **RM120 per working day**; each programmer earns **RM180 per working day**, including the initial Stage 1 programmer. Dedicated tapping minions also use the minion rate **RM120 per working day**. A single minion and programmer thus cost **RM300/workday**; two minions plus one programmer cost RM420/workday. Both salary expenses are actually deducted at day close, not merely displayed. Weekend overtime remains planned.
+- Original `factory_empire_proto_v1` save preserved: no equipment, material, orders, cash balances or timeline reset.
+- Earlier sections describing RM160 operator pay are **historic release notes superseded by v0.4.10**.
+
+**Smoke test:** Open `https://lohzhi27-gif.github.io/factory-empire/?v=410`, wait for GitHub Pages, and confirm the header **PANEL RECOVERY v0.4.10 ALPHA**. Click each top navbar category (Customers, Production, Machines, Finance) and the corresponding right-panel tabs. No Restart. In Finance, one Ironman + one programmer should show RM300 normal workday payroll before electricity/overhead. If any panel is still unresponsive, send a screenshot including the updated version heading and any warning text.
 
 ## v0.4.9 ALPHA — Panel navigation rescue and paid programmer (2026-10-19)
 
