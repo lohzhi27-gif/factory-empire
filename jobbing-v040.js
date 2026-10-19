@@ -8,7 +8,7 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
 (function jobbingV040(){
   'use strict';
   const SETUPS={easy:21,medium:90,difficult:180};
-  const DIFFICULTY={bracket:'easy',block:'difficult',plate:'medium',housing:'difficult'};
+  const DIFFICULTY={bracket:'easy',block:'difficult',threaded:'medium',plate:'medium',housing:'difficult'};
   const LOAD_MIN=2;
   const workday=d=>((d-1)%7+7)%7<5;
   function difficulty(p){return DIFFICULTY[p]||'medium';}
@@ -41,13 +41,13 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
   function manualPriorityReady(m){
     if(!m || m.manualJobId===null || m.manualJobId===undefined)return false;
     const requested=state.jobs.find(j=>j.id===m.manualJobId);
-    return !!requested && qualified(requested,m);
+    return !!requested && qualified(requested,m) && hasQty(requested);
   }
   function getJob(m){
     if(m.manualJobId!==null){
       const chosen=state.jobs.find(j=>j.id===m.manualJobId&&P[j.product]?.machine===m.type&&j.done<j.qty);
       if(!chosen){m.manualJobId=null;}
-      else if(qualified(chosen,m))return chosen;
+      else if(qualified(chosen,m)&&hasQty(chosen))return chosen;
       // Keep the existing CNC producing while a manually selected HOT JOB
       // waits for supplier material or its two-day programming to finish.
       // Switch only after its normal routing makes it machinable.
@@ -60,7 +60,8 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
     return state.machines.filter(m=>m.cutJobId===jobId&&m.cutRemaining>0 ||
       m.loadJobId===jobId&&m.loadRemaining>0).length;
   }
-  function hasQty(j){return j.done+inflight(j.id)<j.qty;}
+  function machinedQty(j){return P[j.product]?.requiresTapping?Math.max(Number(j.cncDone)||0,Number(j.done)||0):Number(j.done)||0;}
+  function hasQty(j){return machinedQty(j)+inflight(j.id)<j.qty;}
   function jobForMachine(m){
     // A part already in the spindle must complete its cycle before another is set up.
     if(m.cutRemaining>0||m.loadRemaining>0){
@@ -90,7 +91,13 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
     if(j&&p){
       const fail=Math.random()<(.015+(100-m.condition)*.0009);
       if(fail){j.scrap++;state.totalScrap++}
-      else{j.done++;state.totalProduced++;counts.output++}
+      else{
+        if(p.requiresTapping)j.cncDone=machinedQty(j)+1;
+        else j.done++;
+        j.machineOutput=j.machineOutput||{};
+        j.machineOutput[m.id]=(j.machineOutput[m.id]||0)+1;
+        state.totalProduced++;counts.output++;
+      }
       counts.runs[m.id]=(counts.runs[m.id]||0)+1;
     }
     m.cutRemaining=0;m.cutJobId=null;
@@ -290,7 +297,8 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
     if(paid && state.cash<300){toast('Insufficient cash for prospecting');return;}
     if(state.rfqs.length>=5){toast('Complete or accept existing quotations first');return;}
     if(paid){state.cash-=300;state.totalExpenses+=300;}
-    const product=Math.random()<.5?'bracket':'block',p=P[product];
+    const choice=Math.random();
+    const product=choice<.18?'threaded':choice<.59?'bracket':'block',p=P[product];
     const qty=rnd(25,85),dueOffset=rnd(5,13),offer=Math.round(p.unit*(.85+Math.random()*.27));
     // The founding customer can return with occasional fictional CNC orders.
     // No genuine YPS job, price, drawing, or company contact is disclosed.
