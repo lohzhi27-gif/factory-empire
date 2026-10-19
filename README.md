@@ -12,7 +12,7 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.1 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.4.2 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
 **Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
@@ -29,6 +29,26 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.4.2 ALPHA — Live Job Radar and CNC operation progress (2026-10-19)
+
+**Playable interface enhancement:** Based on the first Ironman laptop playtest, Equipment now provides **per-machine progress bars** and Production shows **glowing highlighted edges** on the matching customer order(s). The underlying CNC setup and worker simulation remains unchanged from v0.4.1.
+
+- **Machine operation progress** in Equipment: setup percent and remaining minutes (Easy 21m / Medium 90m / Difficult 180m); current piece machining percent and minutes remaining; loading progress; meaningful "Setup ready" / "assigned" / "idle" statuses. Progress bars have text labels for accessibility, not color alone.
+- **Linked live order highlights**: cyan cutting, green loading, amber setup or waiting on a minion, green setup ready, subdued assigned. Show **job ID plus machine ID** on each affected production card; when multiple CNCs work on one order, display multiple machine status chips.
+- **Show highlighted job** button on a machine card takes the player straight to that exact PO in Production, expanding the user workflow beyond simple part names.
+- **Job Radar** in Production: All orders / On machines filter and persistent search by job ID, customer or part. A visible count shows currently active jobs. Controls stay in place when +1 Hour rerenders the order list, so mobile typing is not disrupted.
+- **Machine job dispatch selectors** now show **#job ID · part · customer · due day** to distinguish several customer orders for the same part.
+- **No production or save migration changes** in this patch; the same localStorage key and v0.4.1 hourly behavior remain intact.
+- **Scaling note:** the UI is designed to navigate dozens of eventual CNC orders, but **the existing prototype still limits active accepted production orders to five**. Expanding the simultaneous-order cap will be a separate capacity/planning balancing update, not part of this visual slice.
+
+### Quick test
+1. Reload the game after GitHub Pages updates; continue your current factory, no Restart.
+2. Once programming is ready, tap **+1 Hour** and open **Equipment**. Watch the CNC's setup progress bar move as the Ironman works.
+3. Open **Production** and find the PO with the matching cyan/amber/green highlighted border and matching CNC # / job # status.
+4. In Equipment, tap **Show highlighted job** to jump directly to that card. Check the Job Radar filter and customer/part search.
+5. Try two different customer jobs for the same part; verify machine dispatch names include job # and customer. Return to All orders to reveal any hidden cards.
+6. Confirm cash, machine placements, active orders, routing phases and production progress are unchanged by toggling filters.
 
 ## v0.4.1 ALPHA — +1 Hour factory simulation (2026-10-19)
 
