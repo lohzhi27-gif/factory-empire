@@ -632,3 +632,12 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
 @media(max-width:740px){.support-stations{grid-template-columns:1fr}.multi-cnc-switch{flex:1 1 100%}}
 
 .machine-output-contribution{margin-top:7px;padding:8px 9px;border-left:3px solid #56d8bf;background:#103548;color:#c6f8e7;font-size:11px;line-height:1.5;font-weight:700}
+
+
+/* v0.4.9 emergency UX — never lose access to factory panels */
+.interface-status{margin:7px 10px;padding:9px 11px;background:#493b22;border:1px solid #b08b53;border-radius:7px;color:#ffe3af;font-size:11px;line-height:1.5}
+.interface-status[hidden]{display:none!important}
+.operations-panel>.tabs{position:sticky;top:0;z-index:8;pointer-events:auto}
+.operations-panel>.tabs .tab{pointer-events:auto;cursor:pointer}
+.main-nav{position:relative;z-index:8}
+.sheet-fullscreen .main-nav{z-index:auto}
