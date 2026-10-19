@@ -36,5 +36,11 @@
   };
   // Ensure legacy saves are corrected before the player next taps +1 Hour.
   archivePrematureOffers();
+  const previousRender=render;
+  render=function(){
+    previousRender();
+    const tagline=document.querySelector('.identity p');
+    if(tagline)tagline.textContent='INDUSTRIAL TYCOON · CNC RFQs v0.4.3 ALPHA';
+  };
   render();
 })();
