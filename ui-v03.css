@@ -449,3 +449,37 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .job-radar-ribbon{gap:4px}
  .job-radar-tag{font-size:9px;padding:5px}
 }
+
+
+/* v0.4.5 — optional 4-calendar-day HOT JOB events */
+.hot-job-panel{margin-bottom:13px}
+.hot-job-pending{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 11px;border:1px solid #6c5438;border-radius:9px;background:#282331}
+.hot-job-pending strong{color:#ffd093;font-size:12px}
+.hot-job-pending span{color:#cabac0;font-size:11px;line-height:1.45}
+.hot-job-card{padding:13px;border-radius:11px;border:2px solid #e5a14d;background:linear-gradient(145deg,#402d2a,#231e35 60%,#182940);box-shadow:0 0 20px #f0a5482b,inset 0 0 22px #ffc05a10}
+.hot-job-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.hot-eyebrow{font-size:10px;letter-spacing:1px;color:#ffd083;font-weight:900}
+.hot-job-top h4{margin:4px 0;color:#fff4da;font-size:15px}
+.hot-job-top small{font-size:11px;color:#e0c7b1}
+.hot-priority{font-size:11px;font-weight:900;color:#fff0ce;background:#8d4924;border:1px solid #eea04b;padding:7px 9px;border-radius:7px;white-space:nowrap}
+.hot-job-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:11px 0}
+.hot-job-facts>div{display:grid;gap:3px;border:1px solid #916347;border-radius:7px;background:#2b2a39;padding:8px}
+.hot-job-facts small{color:#c6b4b7;font-size:10px}
+.hot-job-facts strong{color:#ffe2a3;font-size:13px}
+.hot-job-checks{display:grid;gap:6px}
+.hot-check{display:block;font-size:11px;line-height:1.45;color:#d8dae5;background:#252f40;border:1px solid #506073;padding:8px 9px;border-radius:7px}
+.hot-check.pass{border-color:#487c68;color:#c2f4dc;background:#1f3c37}
+.hot-check.fail{border-color:#ab6347;color:#ffd2bf;background:#502b2e}
+.hot-check.warning{border-color:#bf8541;color:#ffe4ae;background:#453629}
+.hot-job-blocked{font-size:11px;font-weight:800;line-height:1.5;color:#ffc4c0;margin-top:9px}
+.hot-job-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:11px}
+.hot-job-actions .btn{min-height:42px;flex:1 1 150px}
+.hot-job-actions button:disabled{opacity:.55;cursor:not-allowed}
+#orderList>.rfq.hot-production-order{border:2px solid #eca64f;box-shadow:inset 5px 0 #f4ae55,0 0 20px #f4a63d35}
+#orderList>.rfq.hot-production-order.job-radar-cutting{border-color:#50d6ed;box-shadow:inset 5px 0 #ffbc67,0 0 16px #28cee955}
+.hot-job-order-banner{padding:8px 9px;margin:8px 0;border:1px solid #c68a40;background:#523521;color:#ffe7bd;font-size:11px;border-radius:7px;line-height:1.55}
+.hot-job-dispatch{display:grid;gap:7px;margin:10px 0 3px;padding:10px;border:1px solid #936749;border-radius:8px;background:#302d3a}
+.hot-job-dispatch label{display:grid;gap:6px;font-size:11px;color:#ffe4c0}
+.hot-job-dispatch select{width:100%;min-width:0;padding:10px 9px;min-height:42px;background:#1c3047;border:1px solid #bc955e;border-radius:8px;color:#f5eff0;font:inherit}
+.hot-job-dispatch button{min-height:42px}
+@media (max-width:740px){.hot-job-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.hot-job-top h4{font-size:14px}.hot-job-actions .btn{flex:1}}
