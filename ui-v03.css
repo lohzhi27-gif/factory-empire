@@ -364,3 +364,21 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .main-gantt-content .gantt-material-pill{font-size:9px}
  .gantt-expanded #mainGanttPanel{inset:3px!important}
 }
+
+
+/* v0.4 alpha: shared-operator CNC jobbing, touch-sized per-machine dispatch */
+.machine:has(> .jobbing-machine){flex-wrap:wrap;align-items:center;gap:8px}
+.jobbing-machine{flex-basis:100%;width:100%;min-width:0;display:grid;gap:8px;margin-top:6px;padding-top:9px;border-top:1px solid #355169}
+.jobbing-machine-state{color:#93e4e0;font-size:12px;font-weight:700;line-height:1.45}
+.jobbing-machine label{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#b8ccdd;font-size:12px}
+.jobbing-machine select{min-width:155px;max-width:100%;flex:1;border:1px solid #48738b;color:#effcff;border-radius:8px;background:#112c42;padding:10px 9px;min-height:42px;font:inherit;cursor:pointer}
+.jobbing-machine select:focus-visible{outline:2px solid #78d5df;outline-offset:2px}
+.jobbing-summary{display:grid;gap:7px;padding:12px;background:linear-gradient(135deg,#122e43,#14263c);border:1px solid #397289;border-radius:10px;margin:0 0 13px}
+.jobbing-summary strong{color:#a8f2dc;font-size:13px}
+.jobbing-summary span{color:#b7d5df;font-size:11px;line-height:1.5}
+.jobbing-rfq-setup{padding:7px 8px;border:1px solid #48647b;background:#203349;color:#f3cd92;font-size:11px;border-radius:7px;margin:9px 0}
+.jobbing-gantt-caution{padding:10px;margin-top:9px;border:1px solid #937749;color:#ffd496;background:#322b20;border-radius:7px;font-size:11px;line-height:1.5}
+@media(max-width:740px){
+ .jobbing-machine label{align-items:stretch;flex-direction:column;gap:6px}
+ .jobbing-machine select{width:100%;min-width:0;flex:auto}
+}
