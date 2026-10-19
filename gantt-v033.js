@@ -183,7 +183,7 @@
    const tag=c.status==='short'?'Short '+fmtQty(c.short)+' kg'
      :c.status==='incoming'?'Covered by PO · D'+c.readyDay:'Available in stock';
    const detail=fmtQty(c.required)+' kg '+(p.mat==='aluminum'?'Al':'Steel')+' required · '+j.done+'/'+j.qty+' pcs';
-   return '<div class="gantt-job"><strong>'+safe(p.short)+'</strong><small>'+safe(j.customer)+'</small>'
+   return '<div class="gantt-job"><strong>'+(j.hot?'🔥 HOT #'+j.id+' · ':'')+safe(p.short)+'</strong><small>'+safe(j.customer)+'</small>'
      +'<span class="gantt-material-pill '+color+'">'+tag+'</span><small>'+detail+'</small>'
      +'<small>Due Day '+j.dueDay+(plan.finish?' · ETA D'+plan.finish:' · ETA unknown')+'</small></div>';
  }
