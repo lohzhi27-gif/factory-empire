@@ -43,7 +43,7 @@
    '<select id="productionSheetFilter" aria-label="Filter production jobs">'+
    '<option value="all">All jobs</option><option value="hot">🔥 HOT only</option>'+
    '<option value="risk">At risk</option><option value="active">On a machine</option>'+
-   '</select></div></div>'+
+   '</select><button type="button" id="expandProductionSheet" class="btn minor ghost">⛶ Expand sheet</button></div></div>'+
    '<div class="production-sheet-scroller" role="region" tabindex="0" aria-label="Scrollable production schedule sheet">'+
    '<table class="production-sheet-table"><thead><tr>'+
    '<th scope="col">PO / Customer</th>'+
@@ -187,7 +187,20 @@
        'No jobs yet. Accept a CNC RFQ to get started.')+'</td></tr>';
    count.textContent=shown+'/'+jobs.length+' jobs · '+riskCount+' need attention';
  }
- search.addEventListener('input',sheetRender);
+ const expand=sheet.querySelector('#expandProductionSheet');
+ function closeSheetExpand(){
+   document.body.classList.remove('sheet-fullscreen');
+   if(expand){expand.textContent='⛶ Expand sheet';expand.setAttribute('aria-pressed','false');}
+ }
+ if(expand)expand.addEventListener('click',()=>{
+   const open=document.body.classList.toggle('sheet-fullscreen');
+   expand.textContent=open?'✕ Close full sheet':'⛶ Expand sheet';
+   expand.setAttribute('aria-pressed',String(open));
+ });
+ document.addEventListener('keydown',e=>{
+   if(e.key==='Escape'&&document.body.classList.contains('sheet-fullscreen'))closeSheetExpand();
+ });
+  search.addEventListener('input',sheetRender);
  filter.addEventListener('change',sheetRender);
  function openJob(id){
    detail.open=true;
@@ -214,6 +227,7 @@
  const priorRender=render;
  render=function(){
    priorRender();
+   if(currentTab!=='orders'&&document.body.classList.contains('sheet-fullscreen'))closeSheetExpand();
    sheetRender();
  };
  const tab=document.querySelector('[data-tab="orders"]');
