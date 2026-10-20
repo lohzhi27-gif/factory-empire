@@ -108,6 +108,10 @@
    return {used,need,short:Math.max(0,open-(Number(state[p.mat])||0)),name:p.mat};
  }
  function status(j){
+   if(state.stage2Phase==='moving')return {label:'RELOCATING · CNC STOP',cls:'material'};
+   if(state.stage2Phase==='active' && j.done>(j.packedQty||0)){
+     return {label:'PACKING '+(j.packedQty||0)+'/'+j.qty,cls:'setting'};
+   }
    const cutting=state.machines.some(m=>m.cutJobId===j.id&&m.cutRemaining>0);
    const preparing=state.machines.some(m=>m.loadJobId===j.id&&m.loadRemaining>0 ||
      m.manualJobId===j.id&&m.setupFor===j.product&&m.setupRemaining>0);
@@ -143,14 +147,15 @@
  function miniTimeline(j,plan){
    return Array.from({length:7},(_,i)=>{
      const day=state.day+i,cell=plan?.cells?.[i];
+     const moving=state.stage2Phase==='moving' && day<(state.stage2Move?.finishDay||0);
      const kind=['material','program','machining'].find(v=>cell?.classList.contains(v));
      const weekend=!weekday(day);
      const due=j.dueDay===day;
-     const text=due?'◆':kind==='material'?'M':kind==='program'?'P':kind==='machining'?'C':'·';
+     const text=due?'◆':moving?'×':kind==='material'?'M':kind==='program'?'P':kind==='machining'?'C':'·';
      const title='Day '+day+(due?' · customer due':kind==='material'?' · material waiting (estimate)':
-       kind==='program'?' · programming (estimate)':kind==='machining'?' · machining (estimate)':
+       kind==='program'?' · programming (estimate)':moving?' · RELOCATION / NO CNC WORK':kind==='machining'?' · machining (estimate)':
        weekend?' · weekend':' · not scheduled');
-     return '<span class="sheet-day '+(kind||'empty')+(due?' due':'')+(weekend?' weekend':'')+'" title="'+txt(title)+'">'+
+     return '<span class="sheet-day '+(moving?'relocating':(kind||'empty'))+(due?' due':'')+(weekend?' weekend':'')+'" title="'+txt(title)+'">'+
        '<small>D'+day+'</small><b>'+text+'</b></span>';
    }).join('');
  }
@@ -166,7 +171,13 @@
      const p=P[j.product];if(!p)continue;
      const mat=tally(j),pdone=Math.round(j.done/Math.max(1,j.qty)*100);
      const info=status(j),pr=projects.get(j.id);
-     const risk=(pr?.eta!==null&&pr?.eta!==undefined&&pr.eta>j.dueDay)||mat.short>.001||j.dueDay<state.day;
+     const relocationAtRisk=state.stage2Phase==='moving' &&
+       j.dueDay<(state.stage2Move?.finishDay||state.day);
+     const packingAtRisk=state.stage2Phase==='active' &&
+       j.dueDay-state.day<=3 && (j.packedQty||0)<j.qty;
+     const risk=relocationAtRisk||packingAtRisk||
+       (pr?.eta!==null&&pr?.eta!==undefined&&pr.eta>j.dueDay)||
+       mat.short>.001||j.dueDay<state.day;
      const assignedMachines=state.machines.filter(m=>m.type===p.machine&&
        (m.manualJobId===j.id||m.cutJobId===j.id||m.loadJobId===j.id));
      const assigned=assignedMachines.length>0;
