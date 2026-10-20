@@ -680,3 +680,6 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
  .stage2-header h2{font-size:17px}
  .stage2-open{font-size:10px}
 }
+
+.sheet-day.relocating{border-color:#df8b76;background:#5d2f37;color:#ffe5d7;font-weight:900}
+.stage2-open:focus-visible,.stage2-close:focus-visible,[data-stage2-action]:focus-visible{outline:2px solid #9ff5e8;outline-offset:2px}
