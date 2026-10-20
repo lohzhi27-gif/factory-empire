@@ -78,12 +78,12 @@ let state;try{
  if(STAGE2_TEST_MODE){
    // Explicitly marked playtest capital, never an automatic real bank loan.
    if(!saved){state.stage2Demo=true;state.stage2DemoStartingCash=state.cash;
-     state.cash=Math.max(Number(state.cash)||0,180000);
+     state.cash=Math.max(Number(state.cash)||0,750000);
      state.history=[...(state.history||[]),state.cash].slice(-48);
    }
    state.stage2Demo=true;
  }
-}catch(e){state=seed();if(STAGE2_TEST_MODE){state.stage2Demo=true;state.cash=180000;}}
+}catch(e){state=seed();if(STAGE2_TEST_MODE){state.stage2Demo=true;state.cash=750000;}}
 let currentTab='rfqs', autoTimer=null, toastTimer;
 function save(){try{localStorage.setItem(FACTORY_SAVE_KEY,JSON.stringify(state))}catch(e){document.getElementById('autosaveTag').textContent='SAVE UNAVAILABLE'}}
 /* Stage 1-2: hide locked sheet-metal quotations at the SAVE SOURCE, not only via UI.
