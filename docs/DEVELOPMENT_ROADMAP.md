@@ -11,7 +11,18 @@ The *long-term fantasy* is to build from one humble rented-room CNC to a group o
 ## Completed / approved
 - **v0.1–v0.2:** original workshop prototype and touch-controlled machinery placement.
 - **v0.3–v0.3.4:** factory dashboard, material procurement queue, two-day programming before machining, and full-width Gantt with material status and PO arrivals; current approved foundation.
-- **v0.4.10 alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
+- **v0.5.0 shoplot alpha is now playable:** new CNC setup/attendance simulation, same save key and UI, machine job priority, one-worker-multiple-machines, two-machine starter-room limit and early sheet-metal lock. **Most v0.4 features remain planned**; this is not the completed v0.4 release.
+
+## v0.5.0 — playable Stage 2 shoplot alpha (2026-10-20)
+
+- Available from the **🏭 Stage 2 Shoplot** navigation button in the existing browser game, with **explicit financial confirmation** and a **separate isolated test-drive save** for testers who cannot yet afford career progression. Test mode copies the original save only once and assigns RM750,000 plainly labeled test credit **only to the demo save slot**.
+- Actual transition charges owner-confirmed **RM8,000 per physically relocated machine + RM40,000 additional fixed project costs + extra renovation**, provisionally **RM30,000 renovation** until owner decides it. Thus two-machine test relocation costs **RM86,000**, *not* RM56,000 including renovation; shoplot rental and deposit remain TBD/not charged. Bank lending is still future work.
+- **14 calendar days (provisional interpretation)** of real zero CNC/tapping/packing output; normal day-close salaries/overhead, material arrivals, programming, customer deadlines and payment settlement continue. Accepted orders and machine placements survive; machine setups must be requalified.
+- The shoplot is **10×7 floor tiles with a five-machine cap** (vs two-machine starter room), original positions preserved, and CNC purchase still requires full in-game price and placement. Stage 3 sheet-metal lock stays.
+- **Packing Minion RM120 per working day** added to real payroll. Packing is a required 30m setup + 3m/pc (provisional) end-of-line step before Stage 2 orders can ship/invoice. The existing PO material/cutting quantity is preserved separately from packed quantity. One 420-minute normal shift/day staffed by that minion.
+- **First Production Planner Hero Card:** provisional Common *Deadline Hawk*, RM220/workday provisional, real at-risk date warnings (buff) and wage/conservative warnings (debuff). Player remains hands-on Process Engineer (no engineer hire). Broader hero/QA/sheet-metal stay Stage 3.
+- Isolated test-drive URL: https://lohzhi27-gif.github.io/factory-empire/?stage2=demo&v=050. Full save isolation: normal `factory_empire_proto_v1`, demo `factory_empire_stage2_demo_v1`.
+- **Known balance limits:** Stage 2 loan qualification and lease/deposit charges are not in this alpha; packing/hero values and calendar-vs-working relocation need owner balancing; Gantt forecasts remain simplified.
 
 ## Proposed release sequence
 
