@@ -242,10 +242,11 @@ var stage2CanShip;
  button.addEventListener('click',open);
  function redrawModal(){
    const inTrial=!!state.stage2Demo,coming=relocating(),expanded=active();
-   const total=price(),bal=state.cash;
+   const total=state.stage2Move?.total||price(),bal=state.cash;
    const remaining=state.stage2Move?Math.max(0,state.stage2Move.finishDay-state.day):0;
+   const moved=state.stage2Move?.equipment??movingMachines();
    const costLabel=F(total);
-   const rows='<div class="stage2-quote-line"><span>Transport ('+movingMachines()+' machines × RM8,000)</span><b>'+F(movingMachines()*MOVE_PER_MACHINE)+'</b></div>'+
+   const rows='<div class="stage2-quote-line"><span>Transport ('+moved+' machines × RM8,000)</span><b>'+F(moved*MOVE_PER_MACHINE)+'</b></div>'+
      '<div class="stage2-quote-line"><span>Additional project / moving costs</span><b>'+F(FIXED)+'</b></div>'+
      '<div class="stage2-quote-line"><span>Renovation (provisional balance value)</span><b>'+F(RENOVATION)+'</b></div>'+
      '<div class="stage2-quote-line stage2-quote-total"><span>Total relocation estimate</span><b>'+costLabel+'</b></div>';
@@ -272,7 +273,7 @@ var stage2CanShip;
    }
    modal.innerHTML='<div class="stage2-header"><div><span class="stage2-kicker">FACTORY EMPIRE · STAGE 2</span><h2>Early Growth — CNC Shoplot</h2></div>'+
      '<button class="stage2-close" type="button" data-stage2-action="close" aria-label="Close Stage 2 dialog">✕</button></div>'+
-     '<p class="stage2-lead">'+(inTrial?'🧪 ISOLATED PLAYTEST COPY — your original workshop save is untouched.':'Official career mode · moving funds are deducted from your current workshop.')+
+     '<p class="stage2-lead">'+(inTrial?'🧪 ISOLATED PLAYTEST COPY · RM750,000 test float on first use. Your original career money, orders and save are untouched.':'Official career mode · moving funds are deducted from your current workshop.')+
      '</p><div class="stage2-hero-grid"><div class="stage2-card"><h3>📦 Dedicated Packing Minion</h3><p>Required from the shoplot. RM120 per working day. Shipment cannot happen until the real packing queue is completed.</p>'+
      '<p><small>Test values: 30 min setup per PO, 3 min per piece. Owner to rebalance later.</small></p></div>'+hero+'</div>'+
      '<h3>Relocation costs and downtime</h3>'+rows+'<div class="stage2-disclaimer">14 days = calendar days for this alpha (owner has not chosen calendar vs workdays). Shoplot rent/deposit are TBD and not charged. Owner personally does process engineering; no hired engineer or manager roster. Stage 3 still locks sheet metal/QA.</div>'+
