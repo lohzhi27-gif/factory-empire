@@ -20,6 +20,8 @@ Start with one humble original unbranded CNC milling machine and a rented worksh
 
 The campaign is grounded in expanding from a tiny rented workshop into an industrial group, not RPG walking scenes. Advancement changes space, staff, expenses, process access, financing and customer opportunity rather than merely changing the backdrop.
 
+**Shoplot move is expensive and disruptive:** Stage 1 → Stage 2 relocation loses **14 in-game days** of productive CNC operation and costs **RM8,000 per existing machine moved + RM40,000 fixed relocation overhead**, with renovation, deposits/rent and newly bought machines additional. A two-machine move therefore starts at RM56,000 before those extras. These are confirmed owner rules; calendar-vs-working-day convention still needs a decision. Stage 2 adds Planner/Process Engineer; formal QA and managers remain reserved for Stage 3.
+
 **Bank eligibility matters:** first-room beginners do not get easy bank financing. Credible shoplot businesses may apply after demonstrating sufficient sales/trading history and sustainable repayment capability; loans are priced/repaid and can be rejected. Exact minimum turnover and repayment thresholds are **balancing proposals** until the owner approves them.
 
 **Sheet-metal gating:** the first new sheet-metal department unlocks at the **semi-D stage**, not in the starter room or early shoplot. Keep already-owned laser machines in legacy saves. Optional in-house painting/treatment or real-money expansion offers come much later and must not block in-game-cash progression.
