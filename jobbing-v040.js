@@ -279,7 +279,8 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
   const previousBuy=buyMachine;
   buyMachine=function(type){
     if(type==='LASER'){toast('Sheet metal and new laser purchases unlock at Stage 3 · Semi-D factory');return;}
-    if(state.machines.length>=2){toast('Starter room limit: 2 machines. Shoplot expansion comes at Stage 2');return;}
+    const stage2Max=state.stage2Phase==='active'?5:2;
+    if(state.machines.length>=stage2Max){toast(stage2Max===5?'Shoplot limit: maximum 5 CNC machines':'Starter room limit: 2 machines. Shoplot expansion comes at Stage 2');return;}
     return previousBuy(type);
   };
   const previousAccept=accept;
@@ -333,7 +334,7 @@ var runJobbingProduction,runJobbingHour,finalizeJobbingHours;
       if(b.dataset.buy==='LASER'){
         b.disabled=true;b.title='Sheet metal unlocks at Stage 3 (semi-D)';
         b.textContent='🔒 Stage 3 · Sheet Metal';
-      }else if(state.machines.length>=2){
+      }else if(state.machines.length>=(state.stage2Phase==='active'?5:2)){
         b.disabled=true;b.title='Starter room fits a maximum of two machines';
         b.textContent='🔒 Room full · Stage 2';
       }
