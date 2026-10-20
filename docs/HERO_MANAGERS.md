@@ -1,8 +1,17 @@
 # Factory Empire — Manager Hero Cards
 
 **Owner idea:** 2026-10-19  
-**Status:** Design concept formally captured, **not implemented**; active playable baseline still v0.3.4.  
-**Unlock:** Managers arrive at **Stage 3, Mid-Term (semi-D industrial lot, up to 16 CNCs)**, not in the humble starter room. Planners and process engineers hired at Stage 2 are standard staff; Stage 3 introduces assignable hero-style **manager characters**.
+**Status:** Design concept formally captured, **not implemented**; playable Stage 1 baseline is v0.4.10 alpha.  
+**Unlock:** Stage 2's 4–5-CNC shoplot introduces the **first Hero Card as the Production Planner**. The broader roster of specialized **Manager Hero Cards remains Stage 3** (semi-D industrial lot, up to 16 CNCs). The Stage 2 owner performs process engineering personally; there is no Process Engineer hire.
+
+## First Hero Card: Stage 2 Production Planner — owner-confirmed (2026-10-20)
+
+- The **very first playable Hero Card** is the shoplot's **Production Planner**; do not wait until Stage 3 for every hero.
+- The planner is a **real hired/paid worker**, with visible **rarity, buff and debuff**, working alongside the existing programmer and CNC minions. Character identity, art and professional background inspiration will be designed by the owner later; use fictionalized original characters unless a colleague authorizes real likeness.
+- **One dedicated Packing Minion is also a required Stage 2 hire**, but is not a Hero Card. Their packing labor and verification should matter to delivery readiness.
+- **The owner is still hands-on as Process Engineer** in Stage 2, including methods, setups, routing and technical decisions. Do not grant the shoplot a separate paid Process Engineer.
+- **Example first-hero effects for later approval:** earlier scheduling conflict warning and improved priority/ETA decisions (buff); greater conservative capacity reserve, harder overtime pressure, or salary cost (debuff). No percentages have been approved.
+- This is **one introductory Planning Hero**, not permission to unlock QA, operations and other specialized manager heroes early. Stage 3 unlocks those broader Manager Hero Cards.
 
 ## Owner-confirmed concept
 - Build a **character card** interface for **managers**, called **"Hero Cards."**
@@ -65,8 +74,8 @@ Rarity impacts scarcity/impact and cost, not guaranteed all-around superiority; 
 
 ## Release boundaries and user-story sequence
 - **Now:** only record the concept. Continue v0.4 **Stage 1** mechanics first.
-- **Stage 2:** unlock paid/hired **normal Production Planner and Process Engineer** staff to make the shoplot manageably complex.
-- **Stage 3:** introduce **manager Hero Cards** tied to departments; unlock QA and sheet metal according to the long-term progression. Run only a small sample of cards through game balancing.
+- **Stage 2:** hire the **first Production Planner Hero Card** and a dedicated **Packing Minion**. The player continues personally performing process engineering; the current programmer remains separate and paid.
+- **Stage 3:** unlock the broader **Manager Hero Card roster** tied to new departments, alongside QA and sheet metal; introduce only a small set for initial balancing.
 - **Stage 4/5:** richer roster, factory specialization and multi-site allocation if player testing supports it.
 
 ## Decisions for later
@@ -74,5 +83,5 @@ Rarity impacts scarcity/impact and cost, not guaranteed all-around superiority; 
 2. Which current/former-colleague traits are permitted to inspire fictional heroes? Owner to provide positive/neutral traits and authorize character concepts; no personal allegations or private data.
 3. Are Heroes permanent recruits, contract hires, unique unlocks or collectible cards? How do recruitment and dismissal work?
 4. Exact buff and debuff values, multiplicative/stacking restrictions and which stats are eligible.
-5. Does Stage 3 provide the first hero free, or must players hire all of them through in-game cash?
+5. How does the first **Stage 2 Planning Hero** join (milestone/hire/choice), and what are the starting rarity, salary, buff and debuff? Additional Stage 3 managers can follow different recruitment rules.
 6. Will players eventually be allowed to upgrade heroes through coaching, experience or specialization?
