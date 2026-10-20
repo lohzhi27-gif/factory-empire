@@ -641,3 +641,42 @@ body{background:radial-gradient(ellipse 75% 40% at 5% -12%,#19456b 0%,transparen
 .operations-panel>.tabs .tab{pointer-events:auto;cursor:pointer}
 .main-nav{position:relative;z-index:8}
 .sheet-fullscreen .main-nav{z-index:auto}
+
+
+/* Stage 2 v0.5.0 — readable shoplot, transition, staff and first hero */
+.stage2-open{background:#16495a!important;border:1px solid #4cd0be!important;color:#dcfff5!important;font-weight:850!important;white-space:nowrap;cursor:pointer}
+.stage2-dialog{width:min(760px,calc(100vw - 24px));max-height:min(90vh,860px);overflow:auto;border:1px solid #567e91;border-radius:14px;padding:20px;background:#102439;color:#e4f2f8;box-shadow:0 20px 85px #020c18ee}
+.stage2-dialog::backdrop{background:#020d18bd;backdrop-filter:blur(4px)}
+.stage2-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.stage2-header h2{font-size:21px;line-height:1.25;margin:5px 0 9px;color:#f1fcff}
+.stage2-kicker{color:#a8ffe5;font-size:10px;font-weight:900;letter-spacing:1.3px}
+.stage2-close{min-width:40px;min-height:40px;border:1px solid #52718b;border-radius:9px;background:#1d3952;color:#fff;cursor:pointer}
+.stage2-lead{margin:0 0 15px;color:#afd0d9;font-size:12px;line-height:1.55}
+.stage2-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0 17px}
+.stage2-card{border:1px solid #436b7e;border-radius:9px;background:#183349;padding:13px}
+.stage2-card h3{font-size:13px;margin:0 0 8px;color:#e9faff}
+.stage2-card p{color:#c4d7e1;font-size:11px;line-height:1.58;margin:5px 0}
+.stage2-card-heading{display:flex;justify-content:space-between;flex-wrap:wrap;gap:7px;font-size:10px;color:#ffe1a3;font-weight:850;margin-bottom:8px}
+.stage2-card-heading b{border:1px solid #c3a263;color:#ffdfad;background:#4a3a29;padding:4px;border-radius:5px}
+.stage2-dialog>h3{font-size:13px;color:#d8f5f5;margin:14px 0 8px}
+.stage2-quote-line{display:flex;justify-content:space-between;align-items:start;gap:10px;padding:10px 3px;border-bottom:1px solid #38536a;font-size:12px}
+.stage2-quote-line span{color:#cae0e8}.stage2-quote-line b{font-variant-numeric:tabular-nums;white-space:nowrap;color:#ffdfa5}
+.stage2-quote-total{font-weight:900;border-bottom:2px solid #6b9a9e}
+.stage2-quote-total b{color:#a5f7db;font-size:15px}
+.stage2-disclaimer{margin:11px 0;background:#1d3345;border-left:3px solid #5d9ab4;color:#adcede;padding:10px;font-size:11px;line-height:1.65}
+.stage2-warning{margin:10px 0;border:1px solid #ca8c56;background:#47352b;color:#ffe2bf;border-radius:8px;padding:10px;font-size:11px;line-height:1.55}
+.stage2-ok{margin:10px 0;border:1px solid #428f73;background:#1d433e;color:#b6f8db;border-radius:8px;padding:10px;font-size:11px;line-height:1.5}
+.stage2-primary{display:block;width:100%;min-height:45px;margin:12px 0;font-weight:850}
+.stage2-primary:disabled{opacity:.5;cursor:not-allowed}
+.stage2-modal-footer{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-top:15px}
+.stage2-modal-footer .btn{min-height:40px}
+.stage2-packing-station,.stage2-finance,.stage2-job-packing{display:grid;gap:4px;padding:10px;margin:12px 0;border:1px solid #4b8a86;border-radius:8px;background:#183a43;color:#dcf6e8;font-size:11px;line-height:1.5}
+.stage2-job-packing span{color:#b1d3d5}
+.stage2-planner-warning{padding:9px 10px;margin:7px 0;background:#573b28;border:1px solid #d6a052;color:#ffe4b6;border-radius:7px;font-size:11px;line-height:1.5;font-weight:800}
+@media(max-width:740px){
+ .stage2-dialog{padding:13px;width:calc(100vw - 14px);max-height:93vh}
+ .stage2-hero-grid{grid-template-columns:1fr}
+ .stage2-modal-footer .btn{flex:1 1 100%}
+ .stage2-header h2{font-size:17px}
+ .stage2-open{font-size:10px}
+}
