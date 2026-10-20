@@ -31,25 +31,33 @@
 - Confirm the player's **free cash/loan proceeds**, existing accepted jobs, stock, creditor invoices and loan payment dates before authorizing relocation. Allow the player to delay the move, plan backlog clearance, or negotiate new customer dates; exact negotiation mechanics are proposed.
 - **Proposed realism, not yet confirmed:** disassembly/transport/recommissioning means old machine setups need to be redone after relocation. Existing CNC machines, job records, material inventory, trained personnel and in-game save must be **preserved** rather than wiped; handling active spindle cycles/in-progress WIP safely needs an implementation rule.
 
-### Recommended Stage 2 organizational model (proposals, owner approval pending)
+### Stage 2 staffing — owner-confirmed revision (2026-10-20)
 
-With **four or five CNCs**, introduce **two essential new salaried positions** (their wages and exact game buffs remain TBD), rather than suddenly imposing a corporate headcount:
+**Two new required roles for the 4–5-CNC shoplot:**
 
-| Function | Stage 2 staffing approach | Gameplay role |
+1. **Packing Minion — a dedicated packing/dispatch worker**, hired separately from CNC operators. This worker handles packing, outgoing quantity/packing verification and shipment preparation; machining completion alone should not count as a shipment once this feature is implemented. Apply the current **RM120 per working-day minion wage** unless later rebalanced. Packing cycle times, queue sizes and overtime rules remain TBD.
+2. **Production Planner — the very FIRST Hero Card.** Stage 2 introduces **one Planning Hero** with rarity-based **buff AND debuff** and a paid salary. Planner character design and skill inspiration will come from the owner; use fictionalized original identities unless authorized. This is an early introduction to Hero Cards, **not the entire Stage 3 manager roster**. Exact hero rarity, wage, acquisition, strengths and weaknesses remain TBD.
+
+**Do not hire a Process Engineer at Stage 2.** The player/owner stays hands-on as the process engineer, responsible for routing, methods, setup decisions, technical judgment and problem-solving. The existing salaried CNC programmer(s) still perform programming; the owner does not magically replace their desk capacity.
+
+| Shoplot function | Staffing | Stage 2 rule |
 | --- | --- | --- |
-| **CNC Production Cell** | Existing minions, scheduled by planner; 1 trained minion may tend 2–3 CNCs per single shift | Production, changeovers, machine attention, tapping support and output |
-| **Production Planning & Control** | **1 Production Planner** (confirmed Stage 2 feature; salary TBD) | Assign CNCs to POs, manage Gantt/backlog, flag late-risk and HOT JOB bottlenecks, coordinate material readiness |
-| **Process Engineering & Programming** | **1 Process Engineer** (confirmed Stage 2 feature) plus existing programmer; **additional programmer/desk** when needed | Process routes and setup improvement, program scheduling/technical feasibility; engineer does not magically replace scarce programmers |
-| **Purchasing, Materials & Stores** | **Planner/owner handles initially**; optional dedicated storekeeper/material controller once workload justifies it | Material POs, supplier delivery dates, receiving and stock availability; prevents missing material without making stock free |
-| **Packing, Dispatch & Final Check** | Existing minion plus a basic packing/verification bench; optional support hire as volume rises | Final quantity check and outgoing packing checklist, shipping queue and customer delivery control |
+| CNC Production | Existing Ironmen/minions (one can tend 2–3 CNCs per shift with shared attention limits) | Continue owner-approved CNC simulation |
+| Packing & Dispatch | **One dedicated Packing Minion** | **Required Stage 2 hire** |
+| Production Planning & Control | **One Production Planner Hero Card** | **First Hero Card unlock** |
+| Process Engineering | **The player/owner personally** | **No hired Process Engineer in Stage 2** |
+| Programming | Existing programmer/desk; additional programmers/desks when expansion requires them | Still real salary and two-working-day programming |
+| Purchasing & Stores | Owner/planner initially; optional dedicated storekeeper later | Proposed separate support hire, not required |
+| Basic outgoing verification | Packing Minion handles packing/count check | Full QA Inspector/QA Engineer team still Stage 3 |
 
-- **Not separate full departments at Stage 2:** HR, multi-layer management, purchasing director, dedicated finance team, or formal **QA Inspector / QA Engineer department**. A basic outgoing check can exist, but the staffed QA department, inspectors, quality engineering and Manager Hero Cards remain **Stage 3** unlocks.
-- Keep outsourced surface treatment/plating/painting and specialized maintenance as vendors. Stage 4 unlocks actual in-house painting/treatment capacity.
-- **Suggested player choice:** pay for a planner to improve schedule visibility, a process engineer to improve setups/routing, or a material/stores hire to relieve receiving errors. Buffs should be modest and grounded in staff workload/skill; nobody creates stock, machine hours or instant two-day programming.
+The planner's buffs may, for example, improve overload detection and machine-order priority recommendations; debuffs might reflect a conservative planning style or higher payroll. **These are gameplay suggestions only**, not approved numerical effects. A Hero Card cannot create free machine hours, skip setups, bypass material arrivals or replace a real packing worker.
 
-- Introduce dedicated **Production Planner**. Planning capacity now matters: smarter sequencing by material ETA, setups, operator hours, due dates, and expensive hot jobs; Gantt can warn of overload. The planner is a hired wage expense, not free automation.
-- Introduce **Process Engineer**: supports programming, process selection, routing, setup standardization and fewer avoidable quality issues. Improvement and labor costs should be visible.
-- Continue realistic minion assignment: one worker may attend two or three running CNCs in one shift, but setups cannot overlap; other CNCs wait for reload/inspection while the worker sets up a different machine.
+**Stage boundaries:** Stage 2 grants this **one introductory Planning Hero Card**. **Stage 3 still unlocks the broader department-manager Hero Card roster**, sheet metal and formal QA Inspector/QA Engineer team. Keep plating/painting/surface treatment outsourced until the later in-house treatment unlock.
+
+- A Packing Minion creates a real end-of-line bottleneck: finished WIP waits for verification/packing instead of shipping instantly. Exact minutes per piece and shipment rules TBD.
+- The owner remains responsible for process-method improvements and troubleshooting rather than receiving free process-engineer bonuses.
+- Show the two new hires and their recurring payroll in the shoplot relocation affordability preview, on top of 14 days lost and the owner's RM8,000-per-machine + RM40,000 relocation costs.
+
 - Keep sheet-metal/laser department **locked**: a shoplot is a CNC jobbing step, not a license to produce every possible industrial product.
 - **First credible bank financing milestone:** player can apply for real loans once business credibility criteria are met. Loans can be rejected or offered with different limits, rates and debt service.
 - Financing products for gameplay consideration: equipment hire purchase (asset-backed), short-term working capital, and a bank term loan for expansion. Amounts, interest, deposits and approval thresholds to be balanced.
@@ -115,7 +123,7 @@ Move to a full manufacturing factory with greater space and sophisticated machin
 
 **Suggested stage-up checklist (not approved numbers):**
 - S1 → S2: cash deposit + reliable customer backlog + 1–2 successful production milestones + an affordability check.
-- S2 → S3: operating performance, enough loan/equity capacity, trained planner/process engineer, quality readiness and upgrade capital.
+- S2 → S3: operating performance, enough loan/equity capacity, trained Planning Hero, staffed packing/dispatch, owner-led process capability, quality readiness and upgrade capital.
 - S3 → S4: enough capital to move, a sustained customer base and operational competence managing departmental staff and 16-CNC scale.
 - S4 → S5: proven multi-department factory, stable cash flow and professional managers; compare buy/rent scenarios.
 
@@ -125,7 +133,7 @@ A player may be eligible for a bigger building before they can afford its payrol
 
 These are **not** one-to-one labels:
 - **v0.4 (next playable sprint):** strengthen the *Stage 1* CNC jobbing loop: real setup/worker bottlenecks, RFQs and capability locks, staff training, defect costs, overtime, rent/electricity, hot-job planning and relationship consequences.
-- **Next validated gameplay slice:** Stage 1 → Stage 2 shoplot move, shoplot capacity, planner/process engineer and a first *limited* bank eligibility/repayment model.
+- **Next validated gameplay slice:** Stage 1 → Stage 2 shoplot move, shoplot capacity, first Planning Hero, mandatory Packing Minion, owner-led process engineering and a first *limited* bank eligibility/repayment model.
 - **After repeat playtest/retention evidence:** Stage 3 semi-D, 16-CNC ceiling, first sheet-metal department, QA inspectors/engineers and managers.
 - **Later product development:** full factory, double-column CNC, secondary departments, and then multi-factory operations.
 - Do not promise all five stages in v0.4; the campaign is the **future game**, while our immediate objective is validating that players enjoy the early jobbing decisions.
