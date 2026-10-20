@@ -25,7 +25,7 @@
 .machine-inspector img{width:100%;max-height:360px;object-fit:contain;display:block;margin:8px auto}
 .machine-inspector p{font-size:12px;color:#adc5d0;margin:0 0 3px}
 </style>
-<link rel="stylesheet" href="ui-v03.css?v=54" />
+<link rel="stylesheet" href="ui-v03.css?v=55" />
 </head>
 <body>
 <main class="shell">
@@ -301,11 +301,11 @@ document.getElementById('helpBtn').onclick=()=>alert('WELCOME TO FACTORY EMPIRE!
 render();
 </script>
 <script src="production-v032.js?v=48"></script>
-<script src="v02.js?v=50"></script>
+<script src="v02.js?v=51"></script>
 <script src="ui-v03.js?v=32"></script>
 <script src="gantt-v033.js?v=50"></script>
 <script src="main-views-v034.js?v=35"></script>
-<script src="jobbing-v040.js?v=51"></script>
+<script src="jobbing-v040.js?v=52"></script>
 <script src="hourly-v041.js?v=42"></script>
 <script src="job-radar-v042.js?v=42"></script>
 <script src="stage-rfq-gate-v043.js?v=46"></script>
@@ -313,12 +313,17 @@ render();
 <script src="founding-customer-materials-v046.js?v=49"></script>
 <script src="production-sheet-v047.js?v=50"></script>
 <script src="workshop-support-v048.js?v=52"></script>
+<script src="stage2-shoplot-v050.js?v=50"></script>
 <script>
 (function factoryRecoveryVersion(){
- const version='v0.4.10';
+ const version='v0.5.0';
  const update=()=>{
   const marker=document.querySelector('.identity p');
-  if(marker)marker.textContent='INDUSTRIAL TYCOON · PANEL RECOVERY '+version+' ALPHA';
+  if(marker)marker.textContent=STAGE2_TEST_MODE?
+   'STAGE 2 TEST DRIVE · '+version+' ALPHA':
+   state.stage2Phase==='active'?'STAGE 2 SHOPLOT · '+version+' ALPHA':
+   state.stage2Phase==='moving'?'14-DAY FACTORY MOVE · '+version+' ALPHA':
+   'INDUSTRIAL TYCOON · SHOPLOT EXPANSION '+version+' ALPHA';
   const note=document.getElementById('interfaceStatus');
   if(note&&(!state?.workshopSupportVersion || state.workshopSupportVersion<48)){
    note.hidden=false;
