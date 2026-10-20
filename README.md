@@ -12,9 +12,9 @@ An original, mobile-friendly factory management simulation game built independen
 - [Official five-stage company progression and financing plan](docs/LONG_TERM_PROGRESSION.md)
 - [Manager Hero Cards — rarity, buffs, debuffs, staff-inspired character design](docs/HERO_MANAGERS.md)
 
-**Release status:** **v0.4.10 alpha is now the playable browser build.** It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
+**Release status:** **v0.5.0 Stage 2 Shoplot alpha is now playable** (with a separate playtest save option). Stage 1 remains accessible and prior saves are preserved. It implements the first CNC jobbing/limited-starter-room slice; the remaining v0.4 systems (worker morale, weekend overtime, customer account network, wirecut, rent/power billing, tapping, polishing, QA and financing) are still planned.
 
-**Future growth campaign (not yet playable):** 1) start with one CNC in a room capped at **2 CNCs**, 2) grow into a **4–5-CNC shoplot** and hire a Production Planner and Process Engineer, with the **first earned eligibility for bank loans**, 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
+**Company growth campaign:** 1) start with one CNC in a room capped at **2 CNCs**, 2) **Stage 2 now has a playable shoplot transition** (up to 5 CNCs, one dedicated Packing Minion and first Planner Hero; owner personally performs process engineering), 3) build a **16-CNC semi-D industrial lot**, unlocking sheet metal, QA Inspectors/QA Engineers and managers, 4) move to a full factory with double-column CNCs and optional in-house painting/treatment, and 5) rent or acquire more factories to become an industrial tycoon. The bank does **not** auto-approve beginners; criteria require demonstrated turnover and ability to repay. Detailed amounts need balancing.
 
 **New v0.4 capacity rule:** One operator can tend **2–3 CNCs** in one shift, but all new part changes need setup: **easy 0.35h (21 min), medium 1.5h (90 min), difficult 3h (180 min)**. Setup time uses that worker's finite attendance hours and cannot overlap on two machines. Two shifts covering one 2–3-CNC cell need **two separate workers total**, not two workers *per machine*. A high-paying hot job may displace existing machine setups; **switching A → B → A requires the full Part A setup again**, and the sole minion being busy with any setup reduces output on other CNCs by delaying their load/unload/attendance tasks. Autonomous cutting already underway can finish, but machine cycles cannot restart without operator attention. In-app purchases remain optional future ideas; paid rescue is not required to enjoy the prototype.
 
@@ -29,6 +29,34 @@ When GitHub Pages is enabled from `main` → `/(root)`, open:
 **https://lohzhi27-gif.github.io/factory-empire/**
 
 The website uses the repository's `index.html`. It currently runs in Safari and other browsers; it is **not** yet a native Android/iOS app.
+
+## v0.5.0 ALPHA — Stage 2 playable shoplot relocation (2026-10-20)
+
+**Play now:** [Standard career — original saved factory](https://lohzhi27-gif.github.io/factory-empire/?v=050) or **[Stage 2 isolated test drive](https://lohzhi27-gif.github.io/factory-empire/?stage2=demo&v=050)**.
+
+### Real-game progression / owner-confirmed rules
+- Stage 1 → 2 shoplot transition is an **explicit player decision** from the new **🏭 Stage 2 Shoplot** navigation button. The game shows the relocation charges, open-order risk and staff expenses before enabling the commitment action.
+- **14 lost in-game days of CNC and packing output** during disassembly/transport/setup. Calendar deadlines, regular financial day-close expenses, receivables and material/programming routing still advance; late customer orders remain possible. The 14 days are interpreted as **calendar days for alpha**; the owner has not decided calendar-vs-working day.
+- **RM8,000 per physically moved existing machine** (including already-owned legacy equipment), **RM40,000 additional fixed moving/project expenses**, **and a separate renovation amount**. Renovation is **RM30,000 provisional**, not an owner-confirmed number. Thus two machines require RM16,000 + RM40,000 + RM30,000 = **RM86,000 up front** in this test build. New machine purchases, future shoplot rent, deposit, and any future loan costs are additional. The 40k is **not counted as renovation**.
+- Shoplot capacity rises from **2 to up to 5 CNC/machine footprints**, including an expanded 10×7 grid. Existing machines and their positions are preserved; new CNCs still cost RM180,000 in-game each and require an empty 2×2 floor location. Laser/sheet-metal purchases and RFQs stay locked until Stage 3.
+- **Packing is a required real production stage** after Stage 2 opens. One dedicated **Packing Minion** joins and costs the owner-confirmed **RM120 per working day**. Until a completed PO is packed, it **cannot ship or invoice**. Prototype packing parameters: **30 minutes setup per PO + 3 minutes per part**, limited to 420 staffed minutes per working day. They are gameplay test assumptions, **not yet owner-approved**.
+- The **first Hero Card is the Production Planner**, introduced at Stage 2 (before the broader department manager roster in Stage 3). Initial example: **Common** rarity, title *The Deadline Hawk*, salary **RM220/working day** (provisional); buff gives warnings for orders at risk within three calendar days, debuff is recurring pay and conservative warnings. The owner will later design the actual character and rebalance rarity/buffs/debuffs. Existing programmer staff remain paid separately. The **player personally handles Process Engineering**, with no hired Process Engineer.
+- The Finance display includes both Stage 2 hires; payroll is charged on each normal working day, including during relocation. Standard minion wage stays RM120/day, programmer stays RM180/day. Existing base utilities and overhead remain in effect.
+- **Not implemented yet:** bank loans and repayment qualification, true shoplot lease/deposit pricing, final packing/hero balance and the entire Stage 3/4/5 campaign. Do not confuse the isolated test credit with bank financing.
+
+### Isolated Stage 2 playtest
+- Click **Stage 2 test drive · separate save** from the growth panel or open [the direct test link](https://lohzhi27-gif.github.io/factory-empire/?stage2=demo&v=050). It copies the main factory save only **on first test-drive launch** and allocates an explicitly labeled **RM750,000 test-only budget** so the owner can pay to move and try machine #3–#5. The test uses `factory_empire_stage2_demo_v1`, NOT the normal `factory_empire_proto_v1` save; playtest cash and future POs **cannot change the user's main Day 212 workshop**.
+- Select **🏭 Stage 2 Shoplot** → review breakdown → **Approve relocation**. Click **Fast-forward remaining 14 days** to run the actual day-close/payroll/customer-deadline sequence rather than jumping the date for free.
+- After moving, buy CNC #3 on Equipment and place it on a free tile; use Production & Schedule to assign it work. Accept a sample job, verify finished parts wait for Packing Minion before shipping/invoicing, and check Planner Hero's due warning within three days.
+- Use **↩ Return to original factory save** in the same panel to leave test mode. Your original saved workshop should load unchanged. Avoid pressing Restart in your real workshop unless you deliberately want a new career.
+- If testing `?stage2=demo` after the first visit, the **demo itself also autosaves**; the RM750k test allocation is **not awarded repeatedly** on reload. Deleting/resetting a demo is deliberately separate from real career data.
+
+### Release boundaries / known limitations
+- This is an **alpha feature slice**, not a finished bank-loan or finance system. Rent and deposit are marked TBD rather than quietly inventing cash deductions.
+- Historical old full-unit POs already accepted before Stage 2 wait for packing once the move has finished. Customer due dates do **not** freeze during relocation.
+- The current detailed Gantt is still approximate. Do not take it as a guaranteed forecast for shared operators, two programmers, relocation downtime or packing queues.
+- The stage transition does not open the formal QA department, manager hero roster or sheet-metal work—those remain Stage 3.
+- Browser/laptop playtesting is required; source-level checks are not a substitute for user interaction in the deployed game.
 
 ## v0.4.10 ALPHA — Direct-click panel recovery + owner-updated wages (2026-10-19)
 
