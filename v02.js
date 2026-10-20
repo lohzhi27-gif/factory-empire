@@ -68,6 +68,9 @@
     return Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&y>=0&&x+size.w<=floor.w&&y+size.h<=floor.h&&!occupied(x,y,ignore,type);
   }
   function ensureLayout(){
+    // Existing coordinates survive moving; shoplot floor expands to 10 × 7 tiles.
+    const grown=state.stage2Phase==='active';
+    floor.w=grown?10:8;floor.h=grown?7:6;
     let changed=false;
     const allocated=[];
     for(let i=0;i<state.machines.length;i++){
@@ -266,10 +269,10 @@
     const w=canvas.width,h=canvas.height;
     ctx.clearRect(0,0,w,h);
     workshopBackdrop(ctx,w,h);
-    poly(ctx,[coord(0,0,4),coord(8,0,4),coord(8,6,4),coord(0,6,4)],'#1b2b39');
-    side(ctx,0,6,8,0,0,13,'#1d2d3d');
-    side(ctx,8,0,0,6,0,13,'#111c29');
-    for(let y=0;y<6;y++)for(let x=0;x<8;x++){
+    poly(ctx,[coord(0,0,4),coord(floor.w,0,4),coord(floor.w,floor.h,4),coord(0,floor.h,4)],'#1b2b39');
+    side(ctx,0,floor.h,floor.w,0,0,13,'#1d2d3d');
+    side(ctx,floor.w,0,0,floor.h,0,13,'#111c29');
+    for(let y=0;y<floor.h;y++)for(let x=0;x<floor.w;x++){
       poly(ctx,[coord(x,y,13),coord(x+1,y,13),coord(x+1,y+1,13),coord(x,y+1,13)],(x+y)%2?'#364c59':'#324653','#425867');
     }
     workshopProps(ctx);
@@ -302,7 +305,7 @@
       ctx.fillStyle='#d39d57';ctx.fillRect(p[0]-6,p[1]-18,12,18);
       ctx.fillStyle='#202d38';ctx.fillRect(p[0]-4,p[1],3,12);ctx.fillRect(p[0]+2,p[1],3,12);
     }
-    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText('ORIGINAL INDUSTRIAL WORKSHOP • v0.3.1',18,h-20);
+    ctx.textAlign='left';ctx.font='12px system-ui';ctx.fillStyle='#a8bbca';ctx.fillText(state.stage2Phase==='active'?'SHOPLOT · STAGE 2 · 5 CNC CAPACITY':'HUMBLE BEGINNING · STAGE 1',18,h-20);
     ctx.textAlign='right';ctx.fillText('MACHINES '+state.machines.length+' • TAP TO SELECT',w-18,h-20);
   }
   function syncTools(){
