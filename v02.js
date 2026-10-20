@@ -220,8 +220,8 @@
   }
   function workshopProps(ctx){
     // Safety zone on the floor perimeter; visual only, does not block machine placement.
-    poly(ctx,[coord(.24,.24,14),coord(7.76,.24,14),coord(7.76,5.76,14),coord(.24,5.76,14)],null,'#bc8d45',3);
-    poly(ctx,[coord(.33,.33,14),coord(7.67,.33,14),coord(7.67,5.67,14),coord(.33,5.67,14)],null,'#bd893944',1.5);
+    poly(ctx,[coord(.24,.24,14),coord(floor.w-.24,.24,14),coord(floor.w-.24,floor.h-.24,14),coord(.24,floor.h-.24,14)],null,'#bc8d45',3);
+    poly(ctx,[coord(.33,.33,14),coord(floor.w-.33,.33,14),coord(floor.w-.33,floor.h-.33,14),coord(.33,floor.h-.33,14)],null,'#bd893944',1.5);
     // Tool chest beyond near-left tile corner.
     ctx.fillStyle='#03111d55';ctx.fillRect(32,342,170,12);
     const cab=ctx.createLinearGradient(23,244,23,336);cab.addColorStop(0,'#366481');cab.addColorStop(1,'#153c5c');
@@ -252,6 +252,22 @@
       ctx.fillStyle='#afc4d0';ctx.fillRect(876,272,18,6);
       ctx.fillStyle='#93dce3';ctx.font='10px system-ui';
       ctx.fillText('TAP',869,338);
+    }
+    if(state.stage2Phase==='active'){
+      // Stage 2 end-of-line packing station outside production tile assignments.
+      ctx.fillStyle='#193848';ctx.fillRect(744,405,141,43);
+      ctx.fillStyle='#7396a3';ctx.fillRect(738,398,153,10);
+      ctx.fillStyle='#2b4b5d';ctx.fillRect(753,445,8,25);ctx.fillRect(867,445,8,25);
+      for(let i=0;i<3;i++){
+        ctx.fillStyle='#b59564';ctx.fillRect(761+i*27,376,24,21);
+        ctx.strokeStyle='#694d2a';ctx.strokeRect(761+i*27,376,24,21);
+      }
+      ctx.fillStyle='#d2ecf3';ctx.font='11px system-ui';ctx.textAlign='left';
+      ctx.fillText('PACKING & DISPATCH',747,365);
+      // Dedicated packing minion; stylized silhouette, not an RPG actor.
+      ctx.fillStyle='#e5ba99';ctx.beginPath();ctx.arc(900,397,7,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#43b2a2';ctx.fillRect(892,407,16,23);
+      ctx.fillStyle='#23323b';ctx.fillRect(894,430,5,13);ctx.fillRect(902,430,5,13);
     }
     // Metal workbench and sample pieces at front right, original generic props.
     ctx.fillStyle='#111d28a6';ctx.fillRect(743,328,107,14);
