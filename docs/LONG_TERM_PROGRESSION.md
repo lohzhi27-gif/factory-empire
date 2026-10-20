@@ -20,6 +20,17 @@
 
 ## Stage 2 — Early Stage Growth: rented shoplot
 
+### Stage 2 shoplot layout and isometric artwork — owner direction (2026-10-20)
+
+- **The current v0.5.0 10×7 tiled shoplot is too small and is only a temporary test floor**. The owner will supply an original **dimensioned CAD top-view layout** of the desired larger shoplot. **Do not guess final dimensions, wall positions, rooms, or machinery placements before receiving it.**
+- Use the owner-supplied plan as the ground truth for **outer boundaries, internal partitions, doorways, openings, loading area, office, packing/dispatch, raw-material storage, machine bays and safe access aisles**, insofar as those appear in the eventual drawing. Ask for dimensions and labels only if absent and essential.
+- Translate the CAD **top-down footprint into the game's interactive 2D isometric renderer**, not a flat image: original raised or cutaway walls, visible factory interior, identifiable areas and machines, collision/placement based on CAD geometry, and appropriate scale. Visual reference: a classic *Sims*-like open-roof isometric dollhouse showing several furnished rooms at once; **inspiration only, do not copy assets/art**.
+- Since the floor will be bigger, design **pan and zoom / fit-to-floor**, readable selectable CNC sprites, and distinct accessible spaces instead of shrinking every machine until it is unusable on phones.
+- Preserve existing local saves and each machine's owned state and job assignments. Migrate coordinates only with a validated layout conversion and an explicit, reversible fallback for machines that no longer fit. The 4–5 CNC **gameplay capacity** remains Stage 2's limit unless owner changes it; drawing scale/room size does not automatically unlock more CNC purchases.
+- Prefer DXF with visible unit scale; a dimensioned PDF/export image is a workable reference, while a DWG may need conversion to DXF. This change is **planned**, not implemented in v0.5.0, pending the owner's CAD.
+
+
+
 **Space: 4–5 CNC milling machines.** The player moves out of the old room into a recognizable commercial shoplot. The new location has its own lease, deposit, utility bills, installation/moving costs and configurable shoplot rental rate (owner value TBD).
 
 ### v0.5.0 playable implementation (2026-10-20)
