@@ -1,7 +1,7 @@
 # Factory Empire — Five-Stage Industrial Growth Campaign
 
 **Owner direction:** 2026-10-18  
-**Status:** Official Stage 2–5 design direction, not implemented yet. The current Stage 1 playable browser baseline is **v0.4.10 alpha**; this roadmap does not change game code.  
+**Status:** **Stage 2 first playable alpha v0.5.0 now exists**, while Stage 3–5 and final balancing remain design-only. This roadmap records confirmed rules separately from provisional gameplay values.  
 **Theme:** Inspired by the owner's business journey: humble CNC jobbing → a shoplot → semi-detached industrial facility → substantial manufacturing factory → a group operating multiple factories. No RPG/walkable character requirement.
 
 > These are five **in-game company stages**, not necessarily the same as software release versions. Market testing comes before developing all five. Preserve the mobile-first management/Gantt interface.
@@ -21,6 +21,12 @@
 ## Stage 2 — Early Stage Growth: rented shoplot
 
 **Space: 4–5 CNC milling machines.** The player moves out of the old room into a recognizable commercial shoplot. The new location has its own lease, deposit, utility bills, installation/moving costs and configurable shoplot rental rate (owner value TBD).
+
+### v0.5.0 playable implementation (2026-10-20)
+
+The shoplot move, packing queue and first Planner Hero Card are now live in a limited alpha: visible pre-move quote, 14 days of zero CNC/tapping/packing production, two-to-five CNC footprint expansion, job shipment gated behind actual packing, a paid Packing Minion and a salaried introductory planning hero. The original save is preserved; `?stage2=demo` gives a separate save copy and explicitly labeled one-time test money to permit immediate Stage 2 testing.
+
+**Provisional gameplay constants, still awaiting owner decisions:** interpret downtime as 14 **calendar** days; separate renovation estimate **RM30,000**, giving RM86,000 initial two-machine move; packing requires 30 minutes PO setup + 3 minutes per piece within 420m/working day; prototype Common Planning Hero costs RM220/working day and issues warnings for orders due within 3 calendar days. These are test numbers, not owner-approved final settings. Stage 2 lease and deposit are NOT charged yet, rather than inventing silent numbers; financing eligibility and loan schedules are not yet implemented.
 
 ### Stage 1 → Stage 2 relocation — confirmed owner rules (2026-10-20)
 
