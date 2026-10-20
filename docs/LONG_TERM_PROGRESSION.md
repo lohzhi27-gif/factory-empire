@@ -1,7 +1,7 @@
 # Factory Empire — Five-Stage Industrial Growth Campaign
 
 **Owner direction:** 2026-10-18  
-**Status:** Official design direction, not implemented yet. Playable baseline remains **v0.3.4**.  
+**Status:** Official Stage 2–5 design direction, not implemented yet. The current Stage 1 playable browser baseline is **v0.4.10 alpha**; this roadmap does not change game code.  
 **Theme:** Inspired by the owner's business journey: humble CNC jobbing → a shoplot → semi-detached industrial facility → substantial manufacturing factory → a group operating multiple factories. No RPG/walkable character requirement.
 
 > These are five **in-game company stages**, not necessarily the same as software release versions. Market testing comes before developing all five. Preserve the mobile-first management/Gantt interface.
@@ -21,6 +21,31 @@
 ## Stage 2 — Early Stage Growth: rented shoplot
 
 **Space: 4–5 CNC milling machines.** The player moves out of the old room into a recognizable commercial shoplot. The new location has its own lease, deposit, utility bills, installation/moving costs and configurable shoplot rental rate (owner value TBD).
+
+### Stage 1 → Stage 2 relocation — confirmed owner rules (2026-10-20)
+
+- **Fourteen (14) in-game days are lost moving into the shoplot.** This is real production downtime, not a decorative countdown. Whether these are calendar or working days is **not yet specified by the owner**; decide before coding. No new CNC production during relocation. Deadline, payroll and lease exposure during the move should be explicit; allowing customer due dates to keep advancing is a **design recommendation**, not a separately confirmed rule.
+- **Moving service: RM8,000 per existing machine physically relocated**, independent of later purchases of new CNCs. Never charge moving services for machines bought/installed after relocation unless a later rule explicitly requires that.
+- **Additional relocation/project overhead: RM40,000 fixed**, **on top of** the RM8,000-per-moved-machine service and **in addition to renovation**. Shoplot renovation, deposit/rent, fresh machines and any installation or financing expenses are additional amounts (not approved yet). No double-charging the RM40,000 as renovation.
+- Example if relocating the two existing CNCs: `RM8,000 × 2 + RM40,000 = RM56,000`, **plus renovation, deposits/new rent, and new equipment**. Show the complete quote before the player commits. If only one CNC is moved, the service component is RM8,000 (not automatically two machines).
+- Confirm the player's **free cash/loan proceeds**, existing accepted jobs, stock, creditor invoices and loan payment dates before authorizing relocation. Allow the player to delay the move, plan backlog clearance, or negotiate new customer dates; exact negotiation mechanics are proposed.
+- **Proposed realism, not yet confirmed:** disassembly/transport/recommissioning means old machine setups need to be redone after relocation. Existing CNC machines, job records, material inventory, trained personnel and in-game save must be **preserved** rather than wiped; handling active spindle cycles/in-progress WIP safely needs an implementation rule.
+
+### Recommended Stage 2 organizational model (proposals, owner approval pending)
+
+With **four or five CNCs**, introduce **two essential new salaried positions** (their wages and exact game buffs remain TBD), rather than suddenly imposing a corporate headcount:
+
+| Function | Stage 2 staffing approach | Gameplay role |
+| --- | --- | --- |
+| **CNC Production Cell** | Existing minions, scheduled by planner; 1 trained minion may tend 2–3 CNCs per single shift | Production, changeovers, machine attention, tapping support and output |
+| **Production Planning & Control** | **1 Production Planner** (confirmed Stage 2 feature; salary TBD) | Assign CNCs to POs, manage Gantt/backlog, flag late-risk and HOT JOB bottlenecks, coordinate material readiness |
+| **Process Engineering & Programming** | **1 Process Engineer** (confirmed Stage 2 feature) plus existing programmer; **additional programmer/desk** when needed | Process routes and setup improvement, program scheduling/technical feasibility; engineer does not magically replace scarce programmers |
+| **Purchasing, Materials & Stores** | **Planner/owner handles initially**; optional dedicated storekeeper/material controller once workload justifies it | Material POs, supplier delivery dates, receiving and stock availability; prevents missing material without making stock free |
+| **Packing, Dispatch & Final Check** | Existing minion plus a basic packing/verification bench; optional support hire as volume rises | Final quantity check and outgoing packing checklist, shipping queue and customer delivery control |
+
+- **Not separate full departments at Stage 2:** HR, multi-layer management, purchasing director, dedicated finance team, or formal **QA Inspector / QA Engineer department**. A basic outgoing check can exist, but the staffed QA department, inspectors, quality engineering and Manager Hero Cards remain **Stage 3** unlocks.
+- Keep outsourced surface treatment/plating/painting and specialized maintenance as vendors. Stage 4 unlocks actual in-house painting/treatment capacity.
+- **Suggested player choice:** pay for a planner to improve schedule visibility, a process engineer to improve setups/routing, or a material/stores hire to relieve receiving errors. Buffs should be modest and grounded in staff workload/skill; nobody creates stock, machine hours or instant two-day programming.
 
 - Introduce dedicated **Production Planner**. Planning capacity now matters: smarter sequencing by material ETA, setups, operator hours, due dates, and expensive hot jobs; Gantt can warn of overload. The planner is a hired wage expense, not free automation.
 - Introduce **Process Engineer**: supports programming, process selection, routing, setup standardization and fewer avoidable quality issues. Improvement and labor costs should be visible.
@@ -116,8 +141,8 @@ These are **not** one-to-one labels:
 ## Open business-design decisions for the founder
 
 1. What **minimum turnover** is appropriate before a shoplot business can apply for its **first equipment loan**? RM50,000 in three game months is only an initial proposal; decide separately from the amount required for a property loan.
-2. First shoplot monthly rent and moving cost.
-3. Is the shoplot cap **four or five CNCs**, or five maximum with one slot optionally reserved for tapping/equipment?
+2. First shoplot monthly rent, renovation budget, deposit and utility tariffs; moving downtime (14 days), RM8,000 per moved machine and RM40,000 additional relocation overhead are **confirmed**. Calendar-vs-working day treatment remains TBD.
+3. Is the shoplot cap **four or five CNCs**? Auxiliary tapping and programming stations should remain distinct from CNC slot capacity unless the owner chooses otherwise.
 4. What financial/machine/relationship score qualifies the player to move from shoplot to semi-D?
 5. What does a **double-column CNC** cost in game currency, and which industrial part families require it?
 6. In-house finishing acquisition costs, recurring operating cost and achievable relative lead-time improvement.
