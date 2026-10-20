@@ -32,12 +32,15 @@ The owner's future factory journey contains **five in-game milestones**. These a
 | Company milestone | Premises and CNC capacity | People / process unlocks | Financing and strategic challenge |
 |---|---|---|---|
 | **1. Humble Beginning** | Lousy starter room; **maximum 2 CNCs**, starts with 1 | Hands-on minion, basic prototype RFQs, basic tapping/polishing milestones; **no sheet metal** | Survive on cash and basic RM800/month rent; ordinary bank expansion loan unavailable to an unproven tiny business |
-| **2. Early Stage Growth** | Rent **shoplot fitting 4–5 CNCs** | **Production Planner**, **Process Engineer**, deeper Gantt/setup planning | **Bank loans unlock after demonstrated turnover, operating history, OTD and repayment capacity**; shoplot rent/moving costs and debt installments |
+| **2. Early Stage Growth** | Rent **shoplot fitting 4–5 CNCs**; moving shuts down CNC production for **14 in-game days** | **Production Planner**, **Process Engineer**, optional extra programmer/desk; basic shared stores and dispatch | **RM8,000 per machine physically moved + RM40,000 fixed relocation overhead**, with **renovation extra**. Bank loans unlock after demonstrated turnover, operating history, OTD and repayment capacity; new rent/deposit and debt installments are additional |
 | **3. Mid-Term** | **Semi-D industrial lot fitting up to 16 CNCs** | **Unlock sheet metal**, dedicated **QA Inspector / QA Engineer** department, **Managers** | Finance large-capacity expansion and growing fixed overhead responsibly |
 | **4. Fruit Ripe** | Move to a full factory; capacity TBD | **Double-column CNC**, optional **in-house painting and treatment** to shorten subcontract lead time | High investment and operating costs; optional future IAP packages only if free in-game progression remains available |
 | **5. Industrial Tycoon** | **Rent or acquire another factory**, moving toward a multi-site group | Multi-site managers, load balancing, strategic customers and acquisitions | Rent-vs-own, larger secured lending, cash flow, group-level risks |
 
 Full stage details, migration rules and proposed bank screening logic: [Long-term progression & loans](LONG_TERM_PROGRESSION.md).
+
+**New owner-approved shoplot move rules (2026-10-20):** 14 in-game days lost during relocation; moving service RM8,000 for each relocated machine; RM40,000 in additional project/relocation costs **on top of both moving and renovation**. A two-CNC move costs **RM56,000 plus renovation, deposit/new rent and any new CNCs**. Calendar vs working-day interpretation of the 14 days is still to be decided. For shoplot staffing, keep confirmed Planner and Process Engineer hires; planner-managed stores/purchasing and basic packing/final check are proposed **functions**, not mandatory standalone departments. Dedicated QA and managers stay in Stage 3.
+
 
 **Bank loans:** no instant cash for an unproven starter room. A credible shoplot player must build a trading record and meet a minimum sales/repayment threshold. Candidate balancing figures (NOT approved constants) include three in-game months of trading, RM50k sales over those months, at least 80% OTD and monthly cash coverage above 1.3× installments. Loan decisions may be conditional/rejected; repay principal/interest on schedule. The player can also save up without borrowing.
 
